@@ -2,34 +2,47 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EDF0EF">
 <title>Bajaj interview prep</title>
-<meta name="description" content="Placement readiness pack for Bajaj: demand and inventory planning, distribution and procurement, with definitions, formulas, examples, scenario answers and calculators.">
+<meta name="description" content="Placement readiness pack for Bajaj: demand and inventory planning, distribution and procurement, with definitions, formulas, examples, scenario answers, practice mode and calculators.">
 <style>
 :root{
   --paper:#EDF0EF; --card:#FFFFFF; --ink:#14181C; --muted:#55616A; --rule:#CCD4D6;
   --tag:#FFC21A; --tag-soft:#FFF3C4; --code:#F3F6F6; --focus:#2355C2;
   --plan:#0B6B66; --dist:#2355C2; --proc:#9A540F; --shared:#14181C;
+  --fs:17px;
   --head:"Bahnschrift","DIN Alternate","Franklin Gothic Medium","Arial Narrow",system-ui,sans-serif;
   --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){
-  :root{--paper:#0F1316; --card:#171C20; --ink:#E7ECEE; --muted:#9AA6AD; --rule:#2A343A;
+  :root:not([data-theme="light"]){--paper:#0F1316; --card:#171C20; --ink:#E7ECEE; --muted:#9AA6AD; --rule:#2A343A;
     --tag-soft:#2B2410; --code:#1D2328; --focus:#86A9FF;
     --plan:#4DC2BB; --dist:#86A9FF; --proc:#EBA85E; --shared:#E7ECEE;}
 }
-*{box-sizing:border-box}
+:root[data-theme="dark"]{--paper:#0F1316; --card:#171C20; --ink:#E7ECEE; --muted:#9AA6AD; --rule:#2A343A;
+  --tag-soft:#2B2410; --code:#1D2328; --focus:#86A9FF;
+  --plan:#4DC2BB; --dist:#86A9FF; --proc:#EBA85E; --shared:#E7ECEE;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 var(--body);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:var(--fs)/1.65 var(--body);-webkit-text-size-adjust:100%;overflow-wrap:break-word}
 a{color:var(--dist)}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.plan{--pc:var(--plan)} .dist{--pc:var(--dist)} .proc{--pc:var(--proc)} .shared{--pc:var(--shared)}
+
+/* buttons */
+.btn,.topbar button,.tool button,.revise,.qtools button,.seg button,.sec-foot a.navlink{
+  font:600 14.5px/1.2 var(--body);min-height:40px;padding:9px 14px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:6px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover,.topbar button:hover,.tool button:hover,.revise:hover,.qtools button:hover,.seg button:hover,.sec-foot a.navlink:hover{background:var(--tag);color:#14181C}
+.btn.primary,[aria-pressed="true"]{background:var(--tag);color:#14181C}
+.btn[disabled]{opacity:.45;cursor:default}
 
 /* layout */
 .shell{display:grid;grid-template-columns:276px minmax(0,1fr);min-height:100vh}
-.rail{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--card);border-right:1px solid var(--rule);padding:22px 18px 28px;z-index:30}
+.rail{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--card);border-right:1px solid var(--rule);padding:22px 18px 28px;z-index:60}
 .main{min-width:0}
 .content{max-width:920px;margin:0 auto;padding:0 28px 90px}
 
@@ -42,7 +55,7 @@ a{color:var(--dist)}
 #pbar{height:100%;width:0;background:var(--tag);transition:width .3s}
 .nav{display:flex;flex-direction:column;gap:2px}
 .nav .grp{margin:16px 0 4px;font:600 13px/1.2 var(--body);color:var(--muted)}
-.nav a{display:flex;justify-content:space-between;gap:8px;padding:7px 10px;border-left:4px solid transparent;color:var(--ink);text-decoration:none;font-size:15.5px;border-radius:0 4px 4px 0}
+.nav a{display:flex;justify-content:space-between;gap:8px;padding:9px 10px;border-left:4px solid transparent;color:var(--ink);text-decoration:none;font-size:15.5px;border-radius:0 4px 4px 0}
 .nav a:hover{background:var(--code)}
 .nav a[aria-current="true"]{border-left-color:var(--tag);background:var(--code);font-weight:650}
 .nav a.done::after{content:"\2713";color:var(--plan);font-weight:700}
@@ -50,27 +63,35 @@ a{color:var(--dist)}
 .nav a .cnt{color:var(--muted);font-size:12.5px;align-self:center}
 
 /* topbar */
-.topbar{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;padding:10px 28px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
-.menu{display:none}
-.topbar input[type=search]{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:15.5px}
-.topbar button,.menu,.tool button,.revise{font:600 14.5px var(--body);padding:9px 14px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:6px;cursor:pointer}
-.topbar button:hover,.tool button:hover,.revise:hover{background:var(--tag);border-color:var(--ink);color:#14181C}
+.topbar{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 28px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+.topbar input[type=search]{flex:1;min-width:0;min-height:42px;padding:9px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:16px}
 #hits{font-size:13.5px;color:var(--muted);white-space:nowrap}
+#hits:empty{display:none}
+.badge{display:inline-block;min-width:20px;padding:2px 6px;border-radius:99px;background:var(--tag);color:#14181C;font:700 12px/1.3 var(--body);text-align:center}
+
+/* settings */
+.settings{position:fixed;top:60px;right:20px;z-index:90;width:min(320px,calc(100vw - 24px));background:var(--card);border:1px solid var(--ink);border-radius:8px;padding:6px 16px 16px;box-shadow:0 8px 28px rgba(0,0,0,.25);display:none}
+.settings.open{display:block}
+.settings h2{font:700 18px var(--head);margin:12px 0 8px}
+.settings .row{margin:10px 0}
+.settings .lab{font-size:14px;color:var(--muted);margin:0 0 6px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1}
 
 /* hero */
 .hero{padding:44px 0 8px}
-.hero h1{font:700 clamp(32px,5vw,52px)/1.05 var(--head);letter-spacing:-.015em;margin:0 0 14px;max-width:18ch}
-.hero p{margin:0;max-width:60ch;color:var(--muted);font-size:18px}
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0 8px}
+.hero h1{font:700 clamp(32px,6vw,52px)/1.05 var(--head);letter-spacing:-.015em;margin:0 0 14px;max-width:18ch}
+.hero p{margin:0;max-width:60ch;color:var(--muted);font-size:1.06em}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 8px}
 .pillar{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-top:8px solid var(--pc);border-radius:6px;padding:14px 16px 16px}
 .pillar:hover{border-color:var(--pc)}
 .pillar b{display:block;font:700 20px/1.2 var(--head);margin-bottom:4px}
 .pillar span{display:block;font-size:14.5px;color:var(--muted)}
-.plan{--pc:var(--plan)} .dist{--pc:var(--dist)} .proc{--pc:var(--proc)} .shared{--pc:var(--shared)}
 
 /* sections */
-.sec{padding-top:56px;scroll-margin-top:56px}
-.sec>h2{font:700 clamp(28px,3.4vw,38px)/1.1 var(--head);letter-spacing:-.01em;margin:0 0 18px;padding-left:16px;border-left:10px solid var(--pc)}
+.sec{padding-top:56px;scroll-margin-top:60px}
+.sec>h2{font:700 clamp(26px,3.4vw,38px)/1.12 var(--head);letter-spacing:-.01em;margin:0 0 18px;padding-left:16px;border-left:10px solid var(--pc)}
 .sec h3{font:700 23px/1.2 var(--head);margin:36px 0 10px}
 .sec h4{font:700 18px/1.25 var(--head);margin:22px 0 6px}
 .sec p,.sec ul,.sec ol{max-width:70ch}
@@ -78,36 +99,42 @@ a{color:var(--dist)}
 .sec li>ul,.sec li>ol{margin:6px 0}
 blockquote{margin:12px 0;padding:8px 16px;border-left:4px solid var(--tag);background:var(--code);border-radius:0 6px 6px 0;font-style:italic;max-width:72ch}
 blockquote p{margin:6px 0}
-.tablewrap{overflow-x:auto;margin:14px 0 20px;border:1px solid var(--rule);border-radius:6px;background:var(--card)}
-table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.5}
+.tablewrap{overflow-x:auto;margin:14px 0 20px;border:1px solid var(--rule);border-radius:6px;background:var(--card);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.88em;line-height:1.5}
 th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
 th{background:var(--code);border-bottom:3px solid var(--pc);font-weight:650;white-space:nowrap}
 tr:last-child td{border-bottom:0}
 td:first-child{font-weight:600}
 table td{min-width:120px}
-pre.formula{margin:14px 0 18px;padding:14px 16px;background:var(--code);border:1px solid var(--rule);border-left:6px solid var(--pc);border-radius:0 6px 6px 0;overflow-x:auto;font:15px/1.8 var(--mono);max-width:100%}
-pre.formula code{font:inherit}
+pre.formula{margin:14px 0 18px;padding:14px 16px;background:var(--code);border:1px solid var(--rule);border-left:6px solid var(--pc);border-radius:0 6px 6px 0;overflow-x:auto;font:.88em/1.8 var(--mono);max-width:100%;-webkit-overflow-scrolling:touch}
+pre.formula code{font:inherit;background:none;padding:0}
 code{font:.92em var(--mono);background:var(--code);padding:1px 5px;border-radius:3px}
 .note{margin:22px 0;padding:14px 18px;background:var(--tag-soft);border:1px solid var(--tag);border-left-width:8px;border-radius:6px;max-width:76ch}
 .note p{margin:6px 0}
 
 /* qa */
 details.qa{background:var(--card);border:1px solid var(--rule);border-left:8px solid var(--pc);border-radius:6px;margin:12px 0;max-width:820px}
-details.qa>summary{list-style:none;cursor:pointer;padding:14px 52px 14px 18px;font-weight:650;position:relative}
+details.qa>summary{list-style:none;cursor:pointer;padding:14px 56px 14px 18px;font-weight:650;position:relative;min-height:56px}
 details.qa>summary::-webkit-details-marker{display:none}
-details.qa>summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:28px;height:28px;display:grid;place-items:center;font:700 20px/1 var(--body);background:var(--tag);color:#14181C;border-radius:50%}
+details.qa>summary::after{content:"+";position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;display:grid;place-items:center;font:700 20px/1 var(--body);background:var(--tag);color:#14181C;border-radius:50%}
 details.qa[open]>summary::after{content:"\2212"}
 details.qa[open]>summary{border-bottom:1px solid var(--rule)}
 .qbody{padding:6px 18px 16px}
 .qbody p{margin:10px 0}
-details.qa.hide{display:none}
+details.qa.hide,details.qa.fhide{display:none}
 mark{background:var(--tag);color:#14181C;padding:0 2px;border-radius:2px}
+.chips{display:inline-flex;gap:6px;margin-right:8px;vertical-align:1px}
+.chip{font:650 12px/1 var(--body);padding:4px 8px;border-radius:99px;border:1px solid var(--rule);background:var(--code);color:var(--muted)}
+.chip.known{background:color-mix(in srgb,var(--plan) 20%,var(--card));border-color:var(--plan);color:var(--ink)}
+.chip.revisit{background:color-mix(in srgb,var(--proc) 22%,var(--card));border-color:var(--proc);color:var(--ink)}
+.chip.flag{background:var(--tag);border-color:var(--tag);color:#14181C}
+.qtools{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:12px;border-top:1px dashed var(--rule)}
 
-/* footer of section */
-.sec-foot{margin-top:30px;display:flex;justify-content:flex-end}
-.revise[aria-pressed="true"]{background:var(--tag);color:#14181C}
-label.check{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;margin:6px 0;background:var(--card);border:1px solid var(--rule);border-radius:6px;max-width:76ch;cursor:pointer}
-label.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--plan);flex:none}
+/* section footer */
+.sec-foot{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.sec-foot .navlink.disabled{visibility:hidden}
+label.check{display:flex;gap:12px;align-items:flex-start;padding:12px;margin:6px 0;background:var(--card);border:1px solid var(--rule);border-radius:6px;max-width:76ch;cursor:pointer}
+label.check input{width:24px;height:24px;margin-top:1px;accent-color:var(--plan);flex:none}
 label.check input:checked+span{text-decoration:line-through;color:var(--muted)}
 
 /* tools */
@@ -115,8 +142,8 @@ label.check input:checked+span{text-decoration:line-through;color:var(--muted)}
 .tool h3{margin-top:16px}
 .tool-lead{color:var(--muted);margin-top:0}
 .tool-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:22px}
-.inputs label,fieldset label{display:block;font-size:14.5px;margin:0 0 12px;color:var(--muted)}
-.inputs input,.inputs select,fieldset input,.fa-table input{display:block;width:100%;margin-top:4px;padding:9px 10px;font:600 16px var(--body);border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink)}
+.inputs label,fieldset label{display:block;font-size:.88em;margin:0 0 12px;color:var(--muted)}
+.inputs input,.inputs select,fieldset input,.fa-table input{display:block;width:100%;margin-top:4px;padding:9px 10px;min-height:42px;font:600 16px var(--body);border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink)}
 .presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
 .readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
 .readouts>div{background:var(--code);border-radius:6px;padding:10px 12px}
@@ -125,33 +152,105 @@ label.check input:checked+span{text-decoration:line-through;color:var(--muted)}
 .readouts dd{margin:2px 0 0;font:700 22px/1.2 var(--head)}
 .readouts.compact{grid-template-columns:repeat(4,1fr);margin-top:16px}
 .insight{margin:14px 0 0;font-weight:600;max-width:none!important}
-.formula-line{font:14.5px var(--mono);color:var(--muted);margin:16px 0 0;max-width:none!important}
+.formula-line{font:14.5px var(--mono);color:var(--muted);margin:16px 0 0;max-width:none!important;overflow-x:auto}
 .tool-actions{display:flex;gap:8px;margin:12px 0}
 .tco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-fieldset{border:1px solid var(--rule);border-radius:6px;margin:0;padding:6px 14px 6px}
+fieldset{border:1px solid var(--rule);border-radius:6px;margin:0;padding:6px 14px 6px;min-width:0}
 legend{font:700 17px var(--head);padding:0 6px}
 .fa-table input{margin:0;padding:6px 8px;min-width:76px}
 .fa-table td:first-child{min-width:110px}
-.fa-table button{padding:5px 9px}
 .small{font-size:14px;color:var(--muted);max-width:none!important}
+
+/* practice overlay */
+.practice{position:fixed;inset:0;z-index:100;background:var(--paper);display:none;flex-direction:column}
+.practice.open{display:flex}
+.pr-head{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--rule);background:var(--card);padding-top:max(12px,env(safe-area-inset-top))}
+.pr-head h2{font:700 20px var(--head);margin:0;flex:1}
+.pr-prog{height:6px;background:var(--rule)}
+.pr-prog i{display:block;height:100%;width:0;background:var(--tag);transition:width .25s}
+.pr-filters{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;border-bottom:1px solid var(--rule);background:var(--card);-webkit-overflow-scrolling:touch}
+.pr-filters button{white-space:nowrap;min-height:38px;padding:7px 14px;border-radius:99px;font:600 14px var(--body);border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.pr-body{flex:1;overflow-y:auto;padding:18px;width:100%;max-width:820px;margin:0 auto;-webkit-overflow-scrolling:touch}
+.pr-meta{color:var(--muted);font-size:14px;margin:0 0 8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pr-q{font:700 clamp(22px,4.5vw,30px)/1.25 var(--head);margin:0 0 14px}
+.pr-q-quote{font-style:italic}
+.pr-timer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
+.pr-time{font:700 28px var(--mono);min-width:86px}
+.pr-time.over{color:var(--proc)}
+.pr-ans{background:var(--card);border:1px solid var(--rule);border-left:8px solid var(--pc);border-radius:6px;padding:6px 18px 14px;margin:14px 0}
+.pr-ans p{margin:10px 0}
+.pr-hint{color:var(--muted)}
+.pr-foot{padding:10px 18px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--rule);background:var(--card);display:grid;gap:8px}
+.pr-row{display:flex;gap:8px}
+.pr-row .btn{flex:1}
+.pr-empty{padding:40px 0;text-align:center;color:var(--muted)}
+
+/* tab bar and floating button (mobile) */
+.tabbar{display:none}
+.totop{position:fixed;right:14px;bottom:18px;z-index:45;width:46px;height:46px;border-radius:50%;border:1px solid var(--ink);background:var(--card);color:var(--ink);display:none;place-items:center;font:700 20px var(--body);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.totop.show{display:grid}
+.totop:hover{background:var(--tag);color:#14181C}
+.tabbar button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;border:0;background:none;color:var(--ink);font:600 12.5px var(--body);cursor:pointer}
+.tabbar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tabbar .badge{position:absolute;top:5px;left:calc(50% + 6px)}
+.tabbar button[aria-pressed="true"]{background:var(--tag-soft);color:var(--ink)}
+
+button[aria-pressed="true"]{background:var(--tag);color:#14181C;border-color:var(--ink)}
+.tabbar button[aria-pressed="true"]{background:var(--tag-soft);color:var(--ink);border:0}
 
 /* responsive */
 @media (max-width:960px){
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
   .shell{display:block}
-  .rail{position:fixed;inset:0 auto 0 0;width:min(86vw,320px);transform:translateX(-102%);transition:transform .2s;box-shadow:0 0 0 100vmax transparent}
-  .rail.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
-  .menu{display:inline-block}
+  .rail{position:fixed;inset:0 auto 0 0;width:min(86vw,320px);transform:translateX(-102%);transition:transform .2s;padding-top:max(22px,env(safe-area-inset-top))}
+  .rail.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.5)}
   .content{padding:0 18px 80px}
-  .topbar{padding:10px 18px}
+  .topbar{padding:10px 18px;padding-top:max(10px,env(safe-area-inset-top))}
+  .topbar .desk{display:none}
+  #hits{flex-basis:100%}
   .pillars{grid-template-columns:1fr}
   .tool-grid,.tco-grid{grid-template-columns:1fr}
   .readouts.compact{grid-template-columns:1fr 1fr}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border-top:1px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
+  .totop{bottom:calc(76px + env(safe-area-inset-bottom))}
+  .settings{top:auto;right:12px;left:12px;bottom:calc(70px + env(safe-area-inset-bottom));width:auto}
+  .sec{padding-top:44px}
+  .sec>h2{border-left-width:8px;padding-left:12px}
 }
-@media (max-width:560px){#hits{display:none}.topbar #toggleall{display:none}}
+@media (max-width:720px){
+  body{--fs:16.5px}
+  .sec h3{font-size:21px;margin-top:30px}
+  .sec-foot{flex-direction:column;align-items:stretch}
+  .sec-foot .btn,.sec-foot a.navlink,.revise{width:100%}
+  .sec-foot .navlink.disabled{display:none}
+  .tablewrap.stack{border:0;background:none;overflow:visible;margin:12px 0 18px}
+  .stack table,.stack tbody,.stack tr,.stack td{display:block;width:100%}
+  .stack thead{display:none}
+  .stack tr{background:var(--card);border:1px solid var(--rule);border-top:6px solid var(--pc);border-radius:6px;margin:0 0 12px;padding:4px 0 6px}
+  .stack td{border:0;padding:5px 14px;min-width:0}
+  .stack td:first-child{font:700 17px/1.3 var(--head);padding-top:10px}
+  .stack td:not(:first-child)::before{content:attr(data-label);display:block;font-size:12.5px;font-weight:650;color:var(--muted);margin-bottom:1px}
+  .tablewrap:not(.stack) th,.tablewrap:not(.stack) td{padding:8px 10px}
+  details.qa{border-left-width:6px}
+  details.qa>summary{padding:14px 52px 14px 14px}
+  .qbody{padding:4px 14px 14px}
+  .qtools button{flex:1 1 auto}
+  .tool{padding:4px 14px 16px}
+  .readouts{grid-template-columns:1fr 1fr}
+  .readouts dd{font-size:19px}
+  .hero{padding-top:28px}
+  .hero-actions .btn{flex:1 1 100%}
+  .pr-q{font-size:22px}
+  .pr-body{padding:14px}
+}
+@media (max-width:420px){
+  .readouts,.readouts.compact{grid-template-columns:1fr}
+  .content{padding:0 14px 80px}
+}
 
 @media print{
-  .rail,.topbar,.sec-foot,.presets,.tool-actions{display:none!important}
-  .shell{display:block} body{background:#fff;color:#000;font-size:11pt}
+  .rail,.topbar,.sec-foot,.presets,.tool-actions,.tabbar,.totop,.practice,.settings,.qtools,.chips{display:none!important}
+  .shell{display:block} body{background:#fff;color:#000;font-size:11pt;padding:0}
   details.qa>.qbody{display:block!important} details.qa>summary::after{display:none}
   .sec{break-inside:auto;padding-top:24px}
   .tool{break-inside:avoid}
@@ -163,7 +262,10 @@ legend{font:700 17px var(--head);padding:0 6px}
   <nav class="rail" id="rail" aria-label="Sections">
     <p class="brand">Bajaj interview prep</p>
     <p class="brand-sub">Planning, distribution, procurement</p>
-    <div class="progress"><p id="pcount">0 of 0 sections revised</p><div class="bar"><div id="pbar"></div></div></div>
+    <div class="progress">
+      <p id="pcount">0 of 0 sections revised</p><div class="bar"><div id="pbar"></div></div>
+      <p id="qstats" style="margin-top:10px"></p>
+    </div>
     <div class="nav" id="nav">
       <div class="grp">Orientation</div>
       <a href="#start"><span>Start here</span></a>
@@ -177,6 +279,7 @@ legend{font:700 17px var(--head);padding:0 6px}
       <a href="#procurement"><span>Procurement</span><span class="cnt">12 Q&amp;A</span></a>
       <div class="grp">Across functions</div>
       <a href="#sop"><span>S&amp;OP and KPIs</span><span class="cnt">5 Q&amp;A</span></a>
+      <a href="#formulas"><span>Formula sheet</span></a>
       <a href="#tools"><span>Tools</span></a>
       <div class="grp">Interview day</div>
       <a href="#behavioural"><span>Behavioural and HR</span></a>
@@ -185,15 +288,21 @@ legend{font:700 17px var(--head);padding:0 6px}
   </nav>
   <div class="main">
     <div class="topbar">
-      <button class="menu" id="menu" type="button" aria-controls="rail" aria-expanded="false">Sections</button>
-      <input id="q" type="search" placeholder="Search terms and questions" aria-label="Search terms and questions" autocomplete="off">
+      <input id="q" type="search" placeholder="Search terms and questions" aria-label="Search terms and questions" autocomplete="off" enterkeyhint="search">
+      <button class="desk" id="d-practice" type="button" data-open-practice>Practice</button>
+      <button class="desk" id="d-flag" type="button" aria-pressed="false">Flagged <span class="badge" data-flagcount>0</span></button>
+      <button class="desk" id="toggleall" type="button">Expand all answers</button>
+      <button class="desk" id="d-settings" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="settings">Display</button>
       <span id="hits" aria-live="polite"></span>
-      <button id="toggleall" type="button">Expand all answers</button>
     </div>
     <main class="content">
 <header class="hero">
 <h1>Bajaj interview prep</h1>
-<p>Definitions, formulas, worked examples and scenario answers for planning, distribution and procurement roles, with calculators to practise on. Interview: 15 October.</p>
+<p>Definitions, formulas, worked examples and scenario answers for planning, distribution and procurement roles, with practice mode and calculators. Interview: 15 October.</p>
+<div class="hero-actions">
+<button type="button" class="btn primary" data-open-practice>Start practice: 43 questions</button>
+<a class="btn" href="#formulas">Open formula sheet</a>
+</div>
 <div class="pillars">
 <a class="pillar plan" href="#demand"><b>Demand and inventory planning</b><span>Forecast accuracy, safety stock, S&amp;OP, working capital. 16 scenario answers.</span></a>
 <a class="pillar dist" href="#distribution"><b>Distribution</b><span>GT, MT and e-commerce logistics, OTIF, freight cost. 10 scenario answers.</span></a>
@@ -213,7 +322,7 @@ legend{font:700 17px var(--head);padding:0 6px}
 <li>Tap <strong>Expand all</strong> in the top bar to read everything in one go, or use search to find a term.</li>
 </ul>
 <h3>Which sections to prioritise by role</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>If your role is</th>
@@ -223,19 +332,19 @@ legend{font:700 17px var(--head);padding:0 6px}
 </thead>
 <tbody>
 <tr>
-<td>Demand or inventory planning</td>
-<td>Demand planning, Inventory planning</td>
-<td>S&amp;OP and KPIs, Tools, Behavioural</td>
+<td data-label="If your role is">Demand or inventory planning</td>
+<td data-label="Read first">Demand planning, Inventory planning</td>
+<td data-label="Then">S&amp;OP and KPIs, Tools, Behavioural</td>
 </tr>
 <tr>
-<td>Distribution</td>
-<td>Distribution, Inventory planning</td>
-<td>S&amp;OP and KPIs, Company snapshot, Behavioural</td>
+<td data-label="If your role is">Distribution</td>
+<td data-label="Read first">Distribution, Inventory planning</td>
+<td data-label="Then">S&amp;OP and KPIs, Company snapshot, Behavioural</td>
 </tr>
 <tr>
-<td>Procurement (RM sourcing)</td>
-<td>Procurement, Inventory planning</td>
-<td>S&amp;OP and KPIs, Tools (TCO), Behavioural</td>
+<td data-label="If your role is">Procurement (RM sourcing)</td>
+<td data-label="Read first">Procurement, Inventory planning</td>
+<td data-label="Then">S&amp;OP and KPIs, Tools (TCO), Behavioural</td>
 </tr>
 </tbody>
 </table></div>
@@ -247,7 +356,7 @@ legend{font:700 17px var(--head);padding:0 6px}
 <li><strong>Prevent:</strong> change a process or KPI so it does not recur.</li>
 </ol>
 <p>Name the trade-off in every answer: <strong>service</strong>, <strong>cost</strong> or <strong>cash</strong>, and which one you are giving up.</p>
-<div class="sec-foot"><button type="button" class="revise" data-sec="start" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink disabled" aria-hidden="true" tabindex="-1">&nbsp;</a><button type="button" class="revise" data-sec="start" aria-pressed="false">Mark as revised</button><a class="navlink" href="#company">Next: Company snapshot</a></div>
 </section>
 <section class="sec shared" id="company" aria-labelledby="company-h">
 <h2 id="company-h">Company snapshot</h2>
@@ -268,13 +377,13 @@ legend{font:700 17px var(--head);padding:0 6px}
 <li><strong>Channels:</strong> local electrical hardware shops (GT), Reliance Digital and Croma (MT), Amazon, Flipkart and quick-commerce dark stores.</li>
 </ul>
 <p><strong>Sources:</strong> <a href="https://www.bajajconsumercare.com/pdf/investors/investors_presentation/Investors_Presentation_Q3_2024-25.pdf" target="_blank" rel="noopener">Q3 FY25 investor presentation</a>, <a href="https://www.gurufocus.com/stock/NSE:BAJAJCON/transcripts/2700277" target="_blank" rel="noopener">Q3 FY25 call summary</a>, <a href="https://nsearchives.nseindia.com/corporate/BAJAJCON_09082024155230_Exchanges_Investor_Presentation.pdf" target="_blank" rel="noopener">Q1 FY25 investor presentation</a></p>
-<div class="sec-foot"><button type="button" class="revise" data-sec="company" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#start">Previous: Start here</a><button type="button" class="revise" data-sec="company" aria-pressed="false">Mark as revised</button><a class="navlink" href="#demand">Next: Demand planning</a></div>
 </section>
 <section class="sec plan" id="demand" aria-labelledby="demand-h">
 <h2 id="demand-h">Demand planning</h2>
 <p>Demand planning turns history, market signals and commercial plans into one agreed forecast per SKU, channel and region, which supply then converts into production and purchase plans. In a high-SKU consumer business it is the bridge between commercial ambition and manufacturing reality: show that you treat forecasting as a <strong>working capital and service-level lever</strong>, not a maths exercise.</p>
 <h3>Core definitions</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Term</th>
@@ -284,74 +393,74 @@ legend{font:700 17px var(--head);padding:0 6px}
 </thead>
 <tbody>
 <tr>
-<td>Baseline demand</td>
-<td>Underlying demand without promotions or one-offs</td>
-<td>Monthly offtake of a 200 ml coconut oil bottle in normal weeks</td>
+<td data-label="Term">Baseline demand</td>
+<td data-label="Meaning">Underlying demand without promotions or one-offs</td>
+<td data-label="FMCG example">Monthly offtake of a 200 ml coconut oil bottle in normal weeks</td>
 </tr>
 <tr>
-<td>Promotional uplift</td>
-<td>Extra demand caused by a scheme, discount or event</td>
-<td>Combo offer on e-com during the Diwali sale</td>
+<td data-label="Term">Promotional uplift</td>
+<td data-label="Meaning">Extra demand caused by a scheme, discount or event</td>
+<td data-label="FMCG example">Combo offer on e-com during the Diwali sale</td>
 </tr>
 <tr>
-<td>Statistical forecast</td>
-<td>Model output from history (moving average, exponential smoothing, Holt-Winters, ARIMA, regression)</td>
-<td>Holt-Winters on 36 months of sell-in</td>
+<td data-label="Term">Statistical forecast</td>
+<td data-label="Meaning">Model output from history (moving average, exponential smoothing, Holt-Winters, ARIMA, regression)</td>
+<td data-label="FMCG example">Holt-Winters on 36 months of sell-in</td>
 </tr>
 <tr>
-<td>Consensus forecast</td>
-<td>Statistical forecast plus Sales, Marketing and Finance inputs, agreed in the demand review</td>
-<td>Sales adds a new MT chain listing</td>
+<td data-label="Term">Consensus forecast</td>
+<td data-label="Meaning">Statistical forecast plus Sales, Marketing and Finance inputs, agreed in the demand review</td>
+<td data-label="FMCG example">Sales adds a new MT chain listing</td>
 </tr>
 <tr>
-<td>Sell-in vs sell-out</td>
-<td>Sell-in = company to distributor or retailer; sell-out = retailer to consumer</td>
-<td>Distributor loads stock before a price rise: sell-in rises, sell-out does not</td>
+<td data-label="Term">Sell-in vs sell-out</td>
+<td data-label="Meaning">Sell-in = company to distributor or retailer; sell-out = retailer to consumer</td>
+<td data-label="FMCG example">Distributor loads stock before a price rise: sell-in rises, sell-out does not</td>
 </tr>
 <tr>
-<td>Forecast accuracy</td>
-<td>1 minus WMAPE; how close forecast was to actual</td>
-<td>88% at SKU-month level</td>
+<td data-label="Term">Forecast accuracy</td>
+<td data-label="Meaning">1 minus WMAPE; how close forecast was to actual</td>
+<td data-label="FMCG example">88% at SKU-month level</td>
 </tr>
 <tr>
-<td>Bias</td>
-<td>Persistent over- or under-forecast</td>
-<td>Sales always forecasts 10% high</td>
+<td data-label="Term">Bias</td>
+<td data-label="Meaning">Persistent over- or under-forecast</td>
+<td data-label="FMCG example">Sales always forecasts 10% high</td>
 </tr>
 <tr>
-<td>Forecast Value Add (FVA)</td>
-<td>Does each step (stat model, sales override) improve accuracy versus a naive forecast</td>
-<td>Sales overrides lowered accuracy by 4 points, so cut them</td>
+<td data-label="Term">Forecast Value Add (FVA)</td>
+<td data-label="Meaning">Does each step (stat model, sales override) improve accuracy versus a naive forecast</td>
+<td data-label="FMCG example">Sales overrides lowered accuracy by 4 points, so cut them</td>
 </tr>
 <tr>
-<td>Cannibalisation</td>
-<td>A new or promoted item takes volume from a sibling</td>
-<td>New 650 ml pack eats into 500 ml sales in MT</td>
+<td data-label="Term">Cannibalisation</td>
+<td data-label="Meaning">A new or promoted item takes volume from a sibling</td>
+<td data-label="FMCG example">New 650 ml pack eats into 500 ml sales in MT</td>
 </tr>
 <tr>
-<td>Demand sensing</td>
-<td>Short-horizon adjustment using latest sell-out, orders and POS data</td>
-<td>Quick-commerce dark-store sales adjusting next week's plan</td>
+<td data-label="Term">Demand sensing</td>
+<td data-label="Meaning">Short-horizon adjustment using latest sell-out, orders and POS data</td>
+<td data-label="FMCG example">Quick-commerce dark-store sales adjusting next week's plan</td>
 </tr>
 <tr>
-<td>Bullwhip effect</td>
-<td>Small consumer demand swings amplify as you move up the chain</td>
-<td>Retailer panic orders cause factory overproduction</td>
+<td data-label="Term">Bullwhip effect</td>
+<td data-label="Meaning">Small consumer demand swings amplify as you move up the chain</td>
+<td data-label="FMCG example">Retailer panic orders cause factory overproduction</td>
 </tr>
 <tr>
-<td>ABC-XYZ segmentation</td>
-<td>ABC = value contribution; XYZ = demand variability (X stable, Z erratic)</td>
-<td>AX items get tight statistical forecasts; CZ items get make-to-order or review rules</td>
+<td data-label="Term">ABC-XYZ segmentation</td>
+<td data-label="Meaning">ABC = value contribution; XYZ = demand variability (X stable, Z erratic)</td>
+<td data-label="FMCG example">AX items get tight statistical forecasts; CZ items get make-to-order or review rules</td>
 </tr>
 <tr>
-<td>Frozen or time-fence horizon</td>
-<td>Period in which the plan is locked except by approval</td>
-<td>Next 2 weeks locked to protect production schedule</td>
+<td data-label="Term">Frozen or time-fence horizon</td>
+<td data-label="Meaning">Period in which the plan is locked except by approval</td>
+<td data-label="FMCG example">Next 2 weeks locked to protect production schedule</td>
 </tr>
 <tr>
-<td>Hierarchical forecasting</td>
-<td>Forecast at one level (family) and split down, or build up from SKU-channel</td>
-<td>Forecast brand by channel, allocate to pack sizes by mix</td>
+<td data-label="Term">Hierarchical forecasting</td>
+<td data-label="Meaning">Forecast at one level (family) and split down, or build up from SKU-channel</td>
+<td data-label="FMCG example">Forecast brand by channel, allocate to pack sizes by mix</td>
 </tr>
 </tbody>
 </table></div>
@@ -374,39 +483,39 @@ Accuracy  = 1 − WMAPE
 </thead>
 <tbody>
 <tr>
-<td>A</td>
-<td>100</td>
-<td>90</td>
-<td>10</td>
-<td>10.0%</td>
+<td data-label="SKU">A</td>
+<td data-label="Actual">100</td>
+<td data-label="Forecast">90</td>
+<td data-label="Absolute error">10</td>
+<td data-label="Error vs actual">10.0%</td>
 </tr>
 <tr>
-<td>B</td>
-<td>200</td>
-<td>230</td>
-<td>30</td>
-<td>15.0%</td>
+<td data-label="SKU">B</td>
+<td data-label="Actual">200</td>
+<td data-label="Forecast">230</td>
+<td data-label="Absolute error">30</td>
+<td data-label="Error vs actual">15.0%</td>
 </tr>
 <tr>
-<td>C</td>
-<td>50</td>
-<td>40</td>
-<td>10</td>
-<td>20.0%</td>
+<td data-label="SKU">C</td>
+<td data-label="Actual">50</td>
+<td data-label="Forecast">40</td>
+<td data-label="Absolute error">10</td>
+<td data-label="Error vs actual">20.0%</td>
 </tr>
 <tr>
-<td>D</td>
-<td>150</td>
-<td>160</td>
-<td>10</td>
-<td>6.7%</td>
+<td data-label="SKU">D</td>
+<td data-label="Actual">150</td>
+<td data-label="Forecast">160</td>
+<td data-label="Absolute error">10</td>
+<td data-label="Error vs actual">6.7%</td>
 </tr>
 <tr>
-<td>Total</td>
-<td>500</td>
-<td>520</td>
-<td>60</td>
-<td>MAPE 12.9%</td>
+<td data-label="SKU">Total</td>
+<td data-label="Actual">500</td>
+<td data-label="Forecast">520</td>
+<td data-label="Absolute error">60</td>
+<td data-label="Error vs actual">MAPE 12.9%</td>
 </tr>
 </tbody>
 </table></div>
@@ -420,7 +529,7 @@ Accuracy  = 1 − WMAPE
 <li><strong>Always:</strong> forecast at the level where signals are cleanest, measure at the level where decisions are made (SKU-channel-depot, 1 to 3 months ahead).</li>
 </ul>
 <h3>Advanced lens: S&amp;OP, accuracy and segmentation</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Concept</th>
@@ -431,22 +540,22 @@ Accuracy  = 1 − WMAPE
 </thead>
 <tbody>
 <tr>
-<td>S&amp;OP / IBP</td>
-<td>Sales and Operations Planning: the monthly cross-functional cadence aligning Sales (commercial forecast), Marketing (promotions), Supply (capacity) and Finance (working capital budget) into one consensus plan</td>
-<td>Consensus demand plan vs constrained supply plan</td>
-<td>Aligning the pre-summer production buildup of air coolers and ceiling fans in Jan to Mar so plant capacity is not overwhelmed when April heatwaves hit</td>
+<td data-label="Concept">S&amp;OP / IBP</td>
+<td data-label="Definition and strategic value">Sales and Operations Planning: the monthly cross-functional cadence aligning Sales (commercial forecast), Marketing (promotions), Supply (capacity) and Finance (working capital budget) into one consensus plan</td>
+<td data-label="Formula or metric">Consensus demand plan vs constrained supply plan</td>
+<td data-label="Bajaj context example">Aligning the pre-summer production buildup of air coolers and ceiling fans in Jan to Mar so plant capacity is not overwhelmed when April heatwaves hit</td>
 </tr>
 <tr>
-<td>Forecast accuracy and bias</td>
-<td>Accuracy (MAPE or WAPE) measures the size of error; bias (tracking signal) measures persistent over- or under-forecasting. High positive bias ties up cash in dead stock; negative bias causes lost sales</td>
-<td>WAPE = Σ abs(At − Ft) / Σ At; Bias = Σ (Ft − At) / Σ At</td>
-<td>Sales consistently over-forecasts newly launched IoT smart fans by 20% to secure stock allocation, creating positive bias and warehouse congestion</td>
+<td data-label="Concept">Forecast accuracy and bias</td>
+<td data-label="Definition and strategic value">Accuracy (MAPE or WAPE) measures the size of error; bias (tracking signal) measures persistent over- or under-forecasting. High positive bias ties up cash in dead stock; negative bias causes lost sales</td>
+<td data-label="Formula or metric">WAPE = Σ abs(At − Ft) / Σ At; Bias = Σ (Ft − At) / Σ At</td>
+<td data-label="Bajaj context example">Sales consistently over-forecasts newly launched IoT smart fans by 20% to secure stock allocation, creating positive bias and warehouse congestion</td>
 </tr>
 <tr>
-<td>ABC-XYZ segmentation</td>
-<td>Matrix of revenue or volume contribution (ABC) and demand volatility, the coefficient of variation (XYZ). It decides which items get statistical auto-replenishment and which get manual planner overrides</td>
-<td>CV = σ(demand) / μ(demand); X: CV &lt; 0.5, Y: 0.5 to 1.0, Z: CV &gt; 1.0</td>
-<td>AX: 1200 mm standard white ceiling fan or 100 ml Almond Drops (steady, high volume). CZ: premium decorative chandelier fan or niche winter skin cream (erratic, low volume)</td>
+<td data-label="Concept">ABC-XYZ segmentation</td>
+<td data-label="Definition and strategic value">Matrix of revenue or volume contribution (ABC) and demand volatility, the coefficient of variation (XYZ). It decides which items get statistical auto-replenishment and which get manual planner overrides</td>
+<td data-label="Formula or metric">CV = σ(demand) / μ(demand); X: CV &lt; 0.5, Y: 0.5 to 1.0, Z: CV &gt; 1.0</td>
+<td data-label="Bajaj context example">AX: 1200 mm standard white ceiling fan or 100 ml Almond Drops (steady, high volume). CZ: premium decorative chandelier fan or niche winter skin cream (erratic, low volume)</td>
 </tr>
 </tbody>
 </table></div>
@@ -478,13 +587,13 @@ Accuracy  = 1 − WMAPE
 <li><strong>Risk-hedged inventory postponement.</strong> Commit 100% of the <em>statistical baseline plus confirmed MT and e-com order book</em> as finished goods at regional C&amp;F (carrying and forwarding) depots. For the disputed incremental 20 to 25% uplift, hold the buffer upstream at the <strong>mother warehouse</strong> (central hub) or in <strong>semi-finished or WIP form</strong> (for example unpainted sub-assemblies) with a rapid 48-hour dispatch trigger once early Navratri sell-through data validates the spike.</li>
 </ol></div></details>
 <aside class="note"><p><strong>How to structure any demand-planning answer:</strong> diagnose, quantify, act, prevent. Only mention tools you have actually used (SAP IBP or APO, o9, Kinaxis, Excel and so on).</p></aside>
-<div class="sec-foot"><button type="button" class="revise" data-sec="demand" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#company">Previous: Company snapshot</a><button type="button" class="revise" data-sec="demand" aria-pressed="false">Mark as revised</button><a class="navlink" href="#inventory">Next: Inventory planning</a></div>
 </section>
 <section class="sec plan" id="inventory" aria-labelledby="inventory-h">
 <h2 id="inventory-h">Inventory planning</h2>
 <p>Inventory planning sets how much stock of each item to hold, and where, so that service targets are met at the lowest tied-up cash. Show that you balance three things at once: availability, working capital, and shelf-life or obsolescence risk.</p>
 <h3>Core definitions</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Term</th>
@@ -494,84 +603,84 @@ Accuracy  = 1 − WMAPE
 </thead>
 <tbody>
 <tr>
-<td>Cycle stock</td>
-<td>Stock needed to cover normal demand between replenishments</td>
-<td>Depot orders weekly, so holds about half a week on average</td>
+<td data-label="Term">Cycle stock</td>
+<td data-label="Meaning">Stock needed to cover normal demand between replenishments</td>
+<td data-label="Example">Depot orders weekly, so holds about half a week on average</td>
 </tr>
 <tr>
-<td>Safety stock (SS)</td>
-<td>Buffer against demand and lead-time variability</td>
-<td>396 units in the worked example below</td>
+<td data-label="Term">Safety stock (SS)</td>
+<td data-label="Meaning">Buffer against demand and lead-time variability</td>
+<td data-label="Example">396 units in the worked example below</td>
 </tr>
 <tr>
-<td>Reorder point (ROP)</td>
-<td>Stock level that triggers a new order</td>
-<td>Order when stock falls to 3,996 units</td>
+<td data-label="Term">Reorder point (ROP)</td>
+<td data-label="Meaning">Stock level that triggers a new order</td>
+<td data-label="Example">Order when stock falls to 3,996 units</td>
 </tr>
 <tr>
-<td>Pipeline stock</td>
-<td>Stock in transit or on order</td>
-<td>Goods on a truck from plant to depot</td>
+<td data-label="Term">Pipeline stock</td>
+<td data-label="Meaning">Stock in transit or on order</td>
+<td data-label="Example">Goods on a truck from plant to depot</td>
 </tr>
 <tr>
-<td>Lead time</td>
-<td>Order-to-receipt time, including its variability</td>
-<td>Supplier takes 9 days, sometimes 12</td>
+<td data-label="Term">Lead time</td>
+<td data-label="Meaning">Order-to-receipt time, including its variability</td>
+<td data-label="Example">Supplier takes 9 days, sometimes 12</td>
 </tr>
 <tr>
-<td>Service level (cycle)</td>
-<td>Probability of not stocking out in a replenishment cycle</td>
-<td>95%</td>
+<td data-label="Term">Service level (cycle)</td>
+<td data-label="Meaning">Probability of not stocking out in a replenishment cycle</td>
+<td data-label="Example">95%</td>
 </tr>
 <tr>
-<td>Fill rate</td>
-<td>Share of ordered quantity shipped from stock</td>
-<td>97 of 100 cases shipped = 97%</td>
+<td data-label="Term">Fill rate</td>
+<td data-label="Meaning">Share of ordered quantity shipped from stock</td>
+<td data-label="Example">97 of 100 cases shipped = 97%</td>
 </tr>
 <tr>
-<td>OTIF</td>
-<td>Delivered on time and in full</td>
-<td>Key MT and e-com retailer metric; fines apply on misses</td>
+<td data-label="Term">OTIF</td>
+<td data-label="Meaning">Delivered on time and in full</td>
+<td data-label="Example">Key MT and e-com retailer metric; fines apply on misses</td>
 </tr>
 <tr>
-<td>Days of inventory on hand (DOH or DIO)</td>
-<td>Inventory value divided by daily cost of goods sold</td>
-<td>49 days</td>
+<td data-label="Term">Days of inventory on hand (DOH or DIO)</td>
+<td data-label="Meaning">Inventory value divided by daily cost of goods sold</td>
+<td data-label="Example">49 days</td>
 </tr>
 <tr>
-<td>Inventory turns</td>
-<td>Annual COGS divided by average inventory</td>
-<td>7.5 turns</td>
+<td data-label="Term">Inventory turns</td>
+<td data-label="Meaning">Annual COGS divided by average inventory</td>
+<td data-label="Example">7.5 turns</td>
 </tr>
 <tr>
-<td>MOQ</td>
-<td>Minimum order quantity a supplier or plant will accept</td>
-<td>Bottle supplier's MOQ is 50,000 pieces</td>
+<td data-label="Term">MOQ</td>
+<td data-label="Meaning">Minimum order quantity a supplier or plant will accept</td>
+<td data-label="Example">Bottle supplier's MOQ is 50,000 pieces</td>
 </tr>
 <tr>
-<td>FEFO / FIFO</td>
-<td>First-expired-first-out / first-in-first-out dispatch</td>
-<td>FEFO for shelf-life-limited products</td>
+<td data-label="Term">FEFO / FIFO</td>
+<td data-label="Meaning">First-expired-first-out / first-in-first-out dispatch</td>
+<td data-label="Example">FEFO for shelf-life-limited products</td>
 </tr>
 <tr>
-<td>SLOB</td>
-<td>Slow-moving and obsolete stock</td>
-<td>Old-pack or discontinued SKUs; provisioned in accounts</td>
+<td data-label="Term">SLOB</td>
+<td data-label="Meaning">Slow-moving and obsolete stock</td>
+<td data-label="Example">Old-pack or discontinued SKUs; provisioned in accounts</td>
 </tr>
 <tr>
-<td>DRP</td>
-<td>Distribution requirements planning: plans stock at each depot from forecast and supply lead times</td>
-<td>Computes how much the plant must send to each depot</td>
+<td data-label="Term">DRP</td>
+<td data-label="Meaning">Distribution requirements planning: plans stock at each depot from forecast and supply lead times</td>
+<td data-label="Example">Computes how much the plant must send to each depot</td>
 </tr>
 <tr>
-<td>Min-max</td>
-<td>Simple policy: reorder up to max when stock hits min</td>
-<td>Used for low-value C items</td>
+<td data-label="Term">Min-max</td>
+<td data-label="Meaning">Simple policy: reorder up to max when stock hits min</td>
+<td data-label="Example">Used for low-value C items</td>
 </tr>
 <tr>
-<td>Postponement</td>
-<td>Delay final differentiation (pack or label) to reduce stock risk</td>
-<td>Hold bulk oil, fill channel-specific packs late</td>
+<td data-label="Term">Postponement</td>
+<td data-label="Meaning">Delay final differentiation (pack or label) to reduce stock risk</td>
+<td data-label="Example">Hold bulk oil, fill channel-specific packs late</td>
 </tr>
 </tbody>
 </table></div>
@@ -603,35 +712,35 @@ Turns                          = COGS / Average inventory
 </thead>
 <tbody>
 <tr>
-<td>AX (high value, stable)</td>
-<td>Statistical SS, frequent review, tight control</td>
-<td>98 to 99%</td>
+<td data-label="Class">AX (high value, stable)</td>
+<td data-label="Typical policy">Statistical SS, frequent review, tight control</td>
+<td data-label="Service target to propose">98 to 99%</td>
 </tr>
 <tr>
-<td>AZ (high value, erratic)</td>
-<td>Higher buffer or flexible capacity; close demand sensing</td>
-<td>95 to 97%</td>
+<td data-label="Class">AZ (high value, erratic)</td>
+<td data-label="Typical policy">Higher buffer or flexible capacity; close demand sensing</td>
+<td data-label="Service target to propose">95 to 97%</td>
 </tr>
 <tr>
-<td>BX / BY</td>
-<td>Standard SS, weekly or fortnightly review</td>
-<td>95%</td>
+<td data-label="Class">BX / BY</td>
+<td data-label="Typical policy">Standard SS, weekly or fortnightly review</td>
+<td data-label="Service target to propose">95%</td>
 </tr>
 <tr>
-<td>CX / CY</td>
-<td>Min-max, larger batches</td>
-<td>90 to 92%</td>
+<td data-label="Class">CX / CY</td>
+<td data-label="Typical policy">Min-max, larger batches</td>
+<td data-label="Service target to propose">90 to 92%</td>
 </tr>
 <tr>
-<td>CZ</td>
-<td>Make or buy to order, or delist</td>
-<td>As needed</td>
+<td data-label="Class">CZ</td>
+<td data-label="Typical policy">Make or buy to order, or delist</td>
+<td data-label="Service target to propose">As needed</td>
 </tr>
 </tbody>
 </table></div>
 <p>These targets are proposals to defend in the interview, not Bajaj policy; say you would set them with Sales and Finance.</p>
 <h3>Advanced lens: safety stock and working capital</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Concept</th>
@@ -642,16 +751,16 @@ Turns                          = COGS / Average inventory
 </thead>
 <tbody>
 <tr>
-<td>Safety stock and reorder point</td>
-<td>SS buffers against two uncertainties at once: demand spikes and supplier or plant lead-time variability. ROP triggers replenishment before a stockout occurs</td>
-<td>SS = Z × √( avg(L) × σD² + avg(D)² × σL² ); ROP = avg(D) × avg(L) + SS</td>
-<td>Holding higher SS for water-heater heating elements that have variable lead times ahead of the northern India winter peak</td>
+<td data-label="Concept">Safety stock and reorder point</td>
+<td data-label="Definition and strategic value">SS buffers against two uncertainties at once: demand spikes and supplier or plant lead-time variability. ROP triggers replenishment before a stockout occurs</td>
+<td data-label="Formula or metric">SS = Z × √( avg(L) × σD² + avg(D)² × σL² ); ROP = avg(D) × avg(L) + SS</td>
+<td data-label="Bajaj context example">Holding higher SS for water-heater heating elements that have variable lead times ahead of the northern India winter peak</td>
 </tr>
 <tr>
-<td>Working capital and cash-to-cash</td>
-<td>Inventory is frozen cash. Planners balance OTIF service levels against days inventory outstanding (DIO) and SLOB write-offs</td>
-<td>DIO = (Avg inventory / COGS) × 365; GMROI = Gross margin / Avg inventory cost</td>
-<td>Reducing finished-goods DIO from 45 days to 32 days across regional depots frees up crores in working capital without dropping fill rates below 96%</td>
+<td data-label="Concept">Working capital and cash-to-cash</td>
+<td data-label="Definition and strategic value">Inventory is frozen cash. Planners balance OTIF service levels against days inventory outstanding (DIO) and SLOB write-offs</td>
+<td data-label="Formula or metric">DIO = (Avg inventory / COGS) × 365; GMROI = Gross margin / Avg inventory cost</td>
+<td data-label="Bajaj context example">Reducing finished-goods DIO from 45 days to 32 days across regional depots frees up crores in working capital without dropping fill rates below 96%</td>
 </tr>
 </tbody>
 </table></div>
@@ -664,13 +773,13 @@ Turns                          = COGS / Average inventory
 <details class="qa"><summary>Q5. Raw material prices are rising. Should we buy ahead?</summary><div class="qbody"><p>It is a trade-off: forward buying locks cost but adds carrying cost (interest, storage, shelf-life and quality risk) and ties up cash. Compare the expected price saving per tonne with the holding cost for the extra months, check storage and quality limits, and consider partial cover (for example 40 to 60% of three months' need) or fixed-price contracts rather than buying all stock. Decide jointly with Procurement and Finance.</p></div></details>
 <details class="qa"><summary>Q6. Quick commerce and e-com need small, frequent replenishment while GT needs bulk. How do you set stock?</summary><div class="qbody"><p>Hold channel-specific stock policies: higher review frequency, smaller lot sizes and tighter fill-rate targets for e-com and quick commerce, with stock positioned close to marketplace warehouses or city hubs; larger, less frequent replenishment to GT distributors. Keep a shared central buffer of upstream stock (or bulk oil, if fill is postponed) so that a surge in one channel can be served without separate large stocks everywhere.</p></div></details>
 <details class="qa"><summary>Q7. How do you decide whether to delist a slow SKU?</summary><div class="qbody"><p>Look at its contribution margin, share of working capital, forecast accuracy, complexity cost (changeovers, MOQ stock), and whether it cannibalises or supports the range or a key customer. If the volume can transfer to another pack and the SKU holds above-average inventory days, propose delisting with Sales and Marketing agreement, clear stock, and monitor volume transfer for two cycles.</p></div></details>
-<div class="sec-foot"><button type="button" class="revise" data-sec="inventory" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#demand">Previous: Demand planning</a><button type="button" class="revise" data-sec="inventory" aria-pressed="false">Mark as revised</button><a class="navlink" href="#distribution">Next: Distribution</a></div>
 </section>
 <section class="sec dist" id="distribution" aria-labelledby="distribution-h">
 <h2 id="distribution-h">Distribution</h2>
 <p>Distribution gets finished goods from plants to depots, distributors and customers on time, at the lowest cost, for three very different channels. It is a battle of <strong>channel economics and service-level differentiation</strong>: serving a local electrical or hardware shop (GT) needs a different model from serving a Blinkit dark store (quick commerce) or a D-Mart central distribution centre (MT). The job is to optimise cost per case against service level, not cost alone.</p>
 <h3>Core definitions</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Term</th>
@@ -680,84 +789,84 @@ Turns                          = COGS / Average inventory
 </thead>
 <tbody>
 <tr>
-<td>Primary distribution</td>
-<td>Plant or depot to distributor, super stockist or key account</td>
-<td>Full truck from plant to a state depot</td>
+<td data-label="Term">Primary distribution</td>
+<td data-label="Meaning">Plant or depot to distributor, super stockist or key account</td>
+<td data-label="Example">Full truck from plant to a state depot</td>
 </tr>
 <tr>
-<td>Secondary distribution</td>
-<td>Distributor to retailer or wholesaler</td>
-<td>Van beat to kirana stores</td>
+<td data-label="Term">Secondary distribution</td>
+<td data-label="Meaning">Distributor to retailer or wholesaler</td>
+<td data-label="Example">Van beat to kirana stores</td>
 </tr>
 <tr>
-<td>C&amp;F / CFA</td>
-<td>Carrying and forwarding agent who runs a company depot</td>
-<td>One C&amp;F per state or region</td>
+<td data-label="Term">C&amp;F / CFA</td>
+<td data-label="Meaning">Carrying and forwarding agent who runs a company depot</td>
+<td data-label="Example">One C&amp;F per state or region</td>
 </tr>
 <tr>
-<td>Super stockist / distributor</td>
-<td>Intermediate partners who hold stock and serve retailers</td>
-<td>Distributor serving 600 outlets in a district</td>
+<td data-label="Term">Super stockist / distributor</td>
+<td data-label="Meaning">Intermediate partners who hold stock and serve retailers</td>
+<td data-label="Example">Distributor serving 600 outlets in a district</td>
 </tr>
 <tr>
-<td>General trade (GT)</td>
-<td>Traditional retail: kiranas, wholesalers, chemists, cosmetic stores, hardware shops</td>
-<td>Corner grocery stores</td>
+<td data-label="Term">General trade (GT)</td>
+<td data-label="Meaning">Traditional retail: kiranas, wholesalers, chemists, cosmetic stores, hardware shops</td>
+<td data-label="Example">Corner grocery stores</td>
 </tr>
 <tr>
-<td>Modern trade (MT)</td>
-<td>Organised retail chains and key accounts</td>
-<td>DMart or regional chains; direct billing, strict OTIF and fill-rate terms</td>
+<td data-label="Term">Modern trade (MT)</td>
+<td data-label="Meaning">Organised retail chains and key accounts</td>
+<td data-label="Example">DMart or regional chains; direct billing, strict OTIF and fill-rate terms</td>
 </tr>
 <tr>
-<td>E-commerce / quick commerce</td>
-<td>Marketplaces and fast-delivery apps</td>
-<td>Amazon-type platforms and dark-store apps with their own warehouses</td>
+<td data-label="Term">E-commerce / quick commerce</td>
+<td data-label="Meaning">Marketplaces and fast-delivery apps</td>
+<td data-label="Example">Amazon-type platforms and dark-store apps with their own warehouses</td>
 </tr>
 <tr>
-<td>CSD / CPC</td>
-<td>Canteen channels (defence canteens, police canteens)</td>
-<td>Institutional channel; Bajaj has cited it as a growth channel</td>
+<td data-label="Term">CSD / CPC</td>
+<td data-label="Meaning">Canteen channels (defence canteens, police canteens)</td>
+<td data-label="Example">Institutional channel; Bajaj has cited it as a growth channel</td>
 </tr>
 <tr>
-<td>Route to market (RTM)</td>
-<td>The whole set of channels, partners and routes to reach the consumer</td>
-<td>Direct reach plus distributors in a state</td>
+<td data-label="Term">Route to market (RTM)</td>
+<td data-label="Meaning">The whole set of channels, partners and routes to reach the consumer</td>
+<td data-label="Example">Direct reach plus distributors in a state</td>
 </tr>
 <tr>
-<td>Numeric distribution</td>
-<td>Outlets stocking the product as a percentage of all outlets in the universe</td>
-<td>40%</td>
+<td data-label="Term">Numeric distribution</td>
+<td data-label="Meaning">Outlets stocking the product as a percentage of all outlets in the universe</td>
+<td data-label="Example">40%</td>
 </tr>
 <tr>
-<td>Weighted distribution</td>
-<td>Share of category sales coming from outlets that stock the product</td>
-<td>55% (bigger stores weigh more)</td>
+<td data-label="Term">Weighted distribution</td>
+<td data-label="Meaning">Share of category sales coming from outlets that stock the product</td>
+<td data-label="Example">55% (bigger stores weigh more)</td>
 </tr>
 <tr>
-<td>FTL / LTL</td>
-<td>Full truck load / less than truck load</td>
-<td>FTL to depots, LTL to small towns</td>
+<td data-label="Term">FTL / LTL</td>
+<td data-label="Meaning">Full truck load / less than truck load</td>
+<td data-label="Example">FTL to depots, LTL to small towns</td>
 </tr>
 <tr>
-<td>Hub and spoke</td>
-<td>Central hub with smaller spokes feeding local areas</td>
-<td>Regional hub, then cluster depots</td>
+<td data-label="Term">Hub and spoke</td>
+<td data-label="Meaning">Central hub with smaller spokes feeding local areas</td>
+<td data-label="Example">Regional hub, then cluster depots</td>
 </tr>
 <tr>
-<td>DMS</td>
-<td>Distributor management system: orders, stock, claims and secondary sales visibility</td>
-<td>Distributor's stock days seen daily</td>
+<td data-label="Term">DMS</td>
+<td data-label="Meaning">Distributor management system: orders, stock, claims and secondary sales visibility</td>
+<td data-label="Example">Distributor's stock days seen daily</td>
 </tr>
 <tr>
-<td>POD / TAT</td>
-<td>Proof of delivery / turnaround time</td>
-<td>48-hour TAT to MT warehouses</td>
+<td data-label="Term">POD / TAT</td>
+<td data-label="Meaning">Proof of delivery / turnaround time</td>
+<td data-label="Example">48-hour TAT to MT warehouses</td>
 </tr>
 <tr>
-<td>Reverse logistics</td>
-<td>Returns, damaged and expired stock moving back</td>
-<td>Leakage claims on oil bottles</td>
+<td data-label="Term">Reverse logistics</td>
+<td data-label="Meaning">Returns, damaged and expired stock moving back</td>
+<td data-label="Example">Leakage claims on oil bottles</td>
 </tr>
 </tbody>
 </table></div>
@@ -769,7 +878,7 @@ Cost per case   = Total logistics cost / Cases shipped
 <p>Also track: fill rate, order-to-delivery lead time, vehicle fill (load as a percentage of capacity), damage and expiry claims as a percentage of sales, distributor stock days, and distributor ROI (distributors leave if their return is poor).</p>
 <p><strong>Worked example: FTL or LTL?</strong> An FTL costs ₹36,000 and carries 600 cases, so ₹60 per case at full load but ₹80 per case at 75% fill (450 cases). LTL costs ₹75 per case. Break-even = 36,000 / 75 = 480 cases, or 80% fill. Below 80% fill, LTL or consolidating with another lane is cheaper; above it, FTL wins. The lesson: pool orders to reach the break-even before dispatching.</p>
 <h3>How the three channels differ</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Dimension</th>
@@ -780,40 +889,40 @@ Cost per case   = Total logistics cost / Cases shipped
 </thead>
 <tbody>
 <tr>
-<td>Network structure</td>
-<td>Mother warehouse → C&amp;F or regional depot → authorised distributor → wholesaler or retailer</td>
-<td>Mother warehouse or depot → retailer regional DC (Reliance, D-Mart) → retail stores</td>
-<td>Marketplace (1P or B2B): depot → Amazon or Flipkart FC, or dark store. D2C: depot → 3PL courier → consumer</td>
+<td data-label="Dimension">Network structure</td>
+<td data-label="General trade (GT)">Mother warehouse → C&amp;F or regional depot → authorised distributor → wholesaler or retailer</td>
+<td data-label="Modern trade (MT)">Mother warehouse or depot → retailer regional DC (Reliance, D-Mart) → retail stores</td>
+<td data-label="E-commerce and quick commerce">Marketplace (1P or B2B): depot → Amazon or Flipkart FC, or dark store. D2C: depot → 3PL courier → consumer</td>
 </tr>
 <tr>
-<td>Order profile</td>
-<td>Regular weekly or fortnightly distributor billing, skewed toward <strong>month-end billing spikes (hockey-stick effect)</strong></td>
-<td>Scheduled, strict appointment-based deliveries; large case-pack quantities</td>
-<td>High frequency, fragmented SKU assortment, explosive spikes during platform sale events (Big Billion Days, Prime Day)</td>
+<td data-label="Dimension">Order profile</td>
+<td data-label="General trade (GT)">Regular weekly or fortnightly distributor billing, skewed toward <strong>month-end billing spikes (hockey-stick effect)</strong></td>
+<td data-label="Modern trade (MT)">Scheduled, strict appointment-based deliveries; large case-pack quantities</td>
+<td data-label="E-commerce and quick commerce">High frequency, fragmented SKU assortment, explosive spikes during platform sale events (Big Billion Days, Prime Day)</td>
 </tr>
 <tr>
-<td>Key service metric</td>
-<td>Distributor ROI, secondary fill rate, range selling (width of distribution)</td>
-<td>OTIF, case fill rate, dock-to-stock compliance</td>
-<td>SLA adherence, seller rating, in-stock % on high-traffic search keywords, low return (RTO) and damage rates</td>
+<td data-label="Dimension">Key service metric</td>
+<td data-label="General trade (GT)">Distributor ROI, secondary fill rate, range selling (width of distribution)</td>
+<td data-label="Modern trade (MT)">OTIF, case fill rate, dock-to-stock compliance</td>
+<td data-label="E-commerce and quick commerce">SLA adherence, seller rating, in-stock % on high-traffic search keywords, low return (RTO) and damage rates</td>
 </tr>
 <tr>
-<td>Core pain point</td>
-<td>Credit limits blocking dispatch; channel dumping at month-end inflating transport rates</td>
-<td><strong>TOT (terms of trade) penalties:</strong> heavy financial penalties for short supply or missed delivery slots</td>
-<td>Packaging damage in single-unit parcel transit; flash-demand stockouts killing search ranking</td>
+<td data-label="Dimension">Core pain point</td>
+<td data-label="General trade (GT)">Credit limits blocking dispatch; channel dumping at month-end inflating transport rates</td>
+<td data-label="Modern trade (MT)"><strong>TOT (terms of trade) penalties:</strong> heavy financial penalties for short supply or missed delivery slots</td>
+<td data-label="E-commerce and quick commerce">Packaging damage in single-unit parcel transit; flash-demand stockouts killing search ranking</td>
 </tr>
 <tr>
-<td>Pack and range</td>
-<td>Smaller, price-point packs</td>
-<td>Channel-specific packs (for example 650 ml, 750 ml)</td>
-<td>Marketplace-specific packs and combos</td>
+<td data-label="Dimension">Pack and range</td>
+<td data-label="General trade (GT)">Smaller, price-point packs</td>
+<td data-label="Modern trade (MT)">Channel-specific packs (for example 650 ml, 750 ml)</td>
+<td data-label="E-commerce and quick commerce">Marketplace-specific packs and combos</td>
 </tr>
 <tr>
-<td>Cost drivers</td>
-<td>Last-mile and distributor margin</td>
-<td>DC delivery and trade terms</td>
-<td>Platform fees, inbound freight, packaging</td>
+<td data-label="Dimension">Cost drivers</td>
+<td data-label="General trade (GT)">Last-mile and distributor margin</td>
+<td data-label="Modern trade (MT)">DC delivery and trade terms</td>
+<td data-label="E-commerce and quick commerce">Platform fees, inbound freight, packaging</td>
 </tr>
 </tbody>
 </table></div>
@@ -856,13 +965,13 @@ Cost per case   = Total logistics cost / Cases shipped
 <li><strong>Packaging and knock-down design.</strong> Work with R&amp;D and Packaging to see whether sub-assemblies (fan blades packed flat separately from motor units, or nestable cooler bodies) can raise carton density per cubic metre.</li>
 </ol></div></details>
 <aside class="note"><p><strong>One line to remember:</strong> distribution is a three-way balance of <strong>service</strong> (availability and OTIF), <strong>cost</strong> (cost per case and logistics as % of sales) and <strong>cash</strong> (distributor and company stock). Name which one you are trading off in every answer.</p></aside>
-<div class="sec-foot"><button type="button" class="revise" data-sec="distribution" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#inventory">Previous: Inventory planning</a><button type="button" class="revise" data-sec="distribution" aria-pressed="false">Mark as revised</button><a class="navlink" href="#procurement">Next: Procurement</a></div>
 </section>
 <section class="sec proc" id="procurement" aria-labelledby="procurement-h">
 <h2 id="procurement-h">Procurement (RM strategic sourcing)</h2>
 <p>Strategic sourcing buys raw materials at the lowest total cost for the quality and lead time the plant needs, while building suppliers who keep supply continuous. Whether Bajaj is buying <strong>copper winding wire, CRNGO electrical steel, aluminium ingots, ABS and PP engineering plastics and PCBs</strong> (Electricals) or <strong>light liquid paraffin (LLP), refined almond or vegetable oil, glass or PET bottles and HDPE caps</strong> (Consumer Care), RM typically represents <strong>60 to 70% of COGS</strong>, so procurement is a direct P&amp;L driver. The role is judged on cost, quality, delivery reliability and supply risk.</p>
 <h3>Core definitions</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Term</th>
@@ -872,94 +981,94 @@ Cost per case   = Total logistics cost / Cases shipped
 </thead>
 <tbody>
 <tr>
-<td>Strategic sourcing</td>
-<td>Structured, data-led process to choose suppliers and contract for value over time</td>
-<td>Annual review of all oil and packaging categories</td>
+<td data-label="Term">Strategic sourcing</td>
+<td data-label="Meaning">Structured, data-led process to choose suppliers and contract for value over time</td>
+<td data-label="Example">Annual review of all oil and packaging categories</td>
 </tr>
 <tr>
-<td>Category management</td>
-<td>Managing a group of similar materials as one business with its own strategy</td>
-<td>Packaging, oils, fragrances as separate categories</td>
+<td data-label="Term">Category management</td>
+<td data-label="Meaning">Managing a group of similar materials as one business with its own strategy</td>
+<td data-label="Example">Packaging, oils, fragrances as separate categories</td>
 </tr>
 <tr>
-<td>Spend analysis</td>
-<td>Breaking down what is bought, from whom and at what price</td>
-<td>Top 20 items give 80% of spend</td>
+<td data-label="Term">Spend analysis</td>
+<td data-label="Meaning">Breaking down what is bought, from whom and at what price</td>
+<td data-label="Example">Top 20 items give 80% of spend</td>
 </tr>
 <tr>
-<td>Kraljic matrix</td>
-<td>Classifies items by profit impact and supply risk into strategic, leverage, bottleneck and non-critical</td>
-<td>See the table below</td>
+<td data-label="Term">Kraljic matrix</td>
+<td data-label="Meaning">Classifies items by profit impact and supply risk into strategic, leverage, bottleneck and non-critical</td>
+<td data-label="Example">See the table below</td>
 </tr>
 <tr>
-<td>RFI / RFQ / RFP</td>
-<td>Request for information / quotation / proposal</td>
-<td>RFQ to five bottle suppliers</td>
+<td data-label="Term">RFI / RFQ / RFP</td>
+<td data-label="Meaning">Request for information / quotation / proposal</td>
+<td data-label="Example">RFQ to five bottle suppliers</td>
 </tr>
 <tr>
-<td>TCO</td>
-<td>Total cost of ownership: price plus freight, duties, quality loss, inventory, payment terms and risk</td>
-<td>Lowest quote is not always the lowest TCO</td>
+<td data-label="Term">TCO</td>
+<td data-label="Meaning">Total cost of ownership: price plus freight, duties, quality loss, inventory, payment terms and risk</td>
+<td data-label="Example">Lowest quote is not always the lowest TCO</td>
 </tr>
 <tr>
-<td>Should-cost model</td>
-<td>Bottom-up estimate of what an item should cost from inputs and processing</td>
-<td>Resin price plus conversion plus margin for a bottle</td>
+<td data-label="Term">Should-cost model</td>
+<td data-label="Meaning">Bottom-up estimate of what an item should cost from inputs and processing</td>
+<td data-label="Example">Resin price plus conversion plus margin for a bottle</td>
 </tr>
 <tr>
-<td>BATNA / ZOPA</td>
-<td>Best alternative to a negotiated agreement / zone of possible agreement</td>
-<td>An alternative supplier gives leverage</td>
+<td data-label="Term">BATNA / ZOPA</td>
+<td data-label="Meaning">Best alternative to a negotiated agreement / zone of possible agreement</td>
+<td data-label="Example">An alternative supplier gives leverage</td>
 </tr>
 <tr>
-<td>Index-linked pricing</td>
-<td>Price moves with a published index, with a formula</td>
-<td>Packaging resin linked to a polymer index with a monthly reset</td>
+<td data-label="Term">Index-linked pricing</td>
+<td data-label="Meaning">Price moves with a published index, with a formula</td>
+<td data-label="Example">Packaging resin linked to a polymer index with a monthly reset</td>
 </tr>
 <tr>
-<td>Forward contract</td>
-<td>Fix price and quantity for future delivery</td>
-<td>Cover three months of oil need now</td>
+<td data-label="Term">Forward contract</td>
+<td data-label="Meaning">Fix price and quantity for future delivery</td>
+<td data-label="Example">Cover three months of oil need now</td>
 </tr>
 <tr>
-<td>Dual or multi-sourcing</td>
-<td>Qualify more than one supplier for the same item</td>
-<td>70:30 split between two bottle makers</td>
+<td data-label="Term">Dual or multi-sourcing</td>
+<td data-label="Meaning">Qualify more than one supplier for the same item</td>
+<td data-label="Example">70:30 split between two bottle makers</td>
 </tr>
 <tr>
-<td>PPV</td>
-<td>Purchase price variance against standard cost</td>
-<td>Positive = paid more than standard</td>
+<td data-label="Term">PPV</td>
+<td data-label="Meaning">Purchase price variance against standard cost</td>
+<td data-label="Example">Positive = paid more than standard</td>
 </tr>
 <tr>
-<td>Vendor rating (QCD)</td>
-<td>Score on quality, cost and delivery</td>
-<td>Quarterly supplier scorecard</td>
+<td data-label="Term">Vendor rating (QCD)</td>
+<td data-label="Meaning">Score on quality, cost and delivery</td>
+<td data-label="Example">Quarterly supplier scorecard</td>
 </tr>
 <tr>
-<td>COA</td>
-<td>Certificate of analysis supplied with each lot</td>
-<td>Used for incoming quality checks</td>
+<td data-label="Term">COA</td>
+<td data-label="Meaning">Certificate of analysis supplied with each lot</td>
+<td data-label="Example">Used for incoming quality checks</td>
 </tr>
 <tr>
-<td>PPM</td>
-<td>Defective parts per million</td>
-<td>Cap and bottle quality measure</td>
+<td data-label="Term">PPM</td>
+<td data-label="Meaning">Defective parts per million</td>
+<td data-label="Example">Cap and bottle quality measure</td>
 </tr>
 <tr>
-<td>VMI</td>
-<td>Vendor-managed inventory: supplier monitors and refills stock</td>
-<td>Supplier refills bottle stock at the plant</td>
+<td data-label="Term">VMI</td>
+<td data-label="Meaning">Vendor-managed inventory: supplier monitors and refills stock</td>
+<td data-label="Example">Supplier refills bottle stock at the plant</td>
 </tr>
 <tr>
-<td>DPO</td>
-<td>Days payable outstanding</td>
-<td>Longer is better for cash, within supplier tolerance</td>
+<td data-label="Term">DPO</td>
+<td data-label="Meaning">Days payable outstanding</td>
+<td data-label="Example">Longer is better for cash, within supplier tolerance</td>
 </tr>
 <tr>
-<td>SOB</td>
-<td>Share of business: the split of volume between suppliers</td>
-<td>80:20 between two motor suppliers</td>
+<td data-label="Term">SOB</td>
+<td data-label="Meaning">Share of business: the split of volume between suppliers</td>
+<td data-label="Example">80:20 between two motor suppliers</td>
 </tr>
 </tbody>
 </table></div>
@@ -974,7 +1083,7 @@ Cost per case   = Total logistics cost / Cases shipped
 <li>Performance review and continuous improvement: scorecards, cost-down projects, supplier development.</li>
 </ol>
 <h3>Segment items, then pick a strategy (Kraljic)</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Quadrant</th>
@@ -985,28 +1094,28 @@ Cost per case   = Total logistics cost / Cases shipped
 </thead>
 <tbody>
 <tr>
-<td>Strategic (high impact, high risk)</td>
-<td>Long-term partnerships, joint value engineering, dual source, index-linked or forward cover</td>
-<td>Coconut oil or copra, key oils</td>
-<td>Custom IC chips and PCBs for smart appliances, proprietary fragrance compounds</td>
+<td data-label="Quadrant">Strategic (high impact, high risk)</td>
+<td data-label="What it is and strategy">Long-term partnerships, joint value engineering, dual source, index-linked or forward cover</td>
+<td data-label="FMCG examples (confirm)">Coconut oil or copra, key oils</td>
+<td data-label="Appliance examples">Custom IC chips and PCBs for smart appliances, proprietary fragrance compounds</td>
 </tr>
 <tr>
-<td>Leverage (high spend, low risk)</td>
-<td>Competitive e-auctions, volume consolidation, short contracts</td>
-<td>Bottles, cartons, shippers, LLP</td>
-<td>Corrugated boxes, standard ABS plastic granules</td>
+<td data-label="Quadrant">Leverage (high spend, low risk)</td>
+<td data-label="What it is and strategy">Competitive e-auctions, volume consolidation, short contracts</td>
+<td data-label="FMCG examples (confirm)">Bottles, cartons, shippers, LLP</td>
+<td data-label="Appliance examples">Corrugated boxes, standard ABS plastic granules</td>
 </tr>
 <tr>
-<td>Bottleneck (low spend, high risk)</td>
-<td>Secure supply, safety stock, dual-sourcing qualification</td>
-<td>Special caps, a single-source fragrance or additive</td>
-<td>Specialised thermal fuses, imported heating-element alloys</td>
+<td data-label="Quadrant">Bottleneck (low spend, high risk)</td>
+<td data-label="What it is and strategy">Secure supply, safety stock, dual-sourcing qualification</td>
+<td data-label="FMCG examples (confirm)">Special caps, a single-source fragrance or additive</td>
+<td data-label="Appliance examples">Specialised thermal fuses, imported heating-element alloys</td>
 </tr>
 <tr>
-<td>Non-critical (low impact, low risk)</td>
-<td>Standardise, simplify, automate through catalogue or procure-to-pay</td>
-<td>Labels, stationery, consumables</td>
-<td>Office consumables, standard fasteners</td>
+<td data-label="Quadrant">Non-critical (low impact, low risk)</td>
+<td data-label="What it is and strategy">Standardise, simplify, automate through catalogue or procure-to-pay</td>
+<td data-label="FMCG examples (confirm)">Labels, stationery, consumables</td>
+<td data-label="Appliance examples">Office consumables, standard fasteners</td>
 </tr>
 </tbody>
 </table></div>
@@ -1017,7 +1126,7 @@ Effective cost per good unit = (Price + freight) / (1 − rejection rate)
 Should-cost price = RM index − scrap credit + conversion cost (machine hours) + overheads + margin
 TCO  = Unit price + freight and duties + payment-terms cost + rejection or rework cost + safety-stock holding cost
 </code></pre>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Concept</th>
@@ -1027,19 +1136,19 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 </thead>
 <tbody>
 <tr>
-<td>Should-cost and clean-sheet costing</td>
-<td>Reverse-engineer the true cost of a component from the bottom up (RM index minus scrap credit plus conversion cost plus overheads plus margin)</td>
-<td>Instead of accepting a vendor's 8% price hike on stamped fan blades, calculate the aluminium ingot (LME or Hindalco) movement plus stamping press cycle time plus power tariff, and negotiate only the conversion delta</td>
+<td data-label="Concept">Should-cost and clean-sheet costing</td>
+<td data-label="How it works">Reverse-engineer the true cost of a component from the bottom up (RM index minus scrap credit plus conversion cost plus overheads plus margin)</td>
+<td data-label="Application at Bajaj">Instead of accepting a vendor's 8% price hike on stamped fan blades, calculate the aluminium ingot (LME or Hindalco) movement plus stamping press cycle time plus power tariff, and negotiate only the conversion delta</td>
 </tr>
 <tr>
-<td>TCO</td>
-<td>Evaluates landed cost beyond the unit invoice price</td>
-<td>An imported motor from China may be 6% cheaper on invoice than a domestic supplier in Pune or Nashik, but 45-day ocean lead times need 30 days extra safety stock, LC banking charges and currency hedging, making the domestic TCO lower</td>
+<td data-label="Concept">TCO</td>
+<td data-label="How it works">Evaluates landed cost beyond the unit invoice price</td>
+<td data-label="Application at Bajaj">An imported motor from China may be 6% cheaper on invoice than a domestic supplier in Pune or Nashik, but 45-day ocean lead times need 30 days extra safety stock, LC banking charges and currency hedging, making the domestic TCO lower</td>
 </tr>
 <tr>
-<td>Commodity indexing and hedging</td>
-<td>Link vendor contracts to transparent external indices (LME for copper and aluminium, Brent crude for LLP and plastics) with a fixed quarterly lag and a pre-agreed conversion fee</td>
-<td>Protects Bajaj from renegotiating every month when copper or crude moves; the price adjusts through a transparent formula band (for example a ±5% deadband)</td>
+<td data-label="Concept">Commodity indexing and hedging</td>
+<td data-label="How it works">Link vendor contracts to transparent external indices (LME for copper and aluminium, Brent crude for LLP and plastics) with a fixed quarterly lag and a pre-agreed conversion fee</td>
+<td data-label="Application at Bajaj">Protects Bajaj from renegotiating every month when copper or crude moves; the price adjusts through a transparent formula band (for example a ±5% deadband)</td>
 </tr>
 </tbody>
 </table></div>
@@ -1054,34 +1163,34 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 </thead>
 <tbody>
 <tr>
-<td>Quoted price per bottle</td>
-<td>₹7.00</td>
-<td>₹7.30</td>
+<td data-label="">Quoted price per bottle</td>
+<td data-label="Supplier A">₹7.00</td>
+<td data-label="Supplier B">₹7.30</td>
 </tr>
 <tr>
-<td>Freight per bottle</td>
-<td>₹0.40</td>
-<td>₹0.15</td>
+<td data-label="">Freight per bottle</td>
+<td data-label="Supplier A">₹0.40</td>
+<td data-label="Supplier B">₹0.15</td>
 </tr>
 <tr>
-<td>Rejection rate</td>
-<td>2.0%</td>
-<td>0.3%</td>
+<td data-label="">Rejection rate</td>
+<td data-label="Supplier A">2.0%</td>
+<td data-label="Supplier B">0.3%</td>
 </tr>
 <tr>
-<td>Payment terms</td>
-<td>60 days</td>
-<td>45 days</td>
+<td data-label="">Payment terms</td>
+<td data-label="Supplier A">60 days</td>
+<td data-label="Supplier B">45 days</td>
 </tr>
 <tr>
-<td>Cost per good bottle</td>
-<td>₹7.55</td>
-<td>₹7.47</td>
+<td data-label="">Cost per good bottle</td>
+<td data-label="Supplier A">₹7.55</td>
+<td data-label="Supplier B">₹7.47</td>
 </tr>
 <tr>
-<td>After credit benefit of the extra 15 days (₹0.03 for A)</td>
-<td>₹7.52</td>
-<td>₹7.47</td>
+<td data-label="">After credit benefit of the extra 15 days (₹0.03 for A)</td>
+<td data-label="Supplier A">₹7.52</td>
+<td data-label="Supplier B">₹7.47</td>
 </tr>
 </tbody>
 </table></div>
@@ -1121,7 +1230,7 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 <li><strong>The strategic split.</strong> Instead of an all-or-nothing choice, propose a <strong>dual-sourcing base-and-surge model</strong>, or use Vendor A's quote as a should-cost benchmark to negotiate Vendor B down by 3 to 4% in exchange for a long-term volume commitment and milk-run returnable packaging bins that remove corrugated carton costs.</li>
 </ol></div></details>
 <aside class="note"><p><strong>What to emphasise:</strong> use the words <strong>total cost</strong>, <strong>supply continuity</strong>, <strong>dual sourcing</strong>, <strong>supplier development</strong> and <strong>risk</strong>. If asked about commodity hedging, say you would use forward contracts and index-linked pricing where there is no liquid futures market, and align the policy with Finance.</p></aside>
-<div class="sec-foot"><button type="button" class="revise" data-sec="procurement" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#distribution">Previous: Distribution</a><button type="button" class="revise" data-sec="procurement" aria-pressed="false">Mark as revised</button><a class="navlink" href="#sop">Next: S&amp;OP and KPIs</a></div>
 </section>
 <section class="sec shared" id="sop" aria-labelledby="sop-h">
 <h2 id="sop-h">S&amp;OP, working capital and KPIs</h2>
@@ -1139,7 +1248,7 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 </code></pre>
 <p>Example: DIO 49 days (inventory), DSO 25 days (customer credit), DPO 45 days (supplier credit) gives a cash conversion cycle of 49 + 25 − 45 = 29 days. Planning cuts DIO, distribution manages DSO (distributor and key-account credit, claims), and procurement lifts DPO. Every day saved frees cash equal to one day of sales or cost.</p>
 <h3>KPI cheat sheet</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap stack"><table>
 <thead>
 <tr>
 <th>Area</th>
@@ -1149,29 +1258,29 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 </thead>
 <tbody>
 <tr>
-<td>Demand planning</td>
-<td>WMAPE or accuracy, bias, FVA</td>
-<td>Forecast quality and whether overrides help</td>
+<td data-label="Area">Demand planning</td>
+<td data-label="KPI">WMAPE or accuracy, bias, FVA</td>
+<td data-label="What it tells you">Forecast quality and whether overrides help</td>
 </tr>
 <tr>
-<td>Inventory planning</td>
-<td>DOH, turns, SLOB %, fill rate, stock-out days</td>
-<td>Cash tied up versus availability</td>
+<td data-label="Area">Inventory planning</td>
+<td data-label="KPI">DOH, turns, SLOB %, fill rate, stock-out days</td>
+<td data-label="What it tells you">Cash tied up versus availability</td>
 </tr>
 <tr>
-<td>Distribution</td>
-<td>OTIF, logistics cost as % of sales, cost per case, damage %, distributor stock days</td>
-<td>Service, cost and channel health</td>
+<td data-label="Area">Distribution</td>
+<td data-label="KPI">OTIF, logistics cost as % of sales, cost per case, damage %, distributor stock days</td>
+<td data-label="What it tells you">Service, cost and channel health</td>
 </tr>
 <tr>
-<td>Procurement</td>
-<td>PPV, savings delivered, supplier OTIF, PPM, DPO, share of single-source items</td>
-<td>Cost, quality, delivery and risk</td>
+<td data-label="Area">Procurement</td>
+<td data-label="KPI">PPV, savings delivered, supplier OTIF, PPM, DPO, share of single-source items</td>
+<td data-label="What it tells you">Cost, quality, delivery and risk</td>
 </tr>
 <tr>
-<td>Finance link</td>
-<td>Cash conversion cycle, working capital as % of sales</td>
-<td>Overall cash efficiency</td>
+<td data-label="Area">Finance link</td>
+<td data-label="KPI">Cash conversion cycle, working capital as % of sales</td>
+<td data-label="What it tells you">Overall cash efficiency</td>
 </tr>
 </tbody>
 </table></div>
@@ -1181,7 +1290,119 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 <details class="qa"><summary>Q3. GT is declining while e-commerce and quick commerce grow fast. What changes in planning?</summary><div class="qbody"><p>Move forecasting to channel level with different drivers, review pack architecture and stock policies per channel, plan faster replenishment for e-com and quick commerce, and reassess GT distribution: which regions and outlets are worth serving at what cost. Monitor the margin mix too, because online channels often carry higher trade and platform costs even when volume rises.</p></div></details>
 <details class="qa"><summary>Q4. The company opens direct distribution in new areas. What is the impact on planning, distribution and procurement?</summary><div class="qbody"><p>Planning: new depots mean new forecast and safety-stock locations, so a more granular demand split. Distribution: new lanes, depot capacity and a transition from distributor stock to company stock. Procurement: usually no immediate change, but volume growth may justify renegotiating contracts. Finance: working capital rises at first, so set stock and credit norms early.</p></div></details>
 <details class="qa"><summary>Q5. You inherit poor data quality: master data errors, unclean history. Where do you start?</summary><div class="qbody"><p>Start with the 20% of items that make 80% of volume. Fix master data (units of measure, lead times, pack conversions), clean history of stock-out and one-off periods, and set a monthly data-quality checklist with an owner. Better data raises accuracy faster than a more complex model.</p></div></details>
-<div class="sec-foot"><button type="button" class="revise" data-sec="sop" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#procurement">Previous: Procurement</a><button type="button" class="revise" data-sec="sop" aria-pressed="false">Mark as revised</button><a class="navlink" href="#formulas">Next: Formula sheet</a></div>
+</section>
+<section class="sec shared" id="formulas" aria-labelledby="formulas-h">
+<h2 id="formulas-h">Formula sheet</h2>
+<p>One page to scan in the waiting room. Every formula here is used in the topic sections and tools.</p>
+<h3>Demand planning</h3>
+<pre class="formula"><code>MAPE      = (1/n) × Σ |A − F| / A × 100
+WMAPE     = Σ |A − F| / Σ A
+Accuracy  = 1 − WMAPE
+Bias      = Σ (F − A) / Σ A          (positive = over-forecast)
+CV        = σ(demand) / μ(demand)    (X &lt; 0.5, Y 0.5 to 1.0, Z &gt; 1.0)
+Exponential smoothing: F(t+1) = α × A(t) + (1 − α) × F(t)
+</code></pre>
+<h3>Inventory planning</h3>
+<pre class="formula"><code>SS (demand only)      = Z × σd × √L
+SS (demand + lead time) = Z × √( L × σd² + d² × σL² )
+ROP                   = d × L + SS
+EOQ                   = √( 2 × D × S / H )
+DOH                   = Inventory value / COGS × 365
+Turns                 = COGS / Average inventory
+Fill rate             = Quantity shipped from stock / Quantity ordered
+GMROI                 = Gross margin / Average inventory cost
+</code></pre>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Service level</th>
+<th>90%</th>
+<th>95%</th>
+<th>97.5%</th>
+<th>99%</th>
+<th>99.9%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="Service level">Z-score</td>
+<td data-label="90%">1.28</td>
+<td data-label="95%">1.645</td>
+<td data-label="97.5%">1.96</td>
+<td data-label="99%">2.33</td>
+<td data-label="99.9%">3.09</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Distribution</h3>
+<pre class="formula"><code>OTIF             = Orders on time and in full / Total orders
+Logistics cost % = (Freight + warehousing + handling + admin) / Net sales
+Cost per case    = Total logistics cost / Cases shipped
+FTL break-even   = FTL cost / LTL rate per case          (cases)
+Vehicle fill     = Actual load / Vehicle capacity
+Numeric distribution = Outlets stocking / Total outlets × 100
+</code></pre>
+<h3>Procurement and cash</h3>
+<pre class="formula"><code>PPV   = (Actual price − Standard price) × Quantity
+Effective cost per good unit = (Price + freight) / (1 − rejection rate)
+TCO   = Unit price + freight and duties + payment-terms cost + rejection cost + holding cost
+Should-cost = RM index − scrap credit + conversion cost + overheads + margin
+DPO   = Payables / COGS × 365
+CCC   = DIO + DSO − DPO
+</code></pre>
+<h3>Numbers to remember</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="Fact">Safety stock jump from 95% to 99% service</td>
+<td data-label="Value">+41% (Z from 1.645 to 2.326)</td>
+</tr>
+<tr>
+<td data-label="Fact">Safety stock effect of doubling lead time</td>
+<td data-label="Value">+41% (square root of 2)</td>
+</tr>
+<tr>
+<td data-label="Fact">Four-SKU forecast example</td>
+<td data-label="Value">WMAPE 12%, accuracy 88%, bias +4%</td>
+</tr>
+<tr>
+<td data-label="Fact">Safety stock example (d = 400, σd = 80, L = 9, 95%)</td>
+<td data-label="Value">396 units; ROP 3,996 units</td>
+</tr>
+<tr>
+<td data-label="Fact">EOQ example (D = 120,000, S = ₹2,000, H = ₹6)</td>
+<td data-label="Value">About 8,944 units</td>
+</tr>
+<tr>
+<td data-label="Fact">Inventory example (₹12 crore, COGS ₹90 crore)</td>
+<td data-label="Value">49 days, 7.5 turns</td>
+</tr>
+<tr>
+<td data-label="Fact">FTL or LTL example (₹36,000 vs ₹75 a case)</td>
+<td data-label="Value">Break-even at 480 cases, 80% fill</td>
+</tr>
+<tr>
+<td data-label="Fact">Bottle supplier example</td>
+<td data-label="Value">Higher quote, about ₹0.05 cheaper per good bottle</td>
+</tr>
+<tr>
+<td data-label="Fact">Cash conversion cycle example</td>
+<td data-label="Value">49 + 25 − 45 = 29 days</td>
+</tr>
+<tr>
+<td data-label="Fact">Copper price claim example</td>
+<td data-label="Value">65% share × 10% rise = 6.5%, not 12%</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sec-foot"><a class="navlink" href="#sop">Previous: S&amp;OP and KPIs</a><button type="button" class="revise" data-sec="formulas" aria-pressed="false">Mark as revised</button><a class="navlink" href="#tools">Next: Tools</a></div>
 </section>
 <section class="sec shared" id="tools" aria-labelledby="tools-h">
 <h2 id="tools-h">Tools: calculators and simulator</h2>
@@ -1287,7 +1508,7 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
   <p class="small">Cost per good unit = (price + freight) ÷ (1 − rejection rate). The payment-terms benefit is the interest saved on the days of credit. The worked example in Procurement credits only the 15 extra days, so its absolute figures differ, but the gap between suppliers is the same.</p>
 </div>
 
-<div class="sec-foot"><button type="button" class="revise" data-sec="tools" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#formulas">Previous: Formula sheet</a><button type="button" class="revise" data-sec="tools" aria-pressed="false">Mark as revised</button><a class="navlink" href="#behavioural">Next: Behavioural and HR</a></div>
 </section>
 <section class="sec shared" id="behavioural" aria-labelledby="behavioural-h">
 <h2 id="behavioural-h">Behavioural and HR questions</h2>
@@ -1302,48 +1523,48 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 </thead>
 <tbody>
 <tr>
-<td>Tell me about yourself</td>
-<td>Present (role and scope), past (two relevant achievements with numbers), future (why this role and why Bajaj); about 60 seconds, see the script in the last section</td>
+<td data-label="Question">Tell me about yourself</td>
+<td data-label="Frame for your answer">Present (role and scope), past (two relevant achievements with numbers), future (why this role and why Bajaj); about 60 seconds, see the script in the last section</td>
 </tr>
 <tr>
-<td>Why Bajaj?</td>
-<td>Established brands, a multi-channel business (GT, MT, e-com, exports), active growth moves such as direct reach and new acquisitions; link to what you bring to that</td>
+<td data-label="Question">Why Bajaj?</td>
+<td data-label="Frame for your answer">Established brands, a multi-channel business (GT, MT, e-com, exports), active growth moves such as direct reach and new acquisitions; link to what you bring to that</td>
 </tr>
 <tr>
-<td>Why planning, distribution or procurement?</td>
-<td>Name the impact you like (cash, service, cost), plus one example that shows you enjoy cross-functional problem solving</td>
+<td data-label="Question">Why planning, distribution or procurement?</td>
+<td data-label="Frame for your answer">Name the impact you like (cash, service, cost), plus one example that shows you enjoy cross-functional problem solving</td>
 </tr>
 <tr>
-<td>Your biggest achievement</td>
-<td>STAR with a measurable result: accuracy points gained, days of inventory cut, rupees saved, OTIF raised</td>
+<td data-label="Question">Your biggest achievement</td>
+<td data-label="Frame for your answer">STAR with a measurable result: accuracy points gained, days of inventory cut, rupees saved, OTIF raised</td>
 </tr>
 <tr>
-<td>A time you disagreed with Sales (or a supplier, or Finance)</td>
-<td>Show you used data, listened, found a trade-off, and kept the relationship</td>
+<td data-label="Question">A time you disagreed with Sales (or a supplier, or Finance)</td>
+<td data-label="Frame for your answer">Show you used data, listened, found a trade-off, and kept the relationship</td>
 </tr>
 <tr>
-<td>A mistake you made</td>
-<td>Own it, say what it cost, and what you changed in the process so it would not recur</td>
+<td data-label="Question">A mistake you made</td>
+<td data-label="Frame for your answer">Own it, say what it cost, and what you changed in the process so it would not recur</td>
 </tr>
 <tr>
-<td>How do you work under pressure or a tight deadline?</td>
-<td>Prioritise by impact, communicate early, ask for help, give an example</td>
+<td data-label="Question">How do you work under pressure or a tight deadline?</td>
+<td data-label="Frame for your answer">Prioritise by impact, communicate early, ask for help, give an example</td>
 </tr>
 <tr>
-<td>Where do you see yourself in 5 years?</td>
-<td>Deeper ownership of a category or channel, then a broader supply chain role; do not name a specific title</td>
+<td data-label="Question">Where do you see yourself in 5 years?</td>
+<td data-label="Frame for your answer">Deeper ownership of a category or channel, then a broader supply chain role; do not name a specific title</td>
 </tr>
 <tr>
-<td>Strengths and weaknesses</td>
-<td>Strength tied to the role (analytical rigour, follow-through); a real weakness plus what you are doing about it</td>
+<td data-label="Question">Strengths and weaknesses</td>
+<td data-label="Frame for your answer">Strength tied to the role (analytical rigour, follow-through); a real weakness plus what you are doing about it</td>
 </tr>
 <tr>
-<td>Salary expectation</td>
-<td>Give a researched range linked to your current package and the scope of the role, and say you are open to discussing the full package</td>
+<td data-label="Question">Salary expectation</td>
+<td data-label="Frame for your answer">Give a researched range linked to your current package and the scope of the role, and say you are open to discussing the full package</td>
 </tr>
 <tr>
-<td>Notice period and relocation</td>
-<td>Be clear and truthful about both</td>
+<td data-label="Question">Notice period and relocation</td>
+<td data-label="Frame for your answer">Be clear and truthful about both</td>
 </tr>
 </tbody>
 </table></div>
@@ -1365,7 +1586,7 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 <li>Quantify wherever you can, and name the trade-off you are making.</li>
 <li>Never run down a previous employer or team.</li>
 </ul>
-<div class="sec-foot"><button type="button" class="revise" data-sec="behavioural" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#tools">Previous: Tools</a><button type="button" class="revise" data-sec="behavioural" aria-pressed="false">Mark as revised</button><a class="navlink" href="#final">Next: Checklist and intro</a></div>
 </section>
 <section class="sec shared" id="final" aria-labelledby="final-h">
 <h2 id="final-h">Tonight&#x27;s checklist and your introduction</h2>
@@ -1388,11 +1609,49 @@ TCO  = Unit price + freight and duties + payment-terms cost + rejection or rewor
 <li><strong>Numbers:</strong> give a metric, a target or a range with every answer.</li>
 <li><strong>Trade-off:</strong> state what you are giving up (service, cost or cash) and why that is the right call.</li>
 </ol>
-<div class="sec-foot"><button type="button" class="revise" data-sec="final" aria-pressed="false">Mark as revised</button></div>
+<div class="sec-foot"><a class="navlink" href="#behavioural">Previous: Behavioural and HR</a><button type="button" class="revise" data-sec="final" aria-pressed="false">Mark as revised</button><a class="navlink disabled" aria-hidden="true" tabindex="-1">&nbsp;</a></div>
 </section>
     </main>
   </div>
 </div>
+
+<div class="settings" id="settings" role="dialog" aria-label="Display settings">
+  <h2>Display</h2>
+  <div class="row"><p class="lab">Theme</p>
+    <div class="seg" role="group" aria-label="Theme">
+      <button type="button" data-theme-set="auto">Auto</button>
+      <button type="button" data-theme-set="light">Light</button>
+      <button type="button" data-theme-set="dark">Dark</button>
+    </div></div>
+  <div class="row"><p class="lab">Text size</p>
+    <div class="seg" role="group" aria-label="Text size">
+      <button type="button" id="fs-minus" aria-label="Smaller text">A&minus;</button>
+      <button type="button" id="fs-reset" aria-label="Default text size">Default</button>
+      <button type="button" id="fs-plus" aria-label="Larger text">A+</button>
+    </div></div>
+  <div class="row"><button type="button" class="btn" id="reset-progress" style="width:100%">Reset all progress</button></div>
+</div>
+
+<div class="practice" id="practice" role="dialog" aria-modal="true" aria-labelledby="pr-title">
+  <div class="pr-head"><h2 id="pr-title">Practice mode</h2><span class="small" id="pr-stats"></span><button type="button" class="btn" id="pr-close">Close</button></div>
+  <div class="pr-prog"><i id="pr-bar"></i></div>
+  <div class="pr-filters" id="pr-filters" role="group" aria-label="Question filter"></div>
+  <div class="pr-body" id="pr-body"></div>
+  <div class="pr-foot">
+    <div class="pr-row"><button type="button" class="btn primary" id="pr-reveal">Show answer</button></div>
+    <div class="pr-row"><button type="button" class="btn" id="pr-know">Knew it</button><button type="button" class="btn" id="pr-revisit">Revisit</button></div>
+    <div class="pr-row"><button type="button" class="btn" id="pr-prev">Previous</button><button type="button" class="btn" id="pr-flag" aria-pressed="false">Flag</button><button type="button" class="btn" id="pr-next">Next</button></div>
+  </div>
+</div>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top">&uarr;</button>
+
+<nav class="tabbar" aria-label="Quick actions">
+  <button type="button" id="t-sections" aria-controls="rail" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Sections</button>
+  <button type="button" id="t-practice" data-open-practice><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 10h8M8 14h5"/></svg>Practice</button>
+  <button type="button" id="t-flag" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Flagged<span class="badge" data-flagcount>0</span></button>
+  <button type="button" id="t-settings" aria-haspopup="true" aria-expanded="false" aria-controls="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Display</button>
+</nav>
 
 <script>
 (function(){
@@ -1401,16 +1660,17 @@ var $=function(s,r){return (r||document).querySelector(s)};
 var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 var store={
   get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
-  set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  del:function(k){try{localStorage.removeItem(k)}catch(e){}}
 };
+var root=document.documentElement;
 
-/* progress: sections revised */
+/* ---------- sections revised ---------- */
 var secs=$$('.sec'), revised=store.get('bajaj-revised',{});
 function paintRevised(){
   var n=0;
   secs.forEach(function(s){
-    var id=s.id, done=!!revised[id];
-    if(done)n++;
+    var id=s.id, done=!!revised[id]; if(done)n++;
     var b=$('.revise[data-sec="'+id+'"]'); if(b){b.setAttribute('aria-pressed',String(done));b.textContent=done?'Revised. Tap to undo':'Mark as revised';}
     var a=$('.nav a[href="#'+id+'"]'); if(a)a.classList.toggle('done',done);
   });
@@ -1427,13 +1687,15 @@ $$('label.check input').forEach(function(inp,i){
   inp.addEventListener('change',function(){checks[i]=inp.checked;store.set('bajaj-checks',checks);});
 });
 
-/* drawer (mobile) */
-var rail=$('#rail'), menu=$('#menu');
-function setDrawer(o){rail.classList.toggle('open',o);menu.setAttribute('aria-expanded',String(o));}
-menu.addEventListener('click',function(){setDrawer(!rail.classList.contains('open'));});
+/* ---------- drawer ---------- */
+var rail=$('#rail'), tSec=$('#t-sections');
+function setDrawer(o){rail.classList.toggle('open',o);tSec.setAttribute('aria-expanded',String(o));}
+tSec.addEventListener('click',function(e){e.stopPropagation();setDrawer(!rail.classList.contains('open'));});
 $$('#nav a').forEach(function(a){a.addEventListener('click',function(){setDrawer(false);});});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')setDrawer(false);});
-document.addEventListener('click',function(e){if(rail.classList.contains('open')&&!rail.contains(e.target)&&e.target!==menu)setDrawer(false);});
+document.addEventListener('click',function(e){
+  if(rail.classList.contains('open')&&!rail.contains(e.target))setDrawer(false);
+  var st=$('#settings'); if(st.classList.contains('open')&&!st.contains(e.target)&&!e.target.closest('#d-settings,#t-settings'))setSettings(false);
+});
 
 /* scrollspy */
 if('IntersectionObserver' in window){
@@ -1448,25 +1710,91 @@ if('IntersectionObserver' in window){
   secs.forEach(function(s){io.observe(s);});
 }
 
+/* back to top */
+var totop=$('#totop');
+window.addEventListener('scroll',function(){totop.classList.toggle('show',window.scrollY>900);},{passive:true});
+totop.addEventListener('click',function(){window.scrollTo({top:0});});
+
+/* ---------- Q&A: ids, chips, flag and rate ---------- */
+var qas=$$('details.qa');
+var PILLAR={demand:['Planning','plan'],inventory:['Planning','plan'],distribution:['Distribution','dist'],procurement:['Procurement','proc'],sop:['Cross-functional','shared']};
+var rate=store.get('bajaj-rate',{}), flags=store.get('bajaj-flags',{});
+qas.forEach(function(d){
+  var sec=d.closest('.sec'), idx=$$('details.qa',sec).indexOf(d);
+  d.dataset.qid=sec.id+'-'+idx; d.dataset.sec=sec.id;
+  d.dataset.title=d.querySelector('summary').textContent.trim();
+  var t=document.createElement('div'); t.className='qtools';
+  t.innerHTML='<button type="button" data-act="know" aria-pressed="false">I knew it</button><button type="button" data-act="revisit" aria-pressed="false">Revisit</button><button type="button" data-act="flag" aria-pressed="false">Flag for revision</button>';
+  d.querySelector('.qbody').appendChild(t);
+  t.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;act(d.dataset.qid,b.getAttribute('data-act'));});
+});
+function act(id,what){
+  if(what==='flag'){flags[id]=!flags[id];if(!flags[id])delete flags[id];store.set('bajaj-flags',flags);}
+  else{rate[id]=(rate[id]===what)?undefined:what;if(!rate[id])delete rate[id];store.set('bajaj-rate',rate);}
+  repaint();
+}
+function paintQA(d){
+  var id=d.dataset.qid, s=d.querySelector('summary'), old=$('.chips',s); if(old)old.remove();
+  var chips=document.createElement('span'); chips.className='chips';
+  if(flags[id])chips.innerHTML+='<span class="chip flag">Flagged</span>';
+  if(rate[id]==='know')chips.innerHTML+='<span class="chip known">Knew it</span>';
+  if(rate[id]==='revisit')chips.innerHTML+='<span class="chip revisit">Revisit</span>';
+  if(chips.childNodes.length)s.insertBefore(chips,s.firstChild);
+  $$('.qtools button',d).forEach(function(b){
+    var a=b.getAttribute('data-act'), on=a==='flag'?!!flags[id]:rate[id]===a;
+    b.setAttribute('aria-pressed',String(on));
+  });
+}
+function counts(){
+  var k=0,r=0,f=0; qas.forEach(function(d){var id=d.dataset.qid; if(rate[id]==='know')k++; if(rate[id]==='revisit')r++; if(flags[id])f++;});
+  return {know:k,revisit:r,flag:f,total:qas.length};
+}
+function repaint(){
+  qas.forEach(paintQA);
+  var c=counts();
+  $('#qstats').textContent=c.total+' questions: '+c.know+' knew it, '+c.revisit+' to revisit';
+  $$('[data-flagcount]').forEach(function(b){b.textContent=c.flag;});
+  if(flagMode)applyFlagFilter();
+  if(prOpen)prRender(true);
+}
+
+/* flagged-only filter */
+var flagMode=false;
+function applyFlagFilter(){
+  qas.forEach(function(d){
+    var show=!flagMode||!!flags[d.dataset.qid];
+    d.classList.toggle('fhide',!show);
+    if(flagMode&&show)d.open=true;
+  });
+  $('#hits').textContent=flagMode?(counts().flag+' flagged question'+(counts().flag===1?'':'s')+' shown'):'';
+  ['d-flag','t-flag'].forEach(function(id){$('#'+id).setAttribute('aria-pressed',String(flagMode));});
+}
+function toggleFlagMode(){
+  flagMode=!flagMode; applyFlagFilter();
+  if(flagMode&&counts().flag===0)$('#hits').textContent='Nothing flagged yet. Open a question and tap Flag for revision.';
+}
+$('#d-flag').addEventListener('click',toggleFlagMode);
+$('#t-flag').addEventListener('click',toggleFlagMode);
+
 /* expand / collapse */
 var allOpen=false, tgl=$('#toggleall');
 tgl.addEventListener('click',function(){
   allOpen=!allOpen;
-  $$('details.qa').forEach(function(d){d.open=allOpen;});
+  qas.forEach(function(d){d.open=allOpen;});
   tgl.textContent=allOpen?'Collapse all answers':'Expand all answers';
 });
-window.addEventListener('beforeprint',function(){$$('details.qa').forEach(function(d){d.open=true;});});
+window.addEventListener('beforeprint',function(){qas.forEach(function(d){d.open=true;});});
 
-/* search with highlight */
+/* ---------- search ---------- */
 var qInput=$('#q'), hits=$('#hits'), timer=null;
 function clearMarks(){
   $$('mark.hl').forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();});
 }
 function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
-function highlight(root,re){
-  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+function highlight(rootEl,re){
+  var w=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
     if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
-    var p=n.parentNode.nodeName; if(p==='SCRIPT'||p==='STYLE'||p==='TEXTAREA'||p==='OPTION')return NodeFilter.FILTER_REJECT;
+    var p=n.parentNode; if(/^(SCRIPT|STYLE|TEXTAREA|OPTION|BUTTON)$/.test(p.nodeName)||p.closest('.chips,.qtools'))return NodeFilter.FILTER_REJECT;
     return NodeFilter.FILTER_ACCEPT;}});
   var nodes=[],n; while((n=w.nextNode()))nodes.push(n);
   var count=0;
@@ -1485,9 +1813,9 @@ function highlight(root,re){
 }
 function runSearch(){
   var v=qInput.value.trim(); clearMarks();
-  $$('details.qa').forEach(function(d){d.classList.remove('hide');});
+  qas.forEach(function(d){d.classList.remove('hide');});
   $$('#nav a').forEach(function(a){a.classList.remove('dim');});
-  if(v.length<2){hits.textContent='';return;}
+  if(v.length<2){hits.textContent=flagMode?hits.textContent:'';return;}
   var re=new RegExp(esc(v),'gi'), total=0, matchedQ=0;
   secs.forEach(function(s){
     var c=0;
@@ -1505,7 +1833,138 @@ function runSearch(){
   var first=$('mark.hl'); if(first&&first.scrollIntoView)first.scrollIntoView({block:'center',behavior:'smooth'});
 }
 qInput.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(runSearch,200);});
-document.addEventListener('keydown',function(e){if(e.key==='/'&&document.activeElement!==qInput&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.nodeName)){e.preventDefault();qInput.focus();}});
+
+/* ---------- display settings ---------- */
+var settings=$('#settings');
+function setSettings(o){settings.classList.toggle('open',o);['d-settings','t-settings'].forEach(function(id){$('#'+id).setAttribute('aria-expanded',String(o));});}
+['d-settings','t-settings'].forEach(function(id){$('#'+id).addEventListener('click',function(e){e.stopPropagation();setSettings(!settings.classList.contains('open'));});});
+function applyTheme(t){
+  if(t==='light'||t==='dark')root.setAttribute('data-theme',t);else root.removeAttribute('data-theme');
+  $$('[data-theme-set]').forEach(function(b){b.setAttribute('aria-pressed',String((b.getAttribute('data-theme-set')||'auto')===(t||'auto')));});
+  var m=$('meta[name=theme-color]'); if(m){m.setAttribute('content',getComputedStyle(document.body).backgroundColor);}
+}
+$$('[data-theme-set]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-theme-set');store.set('bajaj-theme',t);applyTheme(t);});});
+applyTheme(store.get('bajaj-theme','auto'));
+var fs=store.get('bajaj-fs',null);
+function applyFs(n){if(n){root.style.setProperty('--fs',n+'px');}else{root.style.removeProperty('--fs');}}
+function bumpFs(d){var cur=fs||parseFloat(getComputedStyle(document.body).fontSize)||17;fs=Math.max(14,Math.min(24,Math.round(cur+d)));store.set('bajaj-fs',fs);applyFs(fs);}
+applyFs(fs);
+$('#fs-plus').addEventListener('click',function(){bumpFs(1);});
+$('#fs-minus').addEventListener('click',function(){bumpFs(-1);});
+$('#fs-reset').addEventListener('click',function(){fs=null;store.del('bajaj-fs');applyFs(null);});
+$('#reset-progress').addEventListener('click',function(){
+  if(window.confirm('Clear revised sections, ratings, flags and checklist ticks on this device?')){
+    ['bajaj-revised','bajaj-rate','bajaj-flags','bajaj-checks'].forEach(store.del);
+    revised={};rate={};flags={};checks={};$$('label.check input').forEach(function(i){i.checked=false;});
+    paintRevised();repaint();setSettings(false);
+  }
+});
+
+/* ---------- practice mode ---------- */
+var pr=$('#practice'), prOpen=false, prFilter='all', prShuffle=false, prDeck=[], prI=0, prShown=false, prTimerId=null, prLeft=120;
+var FILTERS=[['all','All'],['plan','Planning'],['dist','Distribution'],['proc','Procurement'],['shared','Cross-functional'],['unseen','Unseen'],['revisit','To revisit'],['flagged','Flagged'],['shuffle','Shuffle']];
+function inFilter(d){
+  var id=d.dataset.qid, cls=(PILLAR[d.dataset.sec]||['','shared'])[1];
+  switch(prFilter){
+    case 'plan':case 'dist':case 'proc':case 'shared':return cls===prFilter;
+    case 'unseen':return !rate[id];
+    case 'revisit':return rate[id]==='revisit';
+    case 'flagged':return !!flags[id];
+    default:return true;
+  }
+}
+function buildDeck(keepId){
+  var cur=prDeck[prI]?prDeck[prI].dataset.qid:null;
+  prDeck=qas.filter(inFilter);
+  if(prShuffle&&!keepId){for(var i=prDeck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=prDeck[i];prDeck[i]=prDeck[j];prDeck[j]=t;}}
+  if(keepId&&cur){var k=prDeck.findIndex(function(d){return d.dataset.qid===cur;});prI=k>=0?k:Math.min(prI,Math.max(prDeck.length-1,0));}
+  else prI=0;
+}
+function prFilterBar(){
+  var bar=$('#pr-filters'); bar.innerHTML='';
+  FILTERS.forEach(function(f){
+    var b=document.createElement('button'); b.type='button'; b.textContent=f[1];
+    var on=f[0]==='shuffle'?prShuffle:prFilter===f[0]; b.setAttribute('aria-pressed',String(on));
+    b.addEventListener('click',function(){
+      if(f[0]==='shuffle'){prShuffle=!prShuffle;buildDeck(false);}else{prFilter=f[0];buildDeck(false);}
+      prShown=false;prTimerReset();prFilterBar();prRender();
+    });
+    bar.appendChild(b);
+  });
+}
+function fmtTime(s){var m=Math.floor(Math.abs(s)/60),x=Math.abs(s)%60;return (s<0?'+':'')+m+':'+(x<10?'0':'')+x;}
+function prTimerReset(){clearInterval(prTimerId);prTimerId=null;prLeft=120;var t=$('#pr-time');if(t){t.textContent=fmtTime(prLeft);t.classList.remove('over');}var b=$('#pr-tstart');if(b)b.textContent='Start 2-minute timer';}
+function prTimerToggle(){
+  var t=$('#pr-time'), b=$('#pr-tstart');
+  if(prTimerId){clearInterval(prTimerId);prTimerId=null;b.textContent='Resume timer';return;}
+  b.textContent='Pause timer';
+  prTimerId=setInterval(function(){prLeft--;t.textContent=fmtTime(prLeft);t.classList.toggle('over',prLeft<0);},1000);
+}
+function prRender(keep){
+  var body=$('#pr-body'), c=counts();
+  $('#pr-stats').textContent=c.know+' knew it, '+c.revisit+' to revisit';
+  if(!prDeck.length){body.innerHTML='<p class="pr-empty">No questions match this filter. Pick another one above.</p>';$('#pr-bar').style.width='0';setFoot(false);return;}
+  var d=prDeck[prI], id=d.dataset.qid, pl=PILLAR[d.dataset.sec]||['','shared'];
+  var clone=d.querySelector('.qbody').cloneNode(true);
+  $$('.qtools',clone).forEach(function(n){n.remove();});
+  $$('mark.hl',clone).forEach(function(m){m.replaceWith(document.createTextNode(m.textContent));});
+  var title=d.dataset.title, quoted=/^Scenario/.test(title);
+  var statusTxt=(flags[id]?'Flagged. ':'')+(rate[id]==='know'?'Marked as knew it.':(rate[id]==='revisit'?'Marked to revisit.':''));
+  var html='<div class="pr-meta"><span>'+pl[0]+' &middot; question '+(prI+1)+' of '+prDeck.length+'</span><span>'+statusTxt+'</span></div>'
+    +'<h3 class="pr-q">'+title.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</h3>'
+    +'<div class="pr-timer"><span class="pr-time" id="pr-time" aria-live="off">'+fmtTime(prLeft)+'</span><button type="button" class="btn" id="pr-tstart">'+(prTimerId?'Pause timer':'Start 2-minute timer')+'</button><button type="button" class="btn" id="pr-treset">Reset</button></div>';
+  if(prShown){html+='<div class="pr-ans '+pl[1]+'">'+clone.innerHTML+'</div>';}
+  else{html+='<p class="pr-hint">Answer aloud first, then tap Show answer.</p>';}
+  body.innerHTML=html; body.scrollTop=0;
+  $('#pr-tstart').addEventListener('click',prTimerToggle);
+  $('#pr-treset').addEventListener('click',prTimerReset);
+  $('#pr-bar').style.width=(100*(prI+1)/prDeck.length)+'%';
+  setFoot(true);
+}
+function setFoot(has){
+  $('#pr-reveal').textContent=prShown?'Hide answer':'Show answer';
+  ['pr-reveal','pr-know','pr-revisit','pr-prev','pr-next','pr-flag'].forEach(function(id){$('#'+id).disabled=!has;});
+  var d=prDeck[prI]; $('#pr-flag').setAttribute('aria-pressed',String(!!(d&&flags[d.dataset.qid])));
+  $('#pr-know').setAttribute('aria-pressed',String(!!(d&&rate[d.dataset.qid]==='know')));
+  $('#pr-revisit').setAttribute('aria-pressed',String(!!(d&&rate[d.dataset.qid]==='revisit')));
+}
+function prGo(delta){if(!prDeck.length)return;prI=(prI+delta+prDeck.length)%prDeck.length;prShown=false;prTimerReset();prRender();}
+function prOpenFn(){
+  prOpen=true; pr.classList.add('open'); document.body.style.overflow='hidden';
+  prFilter='all'; prShuffle=false; buildDeck(false); prShown=false; prTimerReset(); prFilterBar(); prRender();
+  $('#pr-close').focus();
+}
+function prClose(){prOpen=false;pr.classList.remove('open');document.body.style.overflow='';clearInterval(prTimerId);prTimerId=null;}
+$$('[data-open-practice]').forEach(function(b){b.addEventListener('click',prOpenFn);});
+$('#pr-close').addEventListener('click',prClose);
+$('#pr-reveal').addEventListener('click',function(){prShown=!prShown;prRender(true);});
+$('#pr-next').addEventListener('click',function(){prGo(1);});
+$('#pr-prev').addEventListener('click',function(){prGo(-1);});
+$('#pr-flag').addEventListener('click',function(){if(prDeck[prI])act(prDeck[prI].dataset.qid,'flag');});
+$('#pr-know').addEventListener('click',function(){if(!prDeck[prI])return;var id=prDeck[prI].dataset.qid;rate[id]='know';store.set('bajaj-rate',rate);repaint();if(prDeck.length>1)prGo(1);});
+$('#pr-revisit').addEventListener('click',function(){if(!prDeck[prI])return;var id=prDeck[prI].dataset.qid;rate[id]='revisit';store.set('bajaj-rate',rate);repaint();if(prDeck.length>1)prGo(1);});
+
+/* keyboard */
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement&&document.activeElement.nodeName;
+  if(prOpen){
+    if(e.key==='Escape'){prClose();return;}
+    if(/INPUT|TEXTAREA|SELECT/.test(tag))return;
+    if(e.key==='ArrowRight'){prGo(1);}
+    else if(e.key==='ArrowLeft'){prGo(-1);}
+    else if(e.key===' '&&tag!=='BUTTON'){e.preventDefault();prShown=!prShown;prRender(true);}
+    else if(e.key==='k'){$('#pr-know').click();}
+    else if(e.key==='r'){$('#pr-revisit').click();}
+    else if(e.key==='f'){$('#pr-flag').click();}
+    return;
+  }
+  if(e.key==='Escape'){setDrawer(false);setSettings(false);return;}
+  if(/INPUT|TEXTAREA|SELECT/.test(tag))return;
+  if(e.key==='/'){e.preventDefault();qInput.focus();}
+  else if(e.key==='p'){prOpenFn();}
+});
+
+repaint();
 
 /* ---------- tools ---------- */
 function num(id){var v=parseFloat($('#'+id).value);return isFinite(v)?v:0;}
@@ -1556,7 +2015,7 @@ var faDefault=[['SKU A',100,90],['SKU B',200,230],['SKU C',50,40],['SKU D',150,1
 var faBody=$('#fa-body');
 function faRow(name,a,f){
   var tr=document.createElement('tr');
-  tr.innerHTML='<td><input type="text" value="'+name+'" aria-label="SKU name"></td><td><input type="number" min="0" step="1" value="'+a+'" aria-label="Actual"></td><td><input type="number" min="0" step="1" value="'+f+'" aria-label="Forecast"></td><td class="ae">0</td><td class="pe">0%</td><td><button type="button" aria-label="Remove row">&times;</button></td>';
+  tr.innerHTML='<td><input type="text" value="'+name+'" aria-label="SKU name"></td><td><input type="number" inputmode="decimal" min="0" step="1" value="'+a+'" aria-label="Actual"></td><td><input type="number" inputmode="decimal" min="0" step="1" value="'+f+'" aria-label="Forecast"></td><td class="ae">0</td><td class="pe">0%</td><td><button type="button" aria-label="Remove row">&times;</button></td>';
   tr.querySelectorAll('input').forEach(function(i){i.addEventListener('input',faCalc);});
   tr.querySelector('button').addEventListener('click',function(){tr.remove();faCalc();});
   faBody.appendChild(tr);
@@ -1583,10 +2042,10 @@ faReset();
 
 /* supplier TCO */
 function tcoCalc(){
-  var rate=num('t-rate')/100, out={};
+  var rate2=num('t-rate')/100, out={};
   ['a','b'].forEach(function(s){
     var p=num(s+'-p'),f=num(s+'-f'),r=Math.min(num(s+'-r')/100,0.99),d=num(s+'-d');
-    var base=(p+f)/(1-r), net=base-(p+f)*rate*d/365;
+    var base=(p+f)/(1-r), net=base-(p+f)*rate2*d/365;
     out[s]={base:base,net:net,quote:p};
   });
   $('#t-a1').textContent=inr(out.a.base,2); $('#t-b1').textContent=inr(out.b.base,2);
