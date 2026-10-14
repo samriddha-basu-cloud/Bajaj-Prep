@@ -1,0 +1,1605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bajaj interview prep</title>
+<meta name="description" content="Placement readiness pack for Bajaj: demand and inventory planning, distribution and procurement, with definitions, formulas, examples, scenario answers and calculators.">
+<style>
+:root{
+  --paper:#EDF0EF; --card:#FFFFFF; --ink:#14181C; --muted:#55616A; --rule:#CCD4D6;
+  --tag:#FFC21A; --tag-soft:#FFF3C4; --code:#F3F6F6; --focus:#2355C2;
+  --plan:#0B6B66; --dist:#2355C2; --proc:#9A540F; --shared:#14181C;
+  --head:"Bahnschrift","DIN Alternate","Franklin Gothic Medium","Arial Narrow",system-ui,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#0F1316; --card:#171C20; --ink:#E7ECEE; --muted:#9AA6AD; --rule:#2A343A;
+    --tag-soft:#2B2410; --code:#1D2328; --focus:#86A9FF;
+    --plan:#4DC2BB; --dist:#86A9FF; --proc:#EBA85E; --shared:#E7ECEE;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 var(--body);-webkit-text-size-adjust:100%}
+a{color:var(--dist)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* layout */
+.shell{display:grid;grid-template-columns:276px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--card);border-right:1px solid var(--rule);padding:22px 18px 28px;z-index:30}
+.main{min-width:0}
+.content{max-width:920px;margin:0 auto;padding:0 28px 90px}
+
+/* rail */
+.brand{font:700 24px/1.1 var(--head);letter-spacing:-.01em;margin:0 0 4px}
+.brand-sub{margin:0 0 18px;color:var(--muted);font-size:14px}
+.progress{margin:0 0 20px}
+.progress p{margin:0 0 6px;font-size:13.5px;color:var(--muted)}
+.bar{height:8px;background:var(--rule);border-radius:4px;overflow:hidden}
+#pbar{height:100%;width:0;background:var(--tag);transition:width .3s}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav .grp{margin:16px 0 4px;font:600 13px/1.2 var(--body);color:var(--muted)}
+.nav a{display:flex;justify-content:space-between;gap:8px;padding:7px 10px;border-left:4px solid transparent;color:var(--ink);text-decoration:none;font-size:15.5px;border-radius:0 4px 4px 0}
+.nav a:hover{background:var(--code)}
+.nav a[aria-current="true"]{border-left-color:var(--tag);background:var(--code);font-weight:650}
+.nav a.done::after{content:"\2713";color:var(--plan);font-weight:700}
+.nav a.dim{opacity:.35}
+.nav a .cnt{color:var(--muted);font-size:12.5px;align-self:center}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;padding:10px 28px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+.menu{display:none}
+.topbar input[type=search]{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:15.5px}
+.topbar button,.menu,.tool button,.revise{font:600 14.5px var(--body);padding:9px 14px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:6px;cursor:pointer}
+.topbar button:hover,.tool button:hover,.revise:hover{background:var(--tag);border-color:var(--ink);color:#14181C}
+#hits{font-size:13.5px;color:var(--muted);white-space:nowrap}
+
+/* hero */
+.hero{padding:44px 0 8px}
+.hero h1{font:700 clamp(32px,5vw,52px)/1.05 var(--head);letter-spacing:-.015em;margin:0 0 14px;max-width:18ch}
+.hero p{margin:0;max-width:60ch;color:var(--muted);font-size:18px}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0 8px}
+.pillar{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--rule);border-top:8px solid var(--pc);border-radius:6px;padding:14px 16px 16px}
+.pillar:hover{border-color:var(--pc)}
+.pillar b{display:block;font:700 20px/1.2 var(--head);margin-bottom:4px}
+.pillar span{display:block;font-size:14.5px;color:var(--muted)}
+.plan{--pc:var(--plan)} .dist{--pc:var(--dist)} .proc{--pc:var(--proc)} .shared{--pc:var(--shared)}
+
+/* sections */
+.sec{padding-top:56px;scroll-margin-top:56px}
+.sec>h2{font:700 clamp(28px,3.4vw,38px)/1.1 var(--head);letter-spacing:-.01em;margin:0 0 18px;padding-left:16px;border-left:10px solid var(--pc)}
+.sec h3{font:700 23px/1.2 var(--head);margin:36px 0 10px}
+.sec h4{font:700 18px/1.25 var(--head);margin:22px 0 6px}
+.sec p,.sec ul,.sec ol{max-width:70ch}
+.sec li{margin:4px 0}
+.sec li>ul,.sec li>ol{margin:6px 0}
+blockquote{margin:12px 0;padding:8px 16px;border-left:4px solid var(--tag);background:var(--code);border-radius:0 6px 6px 0;font-style:italic;max-width:72ch}
+blockquote p{margin:6px 0}
+.tablewrap{overflow-x:auto;margin:14px 0 20px;border:1px solid var(--rule);border-radius:6px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.5}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--code);border-bottom:3px solid var(--pc);font-weight:650;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+table td{min-width:120px}
+pre.formula{margin:14px 0 18px;padding:14px 16px;background:var(--code);border:1px solid var(--rule);border-left:6px solid var(--pc);border-radius:0 6px 6px 0;overflow-x:auto;font:15px/1.8 var(--mono);max-width:100%}
+pre.formula code{font:inherit}
+code{font:.92em var(--mono);background:var(--code);padding:1px 5px;border-radius:3px}
+.note{margin:22px 0;padding:14px 18px;background:var(--tag-soft);border:1px solid var(--tag);border-left-width:8px;border-radius:6px;max-width:76ch}
+.note p{margin:6px 0}
+
+/* qa */
+details.qa{background:var(--card);border:1px solid var(--rule);border-left:8px solid var(--pc);border-radius:6px;margin:12px 0;max-width:820px}
+details.qa>summary{list-style:none;cursor:pointer;padding:14px 52px 14px 18px;font-weight:650;position:relative}
+details.qa>summary::-webkit-details-marker{display:none}
+details.qa>summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:28px;height:28px;display:grid;place-items:center;font:700 20px/1 var(--body);background:var(--tag);color:#14181C;border-radius:50%}
+details.qa[open]>summary::after{content:"\2212"}
+details.qa[open]>summary{border-bottom:1px solid var(--rule)}
+.qbody{padding:6px 18px 16px}
+.qbody p{margin:10px 0}
+details.qa.hide{display:none}
+mark{background:var(--tag);color:#14181C;padding:0 2px;border-radius:2px}
+
+/* footer of section */
+.sec-foot{margin-top:30px;display:flex;justify-content:flex-end}
+.revise[aria-pressed="true"]{background:var(--tag);color:#14181C}
+label.check{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;margin:6px 0;background:var(--card);border:1px solid var(--rule);border-radius:6px;max-width:76ch;cursor:pointer}
+label.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--plan);flex:none}
+label.check input:checked+span{text-decoration:line-through;color:var(--muted)}
+
+/* tools */
+.tool{background:var(--card);border:1px solid var(--rule);border-top:8px solid var(--tag);border-radius:6px;padding:6px 20px 20px;margin:26px 0}
+.tool h3{margin-top:16px}
+.tool-lead{color:var(--muted);margin-top:0}
+.tool-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:22px}
+.inputs label,fieldset label{display:block;font-size:14.5px;margin:0 0 12px;color:var(--muted)}
+.inputs input,.inputs select,fieldset input,.fa-table input{display:block;width:100%;margin-top:4px;padding:9px 10px;font:600 16px var(--body);border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
+.readouts>div{background:var(--code);border-radius:6px;padding:10px 12px}
+.readouts .key{background:var(--tag-soft);border:1px solid var(--tag)}
+.readouts dt{font-size:13px;color:var(--muted);line-height:1.3}
+.readouts dd{margin:2px 0 0;font:700 22px/1.2 var(--head)}
+.readouts.compact{grid-template-columns:repeat(4,1fr);margin-top:16px}
+.insight{margin:14px 0 0;font-weight:600;max-width:none!important}
+.formula-line{font:14.5px var(--mono);color:var(--muted);margin:16px 0 0;max-width:none!important}
+.tool-actions{display:flex;gap:8px;margin:12px 0}
+.tco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+fieldset{border:1px solid var(--rule);border-radius:6px;margin:0;padding:6px 14px 6px}
+legend{font:700 17px var(--head);padding:0 6px}
+.fa-table input{margin:0;padding:6px 8px;min-width:76px}
+.fa-table td:first-child{min-width:110px}
+.fa-table button{padding:5px 9px}
+.small{font-size:14px;color:var(--muted);max-width:none!important}
+
+/* responsive */
+@media (max-width:960px){
+  .shell{display:block}
+  .rail{position:fixed;inset:0 auto 0 0;width:min(86vw,320px);transform:translateX(-102%);transition:transform .2s;box-shadow:0 0 0 100vmax transparent}
+  .rail.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
+  .menu{display:inline-block}
+  .content{padding:0 18px 80px}
+  .topbar{padding:10px 18px}
+  .pillars{grid-template-columns:1fr}
+  .tool-grid,.tco-grid{grid-template-columns:1fr}
+  .readouts.compact{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){#hits{display:none}.topbar #toggleall{display:none}}
+
+@media print{
+  .rail,.topbar,.sec-foot,.presets,.tool-actions{display:none!important}
+  .shell{display:block} body{background:#fff;color:#000;font-size:11pt}
+  details.qa>.qbody{display:block!important} details.qa>summary::after{display:none}
+  .sec{break-inside:auto;padding-top:24px}
+  .tool{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Sections">
+    <p class="brand">Bajaj interview prep</p>
+    <p class="brand-sub">Planning, distribution, procurement</p>
+    <div class="progress"><p id="pcount">0 of 0 sections revised</p><div class="bar"><div id="pbar"></div></div></div>
+    <div class="nav" id="nav">
+      <div class="grp">Orientation</div>
+      <a href="#start"><span>Start here</span></a>
+      <a href="#company"><span>Company snapshot</span></a>
+      <div class="grp">Planning</div>
+      <a href="#demand"><span>Demand planning</span><span class="cnt">9 Q&amp;A</span></a>
+      <a href="#inventory"><span>Inventory planning</span><span class="cnt">7 Q&amp;A</span></a>
+      <div class="grp">Distribution</div>
+      <a href="#distribution"><span>Distribution</span><span class="cnt">10 Q&amp;A</span></a>
+      <div class="grp">Procurement</div>
+      <a href="#procurement"><span>Procurement</span><span class="cnt">12 Q&amp;A</span></a>
+      <div class="grp">Across functions</div>
+      <a href="#sop"><span>S&amp;OP and KPIs</span><span class="cnt">5 Q&amp;A</span></a>
+      <a href="#tools"><span>Tools</span></a>
+      <div class="grp">Interview day</div>
+      <a href="#behavioural"><span>Behavioural and HR</span></a>
+      <a href="#final"><span>Checklist and intro</span></a>
+    </div>
+  </nav>
+  <div class="main">
+    <div class="topbar">
+      <button class="menu" id="menu" type="button" aria-controls="rail" aria-expanded="false">Sections</button>
+      <input id="q" type="search" placeholder="Search terms and questions" aria-label="Search terms and questions" autocomplete="off">
+      <span id="hits" aria-live="polite"></span>
+      <button id="toggleall" type="button">Expand all answers</button>
+    </div>
+    <main class="content">
+<header class="hero">
+<h1>Bajaj interview prep</h1>
+<p>Definitions, formulas, worked examples and scenario answers for planning, distribution and procurement roles, with calculators to practise on. Interview: 15 October.</p>
+<div class="pillars">
+<a class="pillar plan" href="#demand"><b>Demand and inventory planning</b><span>Forecast accuracy, safety stock, S&amp;OP, working capital. 16 scenario answers.</span></a>
+<a class="pillar dist" href="#distribution"><b>Distribution</b><span>GT, MT and e-commerce logistics, OTIF, freight cost. 10 scenario answers.</span></a>
+<a class="pillar proc" href="#procurement"><b>Procurement</b><span>Strategic sourcing, TCO, negotiation, supplier risk. 12 scenario answers.</span></a>
+</div>
+</header>
+<section class="sec shared" id="start" aria-labelledby="start-h">
+<h2 id="start-h">Start here</h2>
+<p>This site gathers your whole placement readiness pack for the Bajaj interview across <strong>demand and inventory planning</strong>, <strong>multi-channel distribution</strong> (GT, MT, e-commerce) and <strong>strategic raw-material procurement</strong>. It merges both tabs of your doc: the FMCG-focused pack (Bajaj Consumer Care) and the appliances-and-advanced pack (Bajaj Electricals), and adds calculators for the formulas.</p>
+<aside class="note"><p><strong>Which Bajaj?</strong> The job description (GT, MT, e-commerce, RM sourcing) fits both Bajaj Consumer Care (hair and skin care such as Almond Drops) and Bajaj Electricals (fans, coolers, lighting, appliances, Morphy Richards). Confirm with the recruiter or the interview invite; if you cannot, give examples from both and say you are adapting the principle to their products.</p></aside>
+<h3>How to use this site tonight</h3>
+<ul>
+<li>Work in the order below; budget about 90 minutes, then sleep.</li>
+<li>Tap a question to reveal its model answer; try answering aloud first.</li>
+<li>Use the <strong>Tools</strong> section to practise the formulas with your own numbers.</li>
+<li>Tick <strong>Mark as revised</strong> at the end of each section to track progress; it is saved in this browser.</li>
+<li>Tap <strong>Expand all</strong> in the top bar to read everything in one go, or use search to find a term.</li>
+</ul>
+<h3>Which sections to prioritise by role</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>If your role is</th>
+<th>Read first</th>
+<th>Then</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Demand or inventory planning</td>
+<td>Demand planning, Inventory planning</td>
+<td>S&amp;OP and KPIs, Tools, Behavioural</td>
+</tr>
+<tr>
+<td>Distribution</td>
+<td>Distribution, Inventory planning</td>
+<td>S&amp;OP and KPIs, Company snapshot, Behavioural</td>
+</tr>
+<tr>
+<td>Procurement (RM sourcing)</td>
+<td>Procurement, Inventory planning</td>
+<td>S&amp;OP and KPIs, Tools (TCO), Behavioural</td>
+</tr>
+</tbody>
+</table></div>
+<h3>The four-step frame for any scenario answer</h3>
+<ol>
+<li><strong>Diagnose:</strong> say what exactly is wrong and which metric shows it.</li>
+<li><strong>Quantify:</strong> state the effect in money, units or service.</li>
+<li><strong>Act:</strong> name the fix, the owner and the timeline.</li>
+<li><strong>Prevent:</strong> change a process or KPI so it does not recur.</li>
+</ol>
+<p>Name the trade-off in every answer: <strong>service</strong>, <strong>cost</strong> or <strong>cash</strong>, and which one you are giving up.</p>
+<div class="sec-foot"><button type="button" class="revise" data-sec="start" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec shared" id="company" aria-labelledby="company-h">
+<h2 id="company-h">Company snapshot</h2>
+<p>Bajaj Consumer Care sells hair and skin care across GT, modern trade (MT), e-commerce and exports, so all three roles touch every channel. Figures below come from its investor decks and calls up to Q3 FY25; check the latest quarterly results tonight.</p>
+<ul>
+<li><strong>Portfolio:</strong> hair oils led by Bajaj Almond Drops and Bajaj 100% Pure Coconut Oil; skin care; an ethnic range (henna, gulabjal); digital-first brands Natyv Soul and Bajaj 100% Pure.</li>
+<li><strong>Where coconut oil is strong:</strong> Punjab, Rajasthan, MP and UP, with share gains pushed in Maharashtra and the South.</li>
+<li><strong>Channel signals (Q3 FY25):</strong> e-commerce grew 39% YoY; quick commerce grew 72% YoY and was about 10% of e-commerce; organised trade grew 22%; GT declined by a single digit; consolidated sales fell 2.4%.</li>
+<li><strong>Strategic moves:</strong> Project Aarohan (more direct reach in UP and MP); the Banjara's acquisition (South India, naturals); channel-specific packs (650 ml and 750 ml for MT and e-com, 700 ml and 300 ml for GT).</li>
+<li><strong>Likely raw and packing materials (inference, confirm in the interview):</strong> copra or coconut oil, light liquid paraffin, almond oil, fragrances, PET and HDPE bottles, cartons and shippers.</li>
+</ul>
+<aside class="note"><p><strong>Why this matters for you:</strong> pack-by-channel architecture means forecasts must be built per channel; quick commerce needs faster replenishment than GT; coconut oil is commodity-linked, so procurement and pricing are tightly coupled.</p></aside>
+<h3>If the role is at Bajaj Electricals</h3>
+<p>Your second tab frames the business as appliances, fans, lighting and Morphy Richards. The same logic applies with different materials and seasons:</p>
+<ul>
+<li><strong>Seasonality:</strong> pre-summer build for coolers and fans (production buildup in January to March, demand in April onward), winter peak for water heaters, festive peak for kitchen appliances.</li>
+<li><strong>Typical raw materials:</strong> copper winding wire, CRNGO electrical steel, aluminium ingots, ABS and PP engineering plastics, PCBs; RM is usually 60 to 70% of COGS.</li>
+<li><strong>Channels:</strong> local electrical hardware shops (GT), Reliance Digital and Croma (MT), Amazon, Flipkart and quick-commerce dark stores.</li>
+</ul>
+<p><strong>Sources:</strong> <a href="https://www.bajajconsumercare.com/pdf/investors/investors_presentation/Investors_Presentation_Q3_2024-25.pdf" target="_blank" rel="noopener">Q3 FY25 investor presentation</a>, <a href="https://www.gurufocus.com/stock/NSE:BAJAJCON/transcripts/2700277" target="_blank" rel="noopener">Q3 FY25 call summary</a>, <a href="https://nsearchives.nseindia.com/corporate/BAJAJCON_09082024155230_Exchanges_Investor_Presentation.pdf" target="_blank" rel="noopener">Q1 FY25 investor presentation</a></p>
+<div class="sec-foot"><button type="button" class="revise" data-sec="company" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec plan" id="demand" aria-labelledby="demand-h">
+<h2 id="demand-h">Demand planning</h2>
+<p>Demand planning turns history, market signals and commercial plans into one agreed forecast per SKU, channel and region, which supply then converts into production and purchase plans. In a high-SKU consumer business it is the bridge between commercial ambition and manufacturing reality: show that you treat forecasting as a <strong>working capital and service-level lever</strong>, not a maths exercise.</p>
+<h3>Core definitions</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>FMCG example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline demand</td>
+<td>Underlying demand without promotions or one-offs</td>
+<td>Monthly offtake of a 200 ml coconut oil bottle in normal weeks</td>
+</tr>
+<tr>
+<td>Promotional uplift</td>
+<td>Extra demand caused by a scheme, discount or event</td>
+<td>Combo offer on e-com during the Diwali sale</td>
+</tr>
+<tr>
+<td>Statistical forecast</td>
+<td>Model output from history (moving average, exponential smoothing, Holt-Winters, ARIMA, regression)</td>
+<td>Holt-Winters on 36 months of sell-in</td>
+</tr>
+<tr>
+<td>Consensus forecast</td>
+<td>Statistical forecast plus Sales, Marketing and Finance inputs, agreed in the demand review</td>
+<td>Sales adds a new MT chain listing</td>
+</tr>
+<tr>
+<td>Sell-in vs sell-out</td>
+<td>Sell-in = company to distributor or retailer; sell-out = retailer to consumer</td>
+<td>Distributor loads stock before a price rise: sell-in rises, sell-out does not</td>
+</tr>
+<tr>
+<td>Forecast accuracy</td>
+<td>1 minus WMAPE; how close forecast was to actual</td>
+<td>88% at SKU-month level</td>
+</tr>
+<tr>
+<td>Bias</td>
+<td>Persistent over- or under-forecast</td>
+<td>Sales always forecasts 10% high</td>
+</tr>
+<tr>
+<td>Forecast Value Add (FVA)</td>
+<td>Does each step (stat model, sales override) improve accuracy versus a naive forecast</td>
+<td>Sales overrides lowered accuracy by 4 points, so cut them</td>
+</tr>
+<tr>
+<td>Cannibalisation</td>
+<td>A new or promoted item takes volume from a sibling</td>
+<td>New 650 ml pack eats into 500 ml sales in MT</td>
+</tr>
+<tr>
+<td>Demand sensing</td>
+<td>Short-horizon adjustment using latest sell-out, orders and POS data</td>
+<td>Quick-commerce dark-store sales adjusting next week's plan</td>
+</tr>
+<tr>
+<td>Bullwhip effect</td>
+<td>Small consumer demand swings amplify as you move up the chain</td>
+<td>Retailer panic orders cause factory overproduction</td>
+</tr>
+<tr>
+<td>ABC-XYZ segmentation</td>
+<td>ABC = value contribution; XYZ = demand variability (X stable, Z erratic)</td>
+<td>AX items get tight statistical forecasts; CZ items get make-to-order or review rules</td>
+</tr>
+<tr>
+<td>Frozen or time-fence horizon</td>
+<td>Period in which the plan is locked except by approval</td>
+<td>Next 2 weeks locked to protect production schedule</td>
+</tr>
+<tr>
+<td>Hierarchical forecasting</td>
+<td>Forecast at one level (family) and split down, or build up from SKU-channel</td>
+<td>Forecast brand by channel, allocate to pack sizes by mix</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Metrics and formulas</h3>
+<pre class="formula"><code>MAPE      = (1/n) × Σ |A − F| / A × 100
+WMAPE     = Σ |A − F| / Σ A
+Bias      = Σ (F − A) / Σ A
+Accuracy  = 1 − WMAPE
+</code></pre>
+<p><strong>Worked example (four SKUs, units in thousands)</strong></p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>SKU</th>
+<th>Actual</th>
+<th>Forecast</th>
+<th>Absolute error</th>
+<th>Error vs actual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>100</td>
+<td>90</td>
+<td>10</td>
+<td>10.0%</td>
+</tr>
+<tr>
+<td>B</td>
+<td>200</td>
+<td>230</td>
+<td>30</td>
+<td>15.0%</td>
+</tr>
+<tr>
+<td>C</td>
+<td>50</td>
+<td>40</td>
+<td>10</td>
+<td>20.0%</td>
+</tr>
+<tr>
+<td>D</td>
+<td>150</td>
+<td>160</td>
+<td>10</td>
+<td>6.7%</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>500</td>
+<td>520</td>
+<td>60</td>
+<td>MAPE 12.9%</td>
+</tr>
+</tbody>
+</table></div>
+<p>WMAPE = 60 / 500 = 12%, so accuracy is 88%. Bias = (520 − 500) / 500 = +4%, a mild over-forecast. Say why you prefer WMAPE: plain MAPE lets a small SKU with a big percentage error distort the average, while WMAPE weights by volume. You can try your own numbers in the <strong>Tools</strong> section.</p>
+<h3>Choosing a forecasting approach</h3>
+<ul>
+<li><strong>Stable, seasonal items:</strong> Holt-Winters or seasonal exponential smoothing.</li>
+<li><strong>Items driven by price, promotion or weather:</strong> regression or ML with those drivers as inputs.</li>
+<li><strong>New items:</strong> analogue (like-for-like) forecasting with launch curves, then correct weekly using early sell-out.</li>
+<li><strong>Lumpy, slow items:</strong> Croston-type methods or simple safety-stock rules rather than a heavy model.</li>
+<li><strong>Always:</strong> forecast at the level where signals are cleanest, measure at the level where decisions are made (SKU-channel-depot, 1 to 3 months ahead).</li>
+</ul>
+<h3>Advanced lens: S&amp;OP, accuracy and segmentation</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition and strategic value</th>
+<th>Formula or metric</th>
+<th>Bajaj context example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S&amp;OP / IBP</td>
+<td>Sales and Operations Planning: the monthly cross-functional cadence aligning Sales (commercial forecast), Marketing (promotions), Supply (capacity) and Finance (working capital budget) into one consensus plan</td>
+<td>Consensus demand plan vs constrained supply plan</td>
+<td>Aligning the pre-summer production buildup of air coolers and ceiling fans in Jan to Mar so plant capacity is not overwhelmed when April heatwaves hit</td>
+</tr>
+<tr>
+<td>Forecast accuracy and bias</td>
+<td>Accuracy (MAPE or WAPE) measures the size of error; bias (tracking signal) measures persistent over- or under-forecasting. High positive bias ties up cash in dead stock; negative bias causes lost sales</td>
+<td>WAPE = Σ abs(At − Ft) / Σ At; Bias = Σ (Ft − At) / Σ At</td>
+<td>Sales consistently over-forecasts newly launched IoT smart fans by 20% to secure stock allocation, creating positive bias and warehouse congestion</td>
+</tr>
+<tr>
+<td>ABC-XYZ segmentation</td>
+<td>Matrix of revenue or volume contribution (ABC) and demand volatility, the coefficient of variation (XYZ). It decides which items get statistical auto-replenishment and which get manual planner overrides</td>
+<td>CV = σ(demand) / μ(demand); X: CV &lt; 0.5, Y: 0.5 to 1.0, Z: CV &gt; 1.0</td>
+<td>AX: 1200 mm standard white ceiling fan or 100 ml Almond Drops (steady, high volume). CZ: premium decorative chandelier fan or niche winter skin cream (erratic, low volume)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Scenario questions and model answers</h3>
+<details class="qa"><summary>Q1. A key SKU&#x27;s forecast accuracy in MT fell from 80% to 65% in two months. What do you do?</summary><div class="qbody"><p>First split the error: is it bias (consistently high or low) or noise? Then check the usual suspects in order: unplanned promotions or listings not communicated, stock-outs that suppressed actual demand (use sell-out or order-line data, not just shipments), a price change, a data issue such as a misposted order, and a competitor move. Fix the cause, not the number: for example, add a promotion calendar feed from Sales, clean the history of stock-out periods, and re-run FVA to see whether the sales override is helping. Report the recovery target and date.</p></div></details>
+<details class="qa"><summary>Q2. Sales gives a forecast 20% above the statistical forecast every quarter and misses it. How do you handle it?</summary><div class="qbody"><p>Show the bias with data: three quarters of Sales overrides, their FVA, and the working capital or stock-out cost. Then change the process rather than argue: require a reason code and customer or scheme evidence for any override above a threshold, track override accuracy per salesperson or region, and review it in the monthly demand meeting. Agree that overrides which keep adding value stay, and those that do not are retired.</p></div></details>
+<details class="qa"><summary>Q3. We are launching a 650 ml pack for e-commerce and MT with no history. How do you forecast it?</summary><div class="qbody"><p>Use analogues: the closest existing pack or the earlier launch of a similar size, in the same channel, with its first 8 to 12 week curve. Build the forecast from channel drivers: number of listings or stores, expected rate of sale per listing per week, and planned visibility spend. Decide how much cannibalises the existing size. Start with a conservative first lot and a fast replenishment loop, review weekly against actual sell-out, and re-base after 4 to 6 weeks.</p></div></details>
+<details class="qa"><summary>Q4. Festive e-commerce sale events are running this month. How do you plan for them?</summary><div class="qbody"><p>Build the event as a separate promotional layer on top of baseline: use last year's event uplift by platform and pack, adjust for this year's deal depth and ad spend, and confirm with the e-com team. Agree inventory positions at each platform warehouse before the event, plan the post-event dip (pull-forward) so you do not over-replenish afterwards, and keep a daily review during the event with a pre-agreed rule for emergency replenishment.</p></div></details>
+<details class="qa"><summary>Q5. Coconut oil costs rise sharply and the company takes a price increase. How does this change your forecast?</summary><div class="qbody"><p>Apply price elasticity by channel: GT and rural consumers tend to respond with smaller pack down-trading, MT and e-com with promotion shifts. Forecast volume and mix separately, pull forward some sell-in ahead of the price change but net that out in the following months, and share the scenario (base, high, low elasticity) with Supply and Finance so purchase and production plans carry a range, not one number.</p></div></details>
+<details class="qa"><summary>Q6. Quick commerce is growing much faster than the rest of e-com. What changes in your approach?</summary><div class="qbody"><p>Forecast at city or dark-store cluster level with weekly buckets, use sell-out feeds for demand sensing, and keep a smaller, faster replenishment cycle than GT. Track fill rate and on-shelf availability there, because lost sales on a quick-commerce app hurt ranking and visibility as well as revenue.</p></div></details>
+<details class="qa"><summary>Q7. Aggregate accuracy looks fine but depots keep running out of stock. Why?</summary><div class="qbody"><p>Accuracy at national or brand level hides errors at SKU-depot level, which is where stock is held. Measure and manage accuracy at the decision level, look at bias by depot (some over, some under cancel each other out nationally), and rebalance with stock transfers and a better regional split of the forecast.</p></div></details>
+<details class="qa"><summary>Scenario A. The seasonal whiplash and unsold inventory (appliances)</summary><div class="qbody"><blockquote>
+<p>"You are the Demand Planner for Bajaj's seasonal appliances division (air coolers and fans). Due to unseasonal rains in April and May, secondary sales drop 35% below the S&amp;OP consensus plan. Depots are full, working capital is choked, and factories have raw materials committed for June. Walk me through your immediate 30-day action plan."</p>
+</blockquote>
+<p><strong>How to structure your answer</strong></p>
+<ol>
+<li><strong>Immediate triage (stop the bleeding).</strong> Freeze production schedules for the affected SKUs that sit beyond the frozen 7-day plant horizon. Coordinate with Procurement to defer RM call-offs (motors, plastic resins) or divert common components (universal motors, packaging cartons) to non-seasonal categories such as mixer grinders or exhaust fans.</li>
+<li><strong>Spatial re-balancing (inter-depot stock transfer).</strong> Run an inventory health check across climatic zones. While North and Central India may have unseasonal rain, South or West hubs may still have baseline demand or drier weather. Execute a Stock Transfer Order (STO) only if the holding cost plus markdown risk exceeds the secondary freight cost.</li>
+<li><strong>Channel liquidation lever.</strong> Partner with Trade Marketing to push bundled promotions on e-commerce (upcoming Amazon or Flipkart sale events) and modern trade (Reliance Digital, Croma), where price elasticity is faster than in General Trade.</li>
+<li><strong>Root cause and model adjustment.</strong> Re-calibrate the statistical baseline for June using short-term exponential smoothing (alpha weighted toward recent weeks) so the ERP does not auto-generate replenishment orders from last year's seasonal indices.</li>
+</ol></div></details>
+<details class="qa"><summary>Scenario B. Sales vs supply conflict in S&amp;OP (appliances)</summary><div class="qbody"><blockquote>
+<p>"During the pre-Diwali S&amp;OP meeting, the Regional Sales Manager insists on a 50% forecast uplift for kitchen appliances (OTGs, air fryers, mixer grinders). However, historical data shows their team over-forecast by 28% last Diwali, leaving you with 4 months of SLOB inventory. How do you handle this without causing a stockout if they are actually right?"</p>
+</blockquote>
+<p><strong>How to structure your answer</strong></p>
+<ol>
+<li><strong>Deconstruct the forecast into building blocks.</strong> Do not argue over the aggregate number. Break the 50% uplift into baseline run-rate, distribution expansion (new stores or dealers), promotional lift and new product introductions (NPI). Ask Sales to tie every incremental unit to a specific customer commitment or confirmed PO in MT or e-com.</li>
+<li><strong>Apply Forecast Value Added (FVA) analysis.</strong> Show historical data proving where manual sales overrides degraded accuracy compared with the statistical baseline.</li>
+<li><strong>Risk-hedged inventory postponement.</strong> Commit 100% of the <em>statistical baseline plus confirmed MT and e-com order book</em> as finished goods at regional C&amp;F (carrying and forwarding) depots. For the disputed incremental 20 to 25% uplift, hold the buffer upstream at the <strong>mother warehouse</strong> (central hub) or in <strong>semi-finished or WIP form</strong> (for example unpainted sub-assemblies) with a rapid 48-hour dispatch trigger once early Navratri sell-through data validates the spike.</li>
+</ol></div></details>
+<aside class="note"><p><strong>How to structure any demand-planning answer:</strong> diagnose, quantify, act, prevent. Only mention tools you have actually used (SAP IBP or APO, o9, Kinaxis, Excel and so on).</p></aside>
+<div class="sec-foot"><button type="button" class="revise" data-sec="demand" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec plan" id="inventory" aria-labelledby="inventory-h">
+<h2 id="inventory-h">Inventory planning</h2>
+<p>Inventory planning sets how much stock of each item to hold, and where, so that service targets are met at the lowest tied-up cash. Show that you balance three things at once: availability, working capital, and shelf-life or obsolescence risk.</p>
+<h3>Core definitions</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cycle stock</td>
+<td>Stock needed to cover normal demand between replenishments</td>
+<td>Depot orders weekly, so holds about half a week on average</td>
+</tr>
+<tr>
+<td>Safety stock (SS)</td>
+<td>Buffer against demand and lead-time variability</td>
+<td>396 units in the worked example below</td>
+</tr>
+<tr>
+<td>Reorder point (ROP)</td>
+<td>Stock level that triggers a new order</td>
+<td>Order when stock falls to 3,996 units</td>
+</tr>
+<tr>
+<td>Pipeline stock</td>
+<td>Stock in transit or on order</td>
+<td>Goods on a truck from plant to depot</td>
+</tr>
+<tr>
+<td>Lead time</td>
+<td>Order-to-receipt time, including its variability</td>
+<td>Supplier takes 9 days, sometimes 12</td>
+</tr>
+<tr>
+<td>Service level (cycle)</td>
+<td>Probability of not stocking out in a replenishment cycle</td>
+<td>95%</td>
+</tr>
+<tr>
+<td>Fill rate</td>
+<td>Share of ordered quantity shipped from stock</td>
+<td>97 of 100 cases shipped = 97%</td>
+</tr>
+<tr>
+<td>OTIF</td>
+<td>Delivered on time and in full</td>
+<td>Key MT and e-com retailer metric; fines apply on misses</td>
+</tr>
+<tr>
+<td>Days of inventory on hand (DOH or DIO)</td>
+<td>Inventory value divided by daily cost of goods sold</td>
+<td>49 days</td>
+</tr>
+<tr>
+<td>Inventory turns</td>
+<td>Annual COGS divided by average inventory</td>
+<td>7.5 turns</td>
+</tr>
+<tr>
+<td>MOQ</td>
+<td>Minimum order quantity a supplier or plant will accept</td>
+<td>Bottle supplier's MOQ is 50,000 pieces</td>
+</tr>
+<tr>
+<td>FEFO / FIFO</td>
+<td>First-expired-first-out / first-in-first-out dispatch</td>
+<td>FEFO for shelf-life-limited products</td>
+</tr>
+<tr>
+<td>SLOB</td>
+<td>Slow-moving and obsolete stock</td>
+<td>Old-pack or discontinued SKUs; provisioned in accounts</td>
+</tr>
+<tr>
+<td>DRP</td>
+<td>Distribution requirements planning: plans stock at each depot from forecast and supply lead times</td>
+<td>Computes how much the plant must send to each depot</td>
+</tr>
+<tr>
+<td>Min-max</td>
+<td>Simple policy: reorder up to max when stock hits min</td>
+<td>Used for low-value C items</td>
+</tr>
+<tr>
+<td>Postponement</td>
+<td>Delay final differentiation (pack or label) to reduce stock risk</td>
+<td>Hold bulk oil, fill channel-specific packs late</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Formulas</h3>
+<pre class="formula"><code>SS (demand variability only)   = Z × σd × √L
+SS (demand + lead-time)        = Z × √( L × σd² + d² × σL² )
+ROP                            = d × L + SS
+EOQ                            = √( 2 × D × S / H )
+DOH (days of inventory)        = Inventory value / COGS × 365
+Turns                          = COGS / Average inventory
+</code></pre>
+<p>d = average daily demand, σd = its standard deviation, L = lead time in days, σL = its standard deviation, Z = service-level factor (about 1.28 for 90%, 1.65 for 95%, 2.33 for 99%). In EOQ: D = annual demand, S = cost per order, H = holding cost per unit per year.</p>
+<p><strong>Worked examples</strong></p>
+<ul>
+<li><strong>Safety stock and ROP:</strong> d = 400 units/day, σd = 80, L = 9 days, 95% service. SS = 1.65 × 80 × 3 = 396 units. ROP = 400 × 9 + 396 = 3,996 units.</li>
+<li><strong>EOQ:</strong> D = 120,000 units/year, S = ₹2,000 per order, H = ₹6 per unit per year. EOQ = √(2 × 120,000 × 2,000 / 6) = about 8,944 units per order.</li>
+<li><strong>DOH and turns:</strong> inventory ₹12 crore, annual COGS ₹90 crore. DOH = 12 / 90 × 365 = about 49 days; turns = 90 / 12 = 7.5.</li>
+<li><strong>Cost of service:</strong> moving from 95% to 99% raises Z from 1.65 to 2.33, so safety stock rises by about 41% (2.33 / 1.65). That is why you set service targets by item class, not one number for all.</li>
+</ul>
+<p>The <strong>Tools</strong> section has a safety-stock simulator so you can see how lead-time and demand variability change these numbers.</p>
+<h3>Segment, then set policy (ABC by value, XYZ by variability)</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Typical policy</th>
+<th>Service target to propose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AX (high value, stable)</td>
+<td>Statistical SS, frequent review, tight control</td>
+<td>98 to 99%</td>
+</tr>
+<tr>
+<td>AZ (high value, erratic)</td>
+<td>Higher buffer or flexible capacity; close demand sensing</td>
+<td>95 to 97%</td>
+</tr>
+<tr>
+<td>BX / BY</td>
+<td>Standard SS, weekly or fortnightly review</td>
+<td>95%</td>
+</tr>
+<tr>
+<td>CX / CY</td>
+<td>Min-max, larger batches</td>
+<td>90 to 92%</td>
+</tr>
+<tr>
+<td>CZ</td>
+<td>Make or buy to order, or delist</td>
+<td>As needed</td>
+</tr>
+</tbody>
+</table></div>
+<p>These targets are proposals to defend in the interview, not Bajaj policy; say you would set them with Sales and Finance.</p>
+<h3>Advanced lens: safety stock and working capital</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition and strategic value</th>
+<th>Formula or metric</th>
+<th>Bajaj context example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Safety stock and reorder point</td>
+<td>SS buffers against two uncertainties at once: demand spikes and supplier or plant lead-time variability. ROP triggers replenishment before a stockout occurs</td>
+<td>SS = Z × √( avg(L) × σD² + avg(D)² × σL² ); ROP = avg(D) × avg(L) + SS</td>
+<td>Holding higher SS for water-heater heating elements that have variable lead times ahead of the northern India winter peak</td>
+</tr>
+<tr>
+<td>Working capital and cash-to-cash</td>
+<td>Inventory is frozen cash. Planners balance OTIF service levels against days inventory outstanding (DIO) and SLOB write-offs</td>
+<td>DIO = (Avg inventory / COGS) × 365; GMROI = Gross margin / Avg inventory cost</td>
+<td>Reducing finished-goods DIO from 45 days to 32 days across regional depots frees up crores in working capital without dropping fill rates below 96%</td>
+</tr>
+</tbody>
+</table></div>
+<aside class="note"><p><strong>Interview takeaway:</strong> in the combined formula, lead-time variability (σL) is multiplied by d². Saying that <em>reducing supplier lead-time variability in procurement is mathematically far more powerful for cutting inventory than squeezing forecast accuracy by 2%</em> will set you apart. The simulator in Tools lets you show it.</p></aside>
+<h3>Scenario questions and model answers</h3>
+<details class="qa"><summary>Q1. Finance wants inventory down 15% without hurting service. How do you approach it?</summary><div class="qbody"><p>Segment first (ABC-XYZ) and look at where the cash sits: normally a small number of slow C items and excess SLOB hold a lot of money. Then work the levers in order of safety: clear SLOB and stop re-ordering it; cut safety stock where it is oversized relative to variability or where the supplier lead time has improved; reduce batch sizes and review cycles where EOQ or MOQ is overstated; improve forecast accuracy so less buffer is needed; and rebalance across depots. Protect A items. Track DOH and fill rate together, weekly, so any service damage shows early.</p></div></details>
+<details class="qa"><summary>Q2. Some GT depots have stock-outs while others have excess of the same SKU. What do you do?</summary><div class="qbody"><p>This is an allocation and forecast-split problem, not a total-stock problem. Check depot-level forecast bias, then run lateral transfers for the immediate fix (freight cost versus lost sales), re-split future supply by actual depot sell-out, and set depot-specific safety stock by their own variability and replenishment lead time. Review monthly so the split follows demand, not the earlier plan.</p></div></details>
+<details class="qa"><summary>Q3. A supplier&#x27;s lead time moves from 10 to 20 days. What changes?</summary><div class="qbody"><p>Safety stock scales with the square root of lead time, so it rises by about 41% (√2) for the same service level and demand variability, and pipeline stock doubles. If lead-time variability also worsened, SS rises more. Quantify the cash impact, then push on the cause with the supplier or procurement (second source, local supplier, vendor-managed stock, firm schedule) before accepting a permanently higher buffer.</p></div></details>
+<details class="qa"><summary>Q4. We have 4 months of stock of an old pack before a pack change. What now?</summary><div class="qbody"><p>Stop supply of that pack, estimate sell-through at current offtake, and agree a liquidation plan: route stock to channels where the old pack is acceptable (specific GT regions, institutional, exports, schemes), use promotions with a cost cap, and set a provision date with Finance if it will not clear before the remaining shelf life becomes a problem. For the next change, build a run-out plan in advance with a last-order date for the old material and packaging.</p></div></details>
+<details class="qa"><summary>Q5. Raw material prices are rising. Should we buy ahead?</summary><div class="qbody"><p>It is a trade-off: forward buying locks cost but adds carrying cost (interest, storage, shelf-life and quality risk) and ties up cash. Compare the expected price saving per tonne with the holding cost for the extra months, check storage and quality limits, and consider partial cover (for example 40 to 60% of three months' need) or fixed-price contracts rather than buying all stock. Decide jointly with Procurement and Finance.</p></div></details>
+<details class="qa"><summary>Q6. Quick commerce and e-com need small, frequent replenishment while GT needs bulk. How do you set stock?</summary><div class="qbody"><p>Hold channel-specific stock policies: higher review frequency, smaller lot sizes and tighter fill-rate targets for e-com and quick commerce, with stock positioned close to marketplace warehouses or city hubs; larger, less frequent replenishment to GT distributors. Keep a shared central buffer of upstream stock (or bulk oil, if fill is postponed) so that a surge in one channel can be served without separate large stocks everywhere.</p></div></details>
+<details class="qa"><summary>Q7. How do you decide whether to delist a slow SKU?</summary><div class="qbody"><p>Look at its contribution margin, share of working capital, forecast accuracy, complexity cost (changeovers, MOQ stock), and whether it cannibalises or supports the range or a key customer. If the volume can transfer to another pack and the SKU holds above-average inventory days, propose delisting with Sales and Marketing agreement, clear stock, and monitor volume transfer for two cycles.</p></div></details>
+<div class="sec-foot"><button type="button" class="revise" data-sec="inventory" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec dist" id="distribution" aria-labelledby="distribution-h">
+<h2 id="distribution-h">Distribution</h2>
+<p>Distribution gets finished goods from plants to depots, distributors and customers on time, at the lowest cost, for three very different channels. It is a battle of <strong>channel economics and service-level differentiation</strong>: serving a local electrical or hardware shop (GT) needs a different model from serving a Blinkit dark store (quick commerce) or a D-Mart central distribution centre (MT). The job is to optimise cost per case against service level, not cost alone.</p>
+<h3>Core definitions</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary distribution</td>
+<td>Plant or depot to distributor, super stockist or key account</td>
+<td>Full truck from plant to a state depot</td>
+</tr>
+<tr>
+<td>Secondary distribution</td>
+<td>Distributor to retailer or wholesaler</td>
+<td>Van beat to kirana stores</td>
+</tr>
+<tr>
+<td>C&amp;F / CFA</td>
+<td>Carrying and forwarding agent who runs a company depot</td>
+<td>One C&amp;F per state or region</td>
+</tr>
+<tr>
+<td>Super stockist / distributor</td>
+<td>Intermediate partners who hold stock and serve retailers</td>
+<td>Distributor serving 600 outlets in a district</td>
+</tr>
+<tr>
+<td>General trade (GT)</td>
+<td>Traditional retail: kiranas, wholesalers, chemists, cosmetic stores, hardware shops</td>
+<td>Corner grocery stores</td>
+</tr>
+<tr>
+<td>Modern trade (MT)</td>
+<td>Organised retail chains and key accounts</td>
+<td>DMart or regional chains; direct billing, strict OTIF and fill-rate terms</td>
+</tr>
+<tr>
+<td>E-commerce / quick commerce</td>
+<td>Marketplaces and fast-delivery apps</td>
+<td>Amazon-type platforms and dark-store apps with their own warehouses</td>
+</tr>
+<tr>
+<td>CSD / CPC</td>
+<td>Canteen channels (defence canteens, police canteens)</td>
+<td>Institutional channel; Bajaj has cited it as a growth channel</td>
+</tr>
+<tr>
+<td>Route to market (RTM)</td>
+<td>The whole set of channels, partners and routes to reach the consumer</td>
+<td>Direct reach plus distributors in a state</td>
+</tr>
+<tr>
+<td>Numeric distribution</td>
+<td>Outlets stocking the product as a percentage of all outlets in the universe</td>
+<td>40%</td>
+</tr>
+<tr>
+<td>Weighted distribution</td>
+<td>Share of category sales coming from outlets that stock the product</td>
+<td>55% (bigger stores weigh more)</td>
+</tr>
+<tr>
+<td>FTL / LTL</td>
+<td>Full truck load / less than truck load</td>
+<td>FTL to depots, LTL to small towns</td>
+</tr>
+<tr>
+<td>Hub and spoke</td>
+<td>Central hub with smaller spokes feeding local areas</td>
+<td>Regional hub, then cluster depots</td>
+</tr>
+<tr>
+<td>DMS</td>
+<td>Distributor management system: orders, stock, claims and secondary sales visibility</td>
+<td>Distributor's stock days seen daily</td>
+</tr>
+<tr>
+<td>POD / TAT</td>
+<td>Proof of delivery / turnaround time</td>
+<td>48-hour TAT to MT warehouses</td>
+</tr>
+<tr>
+<td>Reverse logistics</td>
+<td>Returns, damaged and expired stock moving back</td>
+<td>Leakage claims on oil bottles</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Metrics and formulas</h3>
+<pre class="formula"><code>OTIF            = Orders on time and in full / Total orders
+Logistics cost% = (Freight + warehousing + handling + admin) / Net sales
+Cost per case   = Total logistics cost / Cases shipped
+</code></pre>
+<p>Also track: fill rate, order-to-delivery lead time, vehicle fill (load as a percentage of capacity), damage and expiry claims as a percentage of sales, distributor stock days, and distributor ROI (distributors leave if their return is poor).</p>
+<p><strong>Worked example: FTL or LTL?</strong> An FTL costs ₹36,000 and carries 600 cases, so ₹60 per case at full load but ₹80 per case at 75% fill (450 cases). LTL costs ₹75 per case. Break-even = 36,000 / 75 = 480 cases, or 80% fill. Below 80% fill, LTL or consolidating with another lane is cheaper; above it, FTL wins. The lesson: pool orders to reach the break-even before dispatching.</p>
+<h3>How the three channels differ</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>General trade (GT)</th>
+<th>Modern trade (MT)</th>
+<th>E-commerce and quick commerce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Network structure</td>
+<td>Mother warehouse → C&amp;F or regional depot → authorised distributor → wholesaler or retailer</td>
+<td>Mother warehouse or depot → retailer regional DC (Reliance, D-Mart) → retail stores</td>
+<td>Marketplace (1P or B2B): depot → Amazon or Flipkart FC, or dark store. D2C: depot → 3PL courier → consumer</td>
+</tr>
+<tr>
+<td>Order profile</td>
+<td>Regular weekly or fortnightly distributor billing, skewed toward <strong>month-end billing spikes (hockey-stick effect)</strong></td>
+<td>Scheduled, strict appointment-based deliveries; large case-pack quantities</td>
+<td>High frequency, fragmented SKU assortment, explosive spikes during platform sale events (Big Billion Days, Prime Day)</td>
+</tr>
+<tr>
+<td>Key service metric</td>
+<td>Distributor ROI, secondary fill rate, range selling (width of distribution)</td>
+<td>OTIF, case fill rate, dock-to-stock compliance</td>
+<td>SLA adherence, seller rating, in-stock % on high-traffic search keywords, low return (RTO) and damage rates</td>
+</tr>
+<tr>
+<td>Core pain point</td>
+<td>Credit limits blocking dispatch; channel dumping at month-end inflating transport rates</td>
+<td><strong>TOT (terms of trade) penalties:</strong> heavy financial penalties for short supply or missed delivery slots</td>
+<td>Packaging damage in single-unit parcel transit; flash-demand stockouts killing search ranking</td>
+</tr>
+<tr>
+<td>Pack and range</td>
+<td>Smaller, price-point packs</td>
+<td>Channel-specific packs (for example 650 ml, 750 ml)</td>
+<td>Marketplace-specific packs and combos</td>
+</tr>
+<tr>
+<td>Cost drivers</td>
+<td>Last-mile and distributor margin</td>
+<td>DC delivery and trade terms</td>
+<td>Platform fees, inbound freight, packaging</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Logistics levers</h3>
+<ul>
+<li><strong>Primary logistics:</strong> movement from the manufacturing plant or mother hub to regional depots (C&amp;F). Typically FTL (full truck load) or containerised rail and road, focused on <strong>volumetric weight utilisation (cube out vs weigh out)</strong>, which is crucial for bulky, low-density items such as fans and air coolers versus dense items such as hair oil bottles or irons.</li>
+<li><strong>Secondary logistics:</strong> movement from the regional depot to distributors, MT DCs or e-com fulfilment centres. Often LTL (less than truck load) or milk-run routing with light commercial vehicles, where route optimisation and drop-size consolidation set the cost per unit.</li>
+<li><strong>TOC (Theory of Constraints) replenishment, or pull distribution:</strong> moving away from pushing stock to GT distributors against primary sales targets, and replenishing distributor inventory daily or weekly based on <strong>actual secondary depletion (DMS data)</strong> so distributor working capital turns fast.</li>
+<li><strong>DRP (distribution requirements planning):</strong> time-phased planning that calculates exactly when and how much stock to ship from central plants to regional depots, based on safety stock thresholds, transit lead times and projected depot-level demand.</li>
+</ul>
+<h3>Scenario questions and model answers</h3>
+<details class="qa"><summary>Q1. A modern-trade chain&#x27;s OTIF is 85% against a 95% requirement, and penalties are rising. What do you do?</summary><div class="qbody"><p>Break failures into late, short and rejected (barcode, label, documentation, expiry). For shorts, check forecast and stock at the supplying depot; for lates, look at lane transit and dispatch cut-offs; for rejections, fix paperwork and packaging at source. Agree a joint improvement plan with the chain, assign one owner per cause, hold a weekly review, and compare the cost of the penalties with the cost of holding extra stock for that customer. Target the cause with the most lines first.</p></div></details>
+<details class="qa"><summary>Q2. A GT distributor orders heavily at month-end but secondary sales are flat. Why does it matter and what do you do?</summary><div class="qbody"><p>Primary sales are running ahead of secondary sales, so distributor stock is building (channel stuffing), which later leads to returns, expiry and discounting. Check stock days in the DMS, compare primary and secondary trends, and set maximum stock-day norms. Link incentives to secondary sales, not to month-end primary, and escalate high stock-day distributors for corrective plans.</p></div></details>
+<details class="qa"><summary>Q3. You are asked to cut logistics cost by 8% without hurting service. Where do you look?</summary><div class="qbody"><p>Segment costs by lane and channel. Typical levers: raise truck fill and use pooled loading; move from many small direct shipments to hub-and-spoke where volumes are small; renegotiate or re-tender freight on high-volume lanes; rationalise depots where the lead-time impact is small; shift mode (rail or coastal) on long, non-urgent lanes; and cut damage claims. Keep service metrics visible while testing each lever on a pilot lane before scaling.</p></div></details>
+<details class="qa"><summary>Q4. Quick-commerce sales are growing fast and the app shows our items out of stock in some cities. What now?</summary><div class="qbody"><p>Availability on these apps directly affects ranking and sales, so treat it as a priority. Map stock-outs by city and warehouse, agree faster replenishment cycles with the platform (smaller and more frequent), position stock in city hubs near the platform warehouses, and set a minimum days-of-cover target per dark-store cluster. Review weekly with the e-com team and the platform's category manager.</p></div></details>
+<details class="qa"><summary>Q5. Hair oil bottles are leaking in e-commerce and the platform is raising damage claims. What do you do?</summary><div class="qbody"><p>Find where the damage happens: at our packing, in transit or at the platform warehouse, using photos and batch data. Then fix at the right source: seal and cap quality with the supplier, better secondary packaging or fillers for e-com shippers, drop-test the pack, and reduce handling steps. Agree a claims process with the platform and track damage as a percentage of sales by SKU until it falls below target.</p></div></details>
+<details class="qa"><summary>Q6. Floods close the main road to a key state for a week. How do you maintain supply?</summary><div class="qbody"><p>Activate the contingency plan: reroute via alternative lanes or depots, release safety stock from the nearest depot, prioritise high-velocity SKUs and key customers on the available trucks, communicate honestly with distributors and key accounts about revised dates, and pre-position stock ahead of known risk seasons (monsoon). Afterwards, review the plan and add alternative transporters and lanes.</p></div></details>
+<details class="qa"><summary>Q7. We want to expand direct coverage in a new state, as the company has done in UP and MP. How do you assess it?</summary><div class="qbody"><p>Compare the economics of direct reach with the distributor model: outlet universe, expected numeric distribution, cost to serve per outlet, sales team and vehicle cost, working capital in stock and credit, and the service improvement expected. Pilot in a few districts, measure incremental sales and cost per outlet, and scale only where the payback is acceptable. Plan the transition of existing distributors carefully so supply is not disrupted.</p></div></details>
+<details class="qa"><summary>Q8. Festive e-com events are on. What do you do in distribution?</summary><div class="qbody"><p>Confirm inventory targets at each platform warehouse, book inbound appointment slots early, pack to the platform's specifications, add extra dispatch shifts, monitor stock cover daily during the event with a rule for emergency replenishment, then rebalance stock after the event so no warehouse is left overstocked.</p></div></details>
+<details class="qa"><summary>Scenario A. The channel allocation conflict: GT vs MT vs e-com</summary><div class="qbody"><blockquote>
+<p>"You have 10,000 units of a high-margin, fast-moving SKU (for example a 15 L storage water heater or a flagship Almond Drops pack) at your Western Region depot. Open demand across channels is 15,000 units: 6,000 for GT distributors, 5,000 for Reliance Digital or D-Mart (MT), and 4,000 for an Amazon mega sale starting in 48 hours. How do you allocate the 10,000 units?"</p>
+</blockquote>
+<p><strong>How to structure your answer</strong></p>
+<ol>
+<li><strong>Reject pro-rata allocation.</strong> Cutting everyone by 33% uniformly is the worst supply chain decision: it guarantees MT penalty fines, ruins e-com event visibility and frustrates top GT dealers.</li>
+<li><strong>Evaluate the financial and strategic cost of a stockout, channel by channel.</strong><ul>
+<li><strong>MT check:</strong> read the SLA penalty clauses and appointment lock-ins. If MT charges a 5 to 10% penalty on unfulfilled PO value and delists the SKU, prioritise the <strong>minimum threshold required to avoid penalty</strong> (if the contract allows a 90% case fill rate without penalty, allocate 4,500 units).</li>
+<li><strong>E-com check:</strong> during a flagship sale, running out of stock drops the product's organic search rank for weeks. Allocate enough stock (for example 2,500 to 3,000 units) to cover the first 48 to 72 hours of peak velocity while expediting the next batch from the plant.</li>
+<li><strong>GT check:</strong> segment GT distributors into Tier-1 (cash-and-carry, zero overdue credit, high secondary sell-out velocity via DMS) versus speculative orders. Allocate the remaining 2,500 to 3,000 units strictly to Tier-1 distributors with low physical stock cover, and fulfil the rest in the replenishment wave arriving in 3 days.</li>
+</ul>
+</li>
+</ol></div></details>
+<details class="qa"><summary>Scenario B. Optimising freight for high-volume, low-density products</summary><div class="qbody"><blockquote>
+<p>"Freight cost as a percentage of revenue has spiked by 1.8% in the last quarter because trucks carrying air coolers and fans are 'cubing out' (running out of volume space) at only 55% of their rated weight capacity. How do you solve this?"</p>
+</blockquote>
+<p><strong>How to structure your answer</strong></p>
+<ol>
+<li><strong>Load mix optimisation (co-load dense and bulky SKUs).</strong> Implement a linear programming or load-building rule in the TMS (transportation management system). Pair <strong>low-density, high-cube</strong> products (air coolers, fans) on the top tiers with <strong>high-density, heavy</strong> products (cast-iron dry irons, water heater tanks, mixer grinders, or cartons of hair oil) at the base of the truck bed. This hits roughly 90% volume utilisation and 85% weight utilisation together.</li>
+<li><strong>Vehicle type right-sizing.</strong> Shift primary lanes from standard rigid trucks to <strong>high-cube containerised vehicles (32 ft MXL high-cube containers)</strong> to lower the per-unit freight cost on bulky lanes.</li>
+<li><strong>Packaging and knock-down design.</strong> Work with R&amp;D and Packaging to see whether sub-assemblies (fan blades packed flat separately from motor units, or nestable cooler bodies) can raise carton density per cubic metre.</li>
+</ol></div></details>
+<aside class="note"><p><strong>One line to remember:</strong> distribution is a three-way balance of <strong>service</strong> (availability and OTIF), <strong>cost</strong> (cost per case and logistics as % of sales) and <strong>cash</strong> (distributor and company stock). Name which one you are trading off in every answer.</p></aside>
+<div class="sec-foot"><button type="button" class="revise" data-sec="distribution" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec proc" id="procurement" aria-labelledby="procurement-h">
+<h2 id="procurement-h">Procurement (RM strategic sourcing)</h2>
+<p>Strategic sourcing buys raw materials at the lowest total cost for the quality and lead time the plant needs, while building suppliers who keep supply continuous. Whether Bajaj is buying <strong>copper winding wire, CRNGO electrical steel, aluminium ingots, ABS and PP engineering plastics and PCBs</strong> (Electricals) or <strong>light liquid paraffin (LLP), refined almond or vegetable oil, glass or PET bottles and HDPE caps</strong> (Consumer Care), RM typically represents <strong>60 to 70% of COGS</strong>, so procurement is a direct P&amp;L driver. The role is judged on cost, quality, delivery reliability and supply risk.</p>
+<h3>Core definitions</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strategic sourcing</td>
+<td>Structured, data-led process to choose suppliers and contract for value over time</td>
+<td>Annual review of all oil and packaging categories</td>
+</tr>
+<tr>
+<td>Category management</td>
+<td>Managing a group of similar materials as one business with its own strategy</td>
+<td>Packaging, oils, fragrances as separate categories</td>
+</tr>
+<tr>
+<td>Spend analysis</td>
+<td>Breaking down what is bought, from whom and at what price</td>
+<td>Top 20 items give 80% of spend</td>
+</tr>
+<tr>
+<td>Kraljic matrix</td>
+<td>Classifies items by profit impact and supply risk into strategic, leverage, bottleneck and non-critical</td>
+<td>See the table below</td>
+</tr>
+<tr>
+<td>RFI / RFQ / RFP</td>
+<td>Request for information / quotation / proposal</td>
+<td>RFQ to five bottle suppliers</td>
+</tr>
+<tr>
+<td>TCO</td>
+<td>Total cost of ownership: price plus freight, duties, quality loss, inventory, payment terms and risk</td>
+<td>Lowest quote is not always the lowest TCO</td>
+</tr>
+<tr>
+<td>Should-cost model</td>
+<td>Bottom-up estimate of what an item should cost from inputs and processing</td>
+<td>Resin price plus conversion plus margin for a bottle</td>
+</tr>
+<tr>
+<td>BATNA / ZOPA</td>
+<td>Best alternative to a negotiated agreement / zone of possible agreement</td>
+<td>An alternative supplier gives leverage</td>
+</tr>
+<tr>
+<td>Index-linked pricing</td>
+<td>Price moves with a published index, with a formula</td>
+<td>Packaging resin linked to a polymer index with a monthly reset</td>
+</tr>
+<tr>
+<td>Forward contract</td>
+<td>Fix price and quantity for future delivery</td>
+<td>Cover three months of oil need now</td>
+</tr>
+<tr>
+<td>Dual or multi-sourcing</td>
+<td>Qualify more than one supplier for the same item</td>
+<td>70:30 split between two bottle makers</td>
+</tr>
+<tr>
+<td>PPV</td>
+<td>Purchase price variance against standard cost</td>
+<td>Positive = paid more than standard</td>
+</tr>
+<tr>
+<td>Vendor rating (QCD)</td>
+<td>Score on quality, cost and delivery</td>
+<td>Quarterly supplier scorecard</td>
+</tr>
+<tr>
+<td>COA</td>
+<td>Certificate of analysis supplied with each lot</td>
+<td>Used for incoming quality checks</td>
+</tr>
+<tr>
+<td>PPM</td>
+<td>Defective parts per million</td>
+<td>Cap and bottle quality measure</td>
+</tr>
+<tr>
+<td>VMI</td>
+<td>Vendor-managed inventory: supplier monitors and refills stock</td>
+<td>Supplier refills bottle stock at the plant</td>
+</tr>
+<tr>
+<td>DPO</td>
+<td>Days payable outstanding</td>
+<td>Longer is better for cash, within supplier tolerance</td>
+</tr>
+<tr>
+<td>SOB</td>
+<td>Share of business: the split of volume between suppliers</td>
+<td>80:20 between two motor suppliers</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Strategic sourcing process</h3>
+<ol>
+<li>Spend analysis and demand forecast by item.</li>
+<li>Category strategy: segment items on the Kraljic matrix and set the approach for each.</li>
+<li>Market and supplier research: capacity, cost drivers, alternatives.</li>
+<li>RFQ or RFP with clear specifications and evaluation criteria.</li>
+<li>Negotiation and award, with fallback options.</li>
+<li>Contract and onboarding: price formula, service levels, quality terms, penalties.</li>
+<li>Performance review and continuous improvement: scorecards, cost-down projects, supplier development.</li>
+</ol>
+<h3>Segment items, then pick a strategy (Kraljic)</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Quadrant</th>
+<th>What it is and strategy</th>
+<th>FMCG examples (confirm)</th>
+<th>Appliance examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strategic (high impact, high risk)</td>
+<td>Long-term partnerships, joint value engineering, dual source, index-linked or forward cover</td>
+<td>Coconut oil or copra, key oils</td>
+<td>Custom IC chips and PCBs for smart appliances, proprietary fragrance compounds</td>
+</tr>
+<tr>
+<td>Leverage (high spend, low risk)</td>
+<td>Competitive e-auctions, volume consolidation, short contracts</td>
+<td>Bottles, cartons, shippers, LLP</td>
+<td>Corrugated boxes, standard ABS plastic granules</td>
+</tr>
+<tr>
+<td>Bottleneck (low spend, high risk)</td>
+<td>Secure supply, safety stock, dual-sourcing qualification</td>
+<td>Special caps, a single-source fragrance or additive</td>
+<td>Specialised thermal fuses, imported heating-element alloys</td>
+</tr>
+<tr>
+<td>Non-critical (low impact, low risk)</td>
+<td>Standardise, simplify, automate through catalogue or procure-to-pay</td>
+<td>Labels, stationery, consumables</td>
+<td>Office consumables, standard fasteners</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Frameworks with formulas</h3>
+<pre class="formula"><code>PPV  = (Actual price − Standard price) × Quantity
+DPO  = Payables / COGS × 365
+Effective cost per good unit = (Price + freight) / (1 − rejection rate)
+Should-cost price = RM index − scrap credit + conversion cost (machine hours) + overheads + margin
+TCO  = Unit price + freight and duties + payment-terms cost + rejection or rework cost + safety-stock holding cost
+</code></pre>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>How it works</th>
+<th>Application at Bajaj</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Should-cost and clean-sheet costing</td>
+<td>Reverse-engineer the true cost of a component from the bottom up (RM index minus scrap credit plus conversion cost plus overheads plus margin)</td>
+<td>Instead of accepting a vendor's 8% price hike on stamped fan blades, calculate the aluminium ingot (LME or Hindalco) movement plus stamping press cycle time plus power tariff, and negotiate only the conversion delta</td>
+</tr>
+<tr>
+<td>TCO</td>
+<td>Evaluates landed cost beyond the unit invoice price</td>
+<td>An imported motor from China may be 6% cheaper on invoice than a domestic supplier in Pune or Nashik, but 45-day ocean lead times need 30 days extra safety stock, LC banking charges and currency hedging, making the domestic TCO lower</td>
+</tr>
+<tr>
+<td>Commodity indexing and hedging</td>
+<td>Link vendor contracts to transparent external indices (LME for copper and aluminium, Brent crude for LLP and plastics) with a fixed quarterly lag and a pre-agreed conversion fee</td>
+<td>Protects Bajaj from renegotiating every month when copper or crude moves; the price adjusts through a transparent formula band (for example a ±5% deadband)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Worked example: which bottle supplier is cheaper?</strong> Assume a 10% annual cost of capital.</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Supplier A</th>
+<th>Supplier B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quoted price per bottle</td>
+<td>₹7.00</td>
+<td>₹7.30</td>
+</tr>
+<tr>
+<td>Freight per bottle</td>
+<td>₹0.40</td>
+<td>₹0.15</td>
+</tr>
+<tr>
+<td>Rejection rate</td>
+<td>2.0%</td>
+<td>0.3%</td>
+</tr>
+<tr>
+<td>Payment terms</td>
+<td>60 days</td>
+<td>45 days</td>
+</tr>
+<tr>
+<td>Cost per good bottle</td>
+<td>₹7.55</td>
+<td>₹7.47</td>
+</tr>
+<tr>
+<td>After credit benefit of the extra 15 days (₹0.03 for A)</td>
+<td>₹7.52</td>
+<td>₹7.47</td>
+</tr>
+</tbody>
+</table></div>
+<p>Supplier B quotes 30 paise higher but is about 5 paise cheaper per good bottle. Say aloud: compare TCO, include quality, freight, credit and risk, and run a trial lot before awarding volume. The <strong>Tools</strong> section has a TCO comparer.</p>
+<h3>Scenario questions and model answers</h3>
+<details class="qa"><summary>Q1. Coconut oil or copra prices have risen 25% in three months. What is your strategy?</summary><div class="qbody"><p>First understand the driver: crop size, seasonality, export demand or speculation, and how long it is likely to last. Then use a layered approach: cover a share of the next quarter's need through forward contracts or staggered buying (not 100%, to avoid locking in at the peak), widen the supplier base and regions, ask for index-linked pricing with a cap and floor, and work with Sales and Finance on pack-size, mix or price actions if the cost increase is lasting. Track landed cost versus budget weekly and brief leadership on the range of outcomes.</p></div></details>
+<details class="qa"><summary>Q2. Your only supplier of a key fragrance has a quality failure and cannot deliver for three weeks. What do you do?</summary><div class="qbody"><p>Immediate: quantify stock on hand and cover days, hold or release stock by priority SKU, and escalate with the supplier for a root cause and recovery date. Short term: start an emergency qualification of an alternative source with technical and quality teams. Longer term: move the item from single to dual sourcing with a 70:30 or 80:20 split, add buffer stock for high-risk bottleneck items, and put quality and delivery penalties into the contract.</p></div></details>
+<details class="qa"><summary>Q3. How do you negotiate a 5% price reduction from an existing supplier?</summary><div class="qbody"><p>Prepare first: should-cost model and spend history, benchmark prices, the supplier's cost drivers, your BATNA (an alternative supplier), and what you can offer in return (more volume, a longer contract, faster payment, simpler specifications). Open with facts, link the discussion to total cost instead of only price, trade concessions (volume for price, payment terms for price), and close with a written agreement and review dates. Keep the relationship intact: the aim is a better deal, not a one-time win.</p></div></details>
+<details class="qa"><summary>Q4. A new supplier quotes 12% lower but has no track record with us. Do you switch?</summary><div class="qbody"><p>Not on price alone. Audit capacity, quality systems and financial health, check references, compare total cost, and run a trial on a limited share. Start with 10 to 20% of volume, measure quality (PPM, rejections), delivery and responsiveness for a few lots, and scale only when it meets the scorecard. Keep the incumbent as a fallback until the new supplier proves reliable.</p></div></details>
+<details class="qa"><summary>Q5. Packaging resin prices rose and your supplier asks for a 9% increase. How do you respond?</summary><div class="qbody"><p>Ask for the cost build-up and compare it with the polymer index and conversion cost: only the justified part of the increase should pass through. Propose an index-linked formula with a monthly or quarterly reset in both directions, check alternative quotes, and look for offsets such as lighter bottles, standard neck finishes and larger volume commitments. Escalate only if the cost data does not support the number.</p></div></details>
+<details class="qa"><summary>Q6. You are given a 5% annual savings target. Where do you look?</summary><div class="qbody"><p>Start from spend analysis: the top categories and top suppliers. Levers: competitive re-tender of leverage items, volume consolidation, specification changes (lighter bottles, fewer variants), supplier development and yield improvement, better payment terms, alternative materials or local sourcing, and eliminating demand (specification creep). Separate true cost reduction from cost avoidance and agree with Finance how savings are counted, so the number stands up.</p></div></details>
+<details class="qa"><summary>Q7. A supplier is late and may stop the production line tomorrow. What do you do?</summary><div class="qbody"><p>Check exact stock and consumption to know the real deadline. Expedite with the supplier (air or dedicated truck, partial shipment), look for a quick alternative supplier or inter-plant transfer, and ask Production Planning to re-sequence the schedule to run items that do not need that material. Afterwards, find the root cause and fix it: safety stock, a reliable lead time, or a second supplier.</p></div></details>
+<details class="qa"><summary>Q8. How do you build a stronger supplier relationship?</summary><div class="qbody"><p>Share forecasts, give clear specifications, pay on time, hold joint quarterly reviews on quality, delivery and cost, set shared improvement goals, and reward good performance with more volume. Treat strategic suppliers as partners and non-critical ones transactionally.</p></div></details>
+<details class="qa"><summary>Q9. The MOQ on a packaging item is far above your monthly need. What do you do?</summary><div class="qbody"><p>Calculate the cost of excess stock (cash and shelf-life or obsolescence risk) against any price benefit. Negotiate a lower MOQ, pooled orders across SKUs, staggered call-offs against a bulk order, or consignment or VMI. If the item is common to several SKUs, standardise the specification so volume combines.</p></div></details>
+<details class="qa"><summary>Q10. How would you source coconut or other agri materials responsibly?</summary><div class="qbody"><p>Build a traceable base across several regions and trusted aggregators or farmer groups, set quality specifications (moisture, free fatty acid, adulteration checks), verify with lab tests at receipt, and avoid dependence on a single region or trader. Consider longer-term arrangements with farmer organisations where possible. Responsible sourcing also supports supply continuity.</p></div></details>
+<details class="qa"><summary>Scenario A. Handling a monopoly or single-source vendor price hike</summary><div class="qbody"><blockquote>
+<p>"A critical Tier-1 supplier of copper motor windings (or specialised glass bottles) demands an immediate 12% price increase citing rising energy and raw material costs. They hold 80% of your share of business (SOB) because of tooling lock-in, and your production line has only 5 days of cover. How do you respond?"</p>
+</blockquote>
+<p><strong>How to structure your answer</strong></p>
+<ol>
+<li><strong>Short-term continuity (protect the line).</strong> Never risk a plant shutdown over a negotiation standoff when cover is only 5 days. Separate <em>immediate supply continuity</em> from <em>commercial settlement</em>. Agree to a provisional interim dispatch while requiring an <strong>open-book cost breakdown</strong> within 72 hours.</li>
+<li><strong>Fact-based should-cost dissection.</strong> Demand the split of the 12% claim. If raw material (copper LME) is 65% of the component cost and rose by 10%, the effect on the finished part is only 0.65 × 10% = 6.5%, not 12%. Challenge the remaining 5.5% conversion and energy claim using state industrial electricity tariff data and scrap recovery credits.</li>
+<li><strong>Commercial trade-offs (value levers).</strong> If a partial increase is justified by index movement, offset the working-capital impact by negotiating <strong>extended payment terms</strong> (for example 45 days to 75 days), or by Vendor Managed Inventory or consignment stock where Bajaj pays only on consumption.</li>
+<li><strong>Medium-term de-risking (dual sourcing).</strong> Start parallel tooling development with a secondary supplier to move the SOB split from 80:20 to <strong>60:30:10</strong>, converting a strategic or bottleneck vulnerability into a leverage category over the next two quarters.</li>
+</ol></div></details>
+<details class="qa"><summary>Scenario B. Balancing cost, quality and lead time in vendor selection</summary><div class="qbody"><blockquote>
+<p>"You are running an RFQ for injection-moulded plastic housings for a new range of mixer grinders. Vendor A is 7% cheaper but is 1,200 km away with a 7-day lead time and a historical 2.5% defect rate. Vendor B is 7% costlier, 40 km from your assembly plant, offers JIT daily deliveries and has a 0.2% defect rate. How do you justify selecting Vendor B (or splitting the business) to a Finance team that only looks at purchase price variance (PPV)?"</p>
+</blockquote>
+<p><strong>How to structure your answer</strong></p>
+<ol>
+<li><strong>Translate operations metrics into finance language (TCO model).</strong> Finance cares about PPV because it is visible on the PO, whereas supply-chain friction costs sit in overheads. Build a one-page TCO comparison:<ul>
+<li><strong>Inventory carrying cost:</strong> Vendor A's 7-day transit and its variability need about 10 to 12 days of extra safety stock. At a 12 to 14% cost of capital plus warehouse space for bulky plastic housings, calculate the exact rupee cost per unit.</li>
+<li><strong>Cost of poor quality (COPQ):</strong> a 2.5% defect rate on an assembly line causes line stoppages, sorting labour and reverse-logistics freight over 1,200 km.</li>
+<li><strong>Freight and damage:</strong> bulky plastic parts incur high volumetric freight over 1,200 km.</li>
+</ul>
+</li>
+<li><strong>The strategic split.</strong> Instead of an all-or-nothing choice, propose a <strong>dual-sourcing base-and-surge model</strong>, or use Vendor A's quote as a should-cost benchmark to negotiate Vendor B down by 3 to 4% in exchange for a long-term volume commitment and milk-run returnable packaging bins that remove corrugated carton costs.</li>
+</ol></div></details>
+<aside class="note"><p><strong>What to emphasise:</strong> use the words <strong>total cost</strong>, <strong>supply continuity</strong>, <strong>dual sourcing</strong>, <strong>supplier development</strong> and <strong>risk</strong>. If asked about commodity hedging, say you would use forward contracts and index-linked pricing where there is no liquid futures market, and align the policy with Finance.</p></aside>
+<div class="sec-foot"><button type="button" class="revise" data-sec="procurement" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec shared" id="sop" aria-labelledby="sop-h">
+<h2 id="sop-h">S&amp;OP, working capital and KPIs</h2>
+<p>Planning, distribution and procurement only work when one monthly process keeps Sales, Supply, Procurement and Finance on the same numbers. Expect at least one question on how you resolve conflicts between these functions, whichever role you interview for.</p>
+<h3>S&amp;OP (sales and operations planning) in five steps</h3>
+<ol>
+<li><strong>Data and demand review:</strong> clean actuals, statistical forecast, sales and marketing inputs, promotion and launch plans, giving one unconstrained demand plan.</li>
+<li><strong>Supply review:</strong> plant capacity, material availability, inventory targets and logistics constraints tested against that demand.</li>
+<li><strong>Pre-S&amp;OP:</strong> reconcile gaps and build options (overtime, outsourcing, allocation, pricing action) with costs.</li>
+<li><strong>Executive S&amp;OP:</strong> leadership picks an option and locks the plan; Finance reconciles it with the budget.</li>
+<li><strong>Execute and measure:</strong> track forecast accuracy, service, inventory and plan adherence, then feed lessons into the next cycle.</li>
+</ol>
+<h3>Working capital link</h3>
+<pre class="formula"><code>CCC = DIO + DSO − DPO
+</code></pre>
+<p>Example: DIO 49 days (inventory), DSO 25 days (customer credit), DPO 45 days (supplier credit) gives a cash conversion cycle of 49 + 25 − 45 = 29 days. Planning cuts DIO, distribution manages DSO (distributor and key-account credit, claims), and procurement lifts DPO. Every day saved frees cash equal to one day of sales or cost.</p>
+<h3>KPI cheat sheet</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Area</th>
+<th>KPI</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Demand planning</td>
+<td>WMAPE or accuracy, bias, FVA</td>
+<td>Forecast quality and whether overrides help</td>
+</tr>
+<tr>
+<td>Inventory planning</td>
+<td>DOH, turns, SLOB %, fill rate, stock-out days</td>
+<td>Cash tied up versus availability</td>
+</tr>
+<tr>
+<td>Distribution</td>
+<td>OTIF, logistics cost as % of sales, cost per case, damage %, distributor stock days</td>
+<td>Service, cost and channel health</td>
+</tr>
+<tr>
+<td>Procurement</td>
+<td>PPV, savings delivered, supplier OTIF, PPM, DPO, share of single-source items</td>
+<td>Cost, quality, delivery and risk</td>
+</tr>
+<tr>
+<td>Finance link</td>
+<td>Cash conversion cycle, working capital as % of sales</td>
+<td>Overall cash efficiency</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Scenario questions and model answers</h3>
+<details class="qa"><summary>Q1. Sales wants 98% availability on every SKU and Finance wants 30% lower inventory. How do you resolve it?</summary><div class="qbody"><p>Show the cost of service with numbers (the safety-stock jump from 95 to 99% is about 41%), then segment: protect high-value, fast-moving items with high service targets, and relax slow C items. Put the trade-off to the S&amp;OP meeting as two or three scenarios with service and cash for each, and let leadership choose. Document the decision so the targets are not re-argued each month.</p></div></details>
+<details class="qa"><summary>Q2. Plant capacity is short in peak season. How do you allocate supply across GT, MT and e-com?</summary><div class="qbody"><p>Agree allocation rules in advance: protect contractual commitments and penalties first (MT and key accounts), then contribution margin and strategic priorities (growth channels, launches), then fair share for GT based on its history. Where possible add capacity (overtime, outsourcing) or pull production forward, and communicate shortfalls early. Review at the S&amp;OP meeting with Sales so allocation is a business decision, not a supply one.</p></div></details>
+<details class="qa"><summary>Q3. GT is declining while e-commerce and quick commerce grow fast. What changes in planning?</summary><div class="qbody"><p>Move forecasting to channel level with different drivers, review pack architecture and stock policies per channel, plan faster replenishment for e-com and quick commerce, and reassess GT distribution: which regions and outlets are worth serving at what cost. Monitor the margin mix too, because online channels often carry higher trade and platform costs even when volume rises.</p></div></details>
+<details class="qa"><summary>Q4. The company opens direct distribution in new areas. What is the impact on planning, distribution and procurement?</summary><div class="qbody"><p>Planning: new depots mean new forecast and safety-stock locations, so a more granular demand split. Distribution: new lanes, depot capacity and a transition from distributor stock to company stock. Procurement: usually no immediate change, but volume growth may justify renegotiating contracts. Finance: working capital rises at first, so set stock and credit norms early.</p></div></details>
+<details class="qa"><summary>Q5. You inherit poor data quality: master data errors, unclean history. Where do you start?</summary><div class="qbody"><p>Start with the 20% of items that make 80% of volume. Fix master data (units of measure, lead times, pack conversions), clean history of stock-out and one-off periods, and set a monthly data-quality checklist with an owner. Better data raises accuracy faster than a more complex model.</p></div></details>
+<div class="sec-foot"><button type="button" class="revise" data-sec="sop" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec shared" id="tools" aria-labelledby="tools-h">
+<h2 id="tools-h">Tools: calculators and simulator</h2>
+<p>In the interview, panellists often test your intuition for how <strong>procurement</strong> (lead times and order quantities), <strong>inventory planning</strong> (safety stock and service levels) and <strong>distribution</strong> (channel variability) interact. Use these three tools to try your own numbers; every formula matches the ones in the topic sections.</p>
+
+<div class="tool" id="tool-ss">
+  <h3>Safety-stock simulator</h3>
+  <p class="tool-lead">Change supplier lead time, demand volatility or service level and watch safety stock, reorder point and the cash tied up respond.</p>
+  <div class="presets" role="group" aria-label="Presets">
+    <button type="button" data-preset="base">Baseline</button>
+    <button type="button" data-preset="slow">Unreliable supplier</button>
+    <button type="button" data-preset="volatile">Volatile demand</button>
+    <button type="button" data-preset="svc99">99% service</button>
+  </div>
+  <div class="tool-grid">
+    <div class="inputs">
+      <label>Average daily demand, d (units/day)<input id="ss-d" type="number" min="0" step="1" value="400"></label>
+      <label>Demand standard deviation, σd (units/day)<input id="ss-sd" type="number" min="0" step="1" value="80"></label>
+      <label>Average lead time, L (days)<input id="ss-L" type="number" min="0" step="0.5" value="9"></label>
+      <label>Lead-time standard deviation, σL (days)<input id="ss-sL" type="number" min="0" step="0.5" value="2"></label>
+      <label>Service level
+        <select id="ss-sl">
+          <option value="0.90">90%</option>
+          <option value="0.95" selected>95%</option>
+          <option value="0.975">97.5%</option>
+          <option value="0.98">98%</option>
+          <option value="0.99">99%</option>
+          <option value="0.995">99.5%</option>
+          <option value="0.999">99.9%</option>
+        </select>
+      </label>
+      <label>Unit cost (₹)<input id="ss-cost" type="number" min="0" step="1" value="120"></label>
+      <label>Holding cost (% of value per year)<input id="ss-hold" type="number" min="0" step="1" value="18"></label>
+    </div>
+    <div class="outputs" aria-live="polite">
+      <dl class="readouts">
+        <div><dt>Z-score</dt><dd id="o-z">–</dd></div>
+        <div><dt>Safety stock, demand variability only</dt><dd id="o-ssd">–</dd></div>
+        <div class="key"><dt>Safety stock, demand and lead time</dt><dd id="o-ssc">–</dd></div>
+        <div><dt>Reorder point</dt><dd id="o-rop">–</dd></div>
+        <div><dt>Cash tied up in safety stock</dt><dd id="o-val">–</dd></div>
+        <div><dt>Yearly holding cost of safety stock</dt><dd id="o-hold">–</dd></div>
+        <div><dt>Share of variance from lead time</dt><dd id="o-share">–</dd></div>
+        <div><dt>Service level versus 95%</dt><dd id="o-vs95">–</dd></div>
+      </dl>
+      <p class="insight" id="o-insight"></p>
+    </div>
+  </div>
+  <p class="formula-line">SS = Z × √( L × σd² + d² × σL² ) &nbsp;&nbsp; ROP = d × L + SS</p>
+</div>
+
+<div class="note"><strong>Interview takeaway from the simulator:</strong> moving from a 95% to a 99% service level does not raise safety stock by 4%; it lifts the Z-score from 1.645 to 2.326, a 41% jump. In the combined formula, lead-time variability (σL) is multiplied by d², so reducing supplier lead-time variability in procurement is usually far more powerful for cutting inventory than squeezing forecast accuracy by two points.</div>
+
+<div class="tool" id="tool-fa">
+  <h3>Forecast accuracy calculator</h3>
+  <p class="tool-lead">Edit the actuals and forecasts, or add your own SKUs, to see WMAPE, accuracy, bias and MAPE.</p>
+  <div class="tablewrap">
+    <table class="fa-table">
+      <thead><tr><th>SKU</th><th>Actual</th><th>Forecast</th><th>Absolute error</th><th>Error vs actual</th><th><span class="sr">Remove</span></th></tr></thead>
+      <tbody id="fa-body"></tbody>
+    </table>
+  </div>
+  <div class="tool-actions"><button type="button" id="fa-add">Add SKU</button><button type="button" id="fa-reset">Reset example</button></div>
+  <dl class="readouts compact" aria-live="polite">
+    <div class="key"><dt>WMAPE</dt><dd id="fa-wmape">–</dd></div>
+    <div class="key"><dt>Accuracy</dt><dd id="fa-acc">–</dd></div>
+    <div><dt>Bias</dt><dd id="fa-bias">–</dd></div>
+    <div><dt>MAPE</dt><dd id="fa-mape">–</dd></div>
+  </dl>
+  <p class="insight" id="fa-note"></p>
+</div>
+
+<div class="tool" id="tool-tco">
+  <h3>Supplier total-cost comparer</h3>
+  <p class="tool-lead">The lowest quote is not always the lowest cost. Enter two quotes and see the cost per good unit after freight, rejections and payment terms.</p>
+  <div class="tco-grid">
+    <fieldset>
+      <legend>Supplier A</legend>
+      <label>Quoted price (₹/unit)<input id="a-p" type="number" step="0.01" min="0" value="7.00"></label>
+      <label>Freight (₹/unit)<input id="a-f" type="number" step="0.01" min="0" value="0.40"></label>
+      <label>Rejection rate (%)<input id="a-r" type="number" step="0.1" min="0" max="99" value="2"></label>
+      <label>Payment terms (days)<input id="a-d" type="number" step="1" min="0" value="60"></label>
+    </fieldset>
+    <fieldset>
+      <legend>Supplier B</legend>
+      <label>Quoted price (₹/unit)<input id="b-p" type="number" step="0.01" min="0" value="7.30"></label>
+      <label>Freight (₹/unit)<input id="b-f" type="number" step="0.01" min="0" value="0.15"></label>
+      <label>Rejection rate (%)<input id="b-r" type="number" step="0.1" min="0" max="99" value="0.3"></label>
+      <label>Payment terms (days)<input id="b-d" type="number" step="1" min="0" value="45"></label>
+    </fieldset>
+    <fieldset>
+      <legend>Assumption</legend>
+      <label>Cost of capital (% per year)<input id="t-rate" type="number" step="0.5" min="0" value="10"></label>
+    </fieldset>
+  </div>
+  <dl class="readouts compact" aria-live="polite">
+    <div><dt>Supplier A, cost per good unit</dt><dd id="t-a1">–</dd></div>
+    <div><dt>Supplier B, cost per good unit</dt><dd id="t-b1">–</dd></div>
+    <div><dt>A after payment-terms benefit</dt><dd id="t-a2">–</dd></div>
+    <div><dt>B after payment-terms benefit</dt><dd id="t-b2">–</dd></div>
+  </dl>
+  <p class="insight" id="t-note"></p>
+  <p class="small">Cost per good unit = (price + freight) ÷ (1 − rejection rate). The payment-terms benefit is the interest saved on the days of credit. The worked example in Procurement credits only the 15 extra days, so its absolute figures differ, but the gap between suppliers is the same.</p>
+</div>
+
+<div class="sec-foot"><button type="button" class="revise" data-sec="tools" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec shared" id="behavioural" aria-labelledby="behavioural-h">
+<h2 id="behavioural-h">Behavioural and HR questions</h2>
+<p>Behavioural answers are judged on structure and honesty: use <strong>STAR</strong> (Situation, Task, Action, Result) and end with a number or a lesson. Prepare two or three real stories from your own experience that you can adapt: a cost or inventory saving, a conflict you resolved, and a time you handled a supply disruption. The frames below are templates; fill them with your facts and do not invent figures.</p>
+<h3>Likely questions with answer frames</h3>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Frame for your answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tell me about yourself</td>
+<td>Present (role and scope), past (two relevant achievements with numbers), future (why this role and why Bajaj); about 60 seconds, see the script in the last section</td>
+</tr>
+<tr>
+<td>Why Bajaj?</td>
+<td>Established brands, a multi-channel business (GT, MT, e-com, exports), active growth moves such as direct reach and new acquisitions; link to what you bring to that</td>
+</tr>
+<tr>
+<td>Why planning, distribution or procurement?</td>
+<td>Name the impact you like (cash, service, cost), plus one example that shows you enjoy cross-functional problem solving</td>
+</tr>
+<tr>
+<td>Your biggest achievement</td>
+<td>STAR with a measurable result: accuracy points gained, days of inventory cut, rupees saved, OTIF raised</td>
+</tr>
+<tr>
+<td>A time you disagreed with Sales (or a supplier, or Finance)</td>
+<td>Show you used data, listened, found a trade-off, and kept the relationship</td>
+</tr>
+<tr>
+<td>A mistake you made</td>
+<td>Own it, say what it cost, and what you changed in the process so it would not recur</td>
+</tr>
+<tr>
+<td>How do you work under pressure or a tight deadline?</td>
+<td>Prioritise by impact, communicate early, ask for help, give an example</td>
+</tr>
+<tr>
+<td>Where do you see yourself in 5 years?</td>
+<td>Deeper ownership of a category or channel, then a broader supply chain role; do not name a specific title</td>
+</tr>
+<tr>
+<td>Strengths and weaknesses</td>
+<td>Strength tied to the role (analytical rigour, follow-through); a real weakness plus what you are doing about it</td>
+</tr>
+<tr>
+<td>Salary expectation</td>
+<td>Give a researched range linked to your current package and the scope of the role, and say you are open to discussing the full package</td>
+</tr>
+<tr>
+<td>Notice period and relocation</td>
+<td>Be clear and truthful about both</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Questions to ask the panel (pick three)</h3>
+<ol>
+<li><strong>On channel evolution:</strong> "With quick commerce and e-commerce growing rapidly alongside Bajaj's deep General Trade stronghold, how is the supply chain team adapting depot replenishment and case-pack configurations to handle high-frequency, fragmented orders without hurting GT fill rates?"</li>
+<li><strong>On pull replenishment:</strong> "Many legacy Indian consumer companies have moved toward TOC pull-based replenishment to remove month-end billing skews. How mature is that journey across Bajaj's C&amp;F network, and what role do incoming MT customers play in driving it?"</li>
+<li><strong>On sourcing localisation:</strong> "Given recent BIS quality control orders and supply chain localisation pushes, how is the strategic sourcing team balancing domestic vendor development against cost competitiveness?"</li>
+<li>How is the team structured, and who are the main internal partners?</li>
+<li>What are the top two priorities for this role in the first six months?</li>
+<li>How are forecast accuracy, inventory days or logistics cost tracked today, and what is the target?</li>
+<li>Which tools and systems does the team use, and are any changes planned?</li>
+<li>What does success look like at the end of the first year?</li>
+</ol>
+<h3>Interview behaviour</h3>
+<ul>
+<li>Answer the question asked first, then add one example; stop at about two minutes.</li>
+<li>Say "I would check" or "I would look at" when you do not know a specific Bajaj detail, then show the method.</li>
+<li>Quantify wherever you can, and name the trade-off you are making.</li>
+<li>Never run down a previous employer or team.</li>
+</ul>
+<div class="sec-foot"><button type="button" class="revise" data-sec="behavioural" aria-pressed="false">Mark as revised</button></div>
+</section>
+<section class="sec shared" id="final" aria-labelledby="final-h">
+<h2 id="final-h">Tonight&#x27;s checklist and your introduction</h2>
+<p>Spend about 90 minutes tonight, then sleep: recall under pressure depends more on rest than on a last hour of reading.</p>
+<h3>Checklist</h3>
+<label class="check"><input type="checkbox"><span>Read the job description once more and mark which track (planning, distribution or procurement) your role is; revise that section twice and the others once.</span></label>
+<label class="check"><input type="checkbox"><span>Learn the formulas cold: WMAPE and bias, safety stock, reorder point, EOQ, DOH and turns, OTIF, logistics cost %, TCO, cash conversion cycle.</span></label>
+<label class="check"><input type="checkbox"><span>Prepare three STAR stories from your own experience with real numbers.</span></label>
+<label class="check"><input type="checkbox"><span>Check the latest Bajaj quarterly results and press releases for anything newer than the FY25 figures used here.</span></label>
+<label class="check"><input type="checkbox"><span>Prepare three questions to ask the panel.</span></label>
+<label class="check"><input type="checkbox"><span>Decide your salary range, notice period and relocation answers.</span></label>
+<label class="check"><input type="checkbox"><span>Lay out documents, ID, and travel or video-call details; test your link and audio if the interview is online.</span></label>
+<h3>60-second introduction (fill the brackets with your facts)</h3>
+<blockquote>
+<p>I am [name], a [role] with [X years] in [FMCG or industry], most recently at [company] where I was responsible for [scope: categories, channels, regions, value]. Two results I am proud of: [achievement 1 with number, for example lifted forecast accuracy from 68% to 80% on top SKUs] and [achievement 2 with number, for example cut inventory days by 9 without lowering fill rate]. I am excited by Bajaj because it competes across GT, modern trade and e-commerce with strong brands, and the role lets me apply [your strongest skill] to keep availability high while managing cost and cash. I enjoy working across Sales, Supply and Finance and would like to contribute to [one concrete goal].</p>
+</blockquote>
+<h3>Three habits that win points</h3>
+<ol>
+<li><strong>Structure:</strong> open with "I would approach this in three steps", then name them.</li>
+<li><strong>Numbers:</strong> give a metric, a target or a range with every answer.</li>
+<li><strong>Trade-off:</strong> state what you are giving up (service, cost or cash) and why that is the right call.</li>
+</ol>
+<div class="sec-foot"><button type="button" class="revise" data-sec="final" aria-pressed="false">Mark as revised</button></div>
+</section>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var store={
+  get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+
+/* progress: sections revised */
+var secs=$$('.sec'), revised=store.get('bajaj-revised',{});
+function paintRevised(){
+  var n=0;
+  secs.forEach(function(s){
+    var id=s.id, done=!!revised[id];
+    if(done)n++;
+    var b=$('.revise[data-sec="'+id+'"]'); if(b){b.setAttribute('aria-pressed',String(done));b.textContent=done?'Revised. Tap to undo':'Mark as revised';}
+    var a=$('.nav a[href="#'+id+'"]'); if(a)a.classList.toggle('done',done);
+  });
+  $('#pcount').textContent=n+' of '+secs.length+' sections revised';
+  $('#pbar').style.width=(100*n/secs.length)+'%';
+}
+$$('.revise').forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-sec');revised[id]=!revised[id];store.set('bajaj-revised',revised);paintRevised();});});
+paintRevised();
+
+/* checklist */
+var checks=store.get('bajaj-checks',{});
+$$('label.check input').forEach(function(inp,i){
+  inp.checked=!!checks[i];
+  inp.addEventListener('change',function(){checks[i]=inp.checked;store.set('bajaj-checks',checks);});
+});
+
+/* drawer (mobile) */
+var rail=$('#rail'), menu=$('#menu');
+function setDrawer(o){rail.classList.toggle('open',o);menu.setAttribute('aria-expanded',String(o));}
+menu.addEventListener('click',function(){setDrawer(!rail.classList.contains('open'));});
+$$('#nav a').forEach(function(a){a.addEventListener('click',function(){setDrawer(false);});});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')setDrawer(false);});
+document.addEventListener('click',function(e){if(rail.classList.contains('open')&&!rail.contains(e.target)&&e.target!==menu)setDrawer(false);});
+
+/* scrollspy */
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting){
+        $$('#nav a').forEach(function(a){a.removeAttribute('aria-current');});
+        var a=$('#nav a[href="#'+en.target.id+'"]'); if(a)a.setAttribute('aria-current','true');
+      }
+    });
+  },{rootMargin:'-15% 0px -75% 0px'});
+  secs.forEach(function(s){io.observe(s);});
+}
+
+/* expand / collapse */
+var allOpen=false, tgl=$('#toggleall');
+tgl.addEventListener('click',function(){
+  allOpen=!allOpen;
+  $$('details.qa').forEach(function(d){d.open=allOpen;});
+  tgl.textContent=allOpen?'Collapse all answers':'Expand all answers';
+});
+window.addEventListener('beforeprint',function(){$$('details.qa').forEach(function(d){d.open=true;});});
+
+/* search with highlight */
+var qInput=$('#q'), hits=$('#hits'), timer=null;
+function clearMarks(){
+  $$('mark.hl').forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize();});
+}
+function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function highlight(root,re){
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+    if(!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+    var p=n.parentNode.nodeName; if(p==='SCRIPT'||p==='STYLE'||p==='TEXTAREA'||p==='OPTION')return NodeFilter.FILTER_REJECT;
+    return NodeFilter.FILTER_ACCEPT;}});
+  var nodes=[],n; while((n=w.nextNode()))nodes.push(n);
+  var count=0;
+  nodes.forEach(function(t){
+    var s=t.nodeValue; re.lastIndex=0; if(!re.test(s))return;
+    re.lastIndex=0; var frag=document.createDocumentFragment(), last=0, m;
+    while((m=re.exec(s))){
+      frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+      var mk=document.createElement('mark'); mk.className='hl'; mk.textContent=m[0]; frag.appendChild(mk);
+      last=m.index+m[0].length; count++; if(m[0].length===0)re.lastIndex++;
+    }
+    frag.appendChild(document.createTextNode(s.slice(last)));
+    t.parentNode.replaceChild(frag,t);
+  });
+  return count;
+}
+function runSearch(){
+  var v=qInput.value.trim(); clearMarks();
+  $$('details.qa').forEach(function(d){d.classList.remove('hide');});
+  $$('#nav a').forEach(function(a){a.classList.remove('dim');});
+  if(v.length<2){hits.textContent='';return;}
+  var re=new RegExp(esc(v),'gi'), total=0, matchedQ=0;
+  secs.forEach(function(s){
+    var c=0;
+    $$('details.qa',s).forEach(function(d){
+      var k=highlight(d,re);
+      if(k>0){d.open=true;matchedQ++;c+=k;}else{d.classList.add('hide');}
+    });
+    $$('.tablewrap, .sec > p, .sec > ul, .sec > ol, .sec > h3, .sec > h4, .note, pre.formula, .tool > p',s).forEach(function(el){
+      if(el.closest('details.qa'))return; c+=highlight(el,re);
+    });
+    total+=c;
+    var a=$('#nav a[href="#'+s.id+'"]'); if(a&&c===0)a.classList.add('dim');
+  });
+  hits.textContent=total? total+' matches, '+matchedQ+' questions' : 'No matches';
+  var first=$('mark.hl'); if(first&&first.scrollIntoView)first.scrollIntoView({block:'center',behavior:'smooth'});
+}
+qInput.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(runSearch,200);});
+document.addEventListener('keydown',function(e){if(e.key==='/'&&document.activeElement!==qInput&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.nodeName)){e.preventDefault();qInput.focus();}});
+
+/* ---------- tools ---------- */
+function num(id){var v=parseFloat($('#'+id).value);return isFinite(v)?v:0;}
+function inr(x,dec){return '₹'+x.toLocaleString('en-IN',{maximumFractionDigits:dec==null?0:dec,minimumFractionDigits:dec||0});}
+function fmt(x,dec){return x.toLocaleString('en-IN',{maximumFractionDigits:dec==null?0:dec,minimumFractionDigits:dec||0});}
+function zInv(p){
+  var a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],
+      b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+      c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+      d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416],
+      pl=0.02425,ph=1-pl,q,r;
+  if(p<pl){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  if(p<=ph){q=p-0.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);}
+  q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+}
+
+/* safety stock simulator */
+var ssIds=['ss-d','ss-sd','ss-L','ss-sL','ss-sl','ss-cost','ss-hold'];
+function ssCalc(){
+  var d=num('ss-d'),sd=num('ss-sd'),L=num('ss-L'),sL=num('ss-sL'),sl=parseFloat($('#ss-sl').value),cost=num('ss-cost'),hold=num('ss-hold');
+  var z=zInv(sl), v=L*sd*sd+d*d*sL*sL, ssC=z*Math.sqrt(v), ssD=z*sd*Math.sqrt(L), rop=d*L+ssC;
+  var val=ssC*cost, hc=val*hold/100, share=v>0?(d*d*sL*sL)/v:0;
+  $('#o-z').textContent=z.toFixed(3);
+  $('#o-ssd').textContent=fmt(ssD)+' units';
+  $('#o-ssc').textContent=fmt(ssC)+' units';
+  $('#o-rop').textContent=fmt(rop)+' units';
+  $('#o-val').textContent=inr(val);
+  $('#o-hold').textContent=inr(hc);
+  $('#o-share').textContent=Math.round(share*100)+'%';
+  var z95=zInv(0.95), diff=(z/z95-1)*100;
+  $('#o-vs95').textContent=(Math.abs(diff)<0.05?'same':(diff>0?'+':'')+diff.toFixed(0)+'% safety stock');
+  var halfL=z*Math.sqrt(L*sd*sd+d*d*Math.pow(sL/2,2)), tenD=z*Math.sqrt(L*Math.pow(sd*0.9,2)+d*d*sL*sL);
+  var cutL=ssC>0?(1-halfL/ssC)*100:0, cutD=ssC>0?(1-tenD/ssC)*100:0;
+  $('#o-insight').textContent='Halving lead-time variability cuts safety stock by '+cutL.toFixed(0)+'%; improving demand forecast error by 10% cuts it by '+cutD.toFixed(0)+'%.';
+}
+ssIds.forEach(function(id){$('#'+id).addEventListener('input',ssCalc);$('#'+id).addEventListener('change',ssCalc);});
+var presets={
+  base:{'ss-d':400,'ss-sd':80,'ss-L':9,'ss-sL':2,'ss-sl':'0.95'},
+  slow:{'ss-d':400,'ss-sd':80,'ss-L':9,'ss-sL':5,'ss-sl':'0.95'},
+  volatile:{'ss-d':400,'ss-sd':160,'ss-L':9,'ss-sL':2,'ss-sl':'0.95'},
+  svc99:{'ss-d':400,'ss-sd':80,'ss-L':9,'ss-sL':2,'ss-sl':'0.99'}
+};
+$$('[data-preset]').forEach(function(b){b.addEventListener('click',function(){var p=presets[b.getAttribute('data-preset')];Object.keys(p).forEach(function(k){$('#'+k).value=p[k];});ssCalc();});});
+ssCalc();
+
+/* forecast accuracy */
+var faDefault=[['SKU A',100,90],['SKU B',200,230],['SKU C',50,40],['SKU D',150,160]];
+var faBody=$('#fa-body');
+function faRow(name,a,f){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td><input type="text" value="'+name+'" aria-label="SKU name"></td><td><input type="number" min="0" step="1" value="'+a+'" aria-label="Actual"></td><td><input type="number" min="0" step="1" value="'+f+'" aria-label="Forecast"></td><td class="ae">0</td><td class="pe">0%</td><td><button type="button" aria-label="Remove row">&times;</button></td>';
+  tr.querySelectorAll('input').forEach(function(i){i.addEventListener('input',faCalc);});
+  tr.querySelector('button').addEventListener('click',function(){tr.remove();faCalc();});
+  faBody.appendChild(tr);
+}
+function faCalc(){
+  var sa=0,sf=0,sae=0,sm=0,nm=0;
+  $$('tr',faBody).forEach(function(tr){
+    var ins=tr.querySelectorAll('input'), a=parseFloat(ins[1].value)||0, f=parseFloat(ins[2].value)||0, ae=Math.abs(a-f);
+    tr.querySelector('.ae').textContent=fmt(ae,1);
+    tr.querySelector('.pe').textContent=a>0?(ae/a*100).toFixed(1)+'%':'n/a';
+    sa+=a;sf+=f;sae+=ae; if(a>0){sm+=ae/a;nm++;}
+  });
+  var w=sa>0?sae/sa:0, bias=sa>0?(sf-sa)/sa:0, mape=nm?sm/nm:0;
+  $('#fa-wmape').textContent=(w*100).toFixed(1)+'%';
+  $('#fa-acc').textContent=((1-w)*100).toFixed(1)+'%';
+  $('#fa-bias').textContent=(bias>0?'+':'')+(bias*100).toFixed(1)+'%';
+  $('#fa-mape').textContent=(mape*100).toFixed(1)+'%';
+  $('#fa-note').textContent=Math.abs(bias)<0.005?'Forecast is unbiased overall.':(bias>0?'Positive bias: the forecast runs high, which builds stock and ties up cash.':'Negative bias: the forecast runs low, which risks stock-outs and lost sales.');
+}
+function faReset(){faBody.innerHTML='';faDefault.forEach(function(r){faRow(r[0],r[1],r[2]);});faCalc();}
+$('#fa-add').addEventListener('click',function(){faRow('SKU '+String.fromCharCode(65+$$('tr',faBody).length%26),100,100);faCalc();});
+$('#fa-reset').addEventListener('click',faReset);
+faReset();
+
+/* supplier TCO */
+function tcoCalc(){
+  var rate=num('t-rate')/100, out={};
+  ['a','b'].forEach(function(s){
+    var p=num(s+'-p'),f=num(s+'-f'),r=Math.min(num(s+'-r')/100,0.99),d=num(s+'-d');
+    var base=(p+f)/(1-r), net=base-(p+f)*rate*d/365;
+    out[s]={base:base,net:net,quote:p};
+  });
+  $('#t-a1').textContent=inr(out.a.base,2); $('#t-b1').textContent=inr(out.b.base,2);
+  $('#t-a2').textContent=inr(out.a.net,2);  $('#t-b2').textContent=inr(out.b.net,2);
+  var cheaper=out.a.net<out.b.net?'A':'B', gap=Math.abs(out.a.net-out.b.net);
+  var quoteLow=out.a.quote<out.b.quote?'A':(out.b.quote<out.a.quote?'B':'');
+  var msg='Supplier '+cheaper+' is cheaper by '+inr(gap,2)+' per good unit on total cost.';
+  if(quoteLow&&quoteLow!==cheaper)msg+=' The lower quote (Supplier '+quoteLow+') is not the lower cost.';
+  $('#t-note').textContent=gap<0.005?'Both suppliers cost about the same per good unit.':msg;
+}
+['a-p','a-f','a-r','a-d','b-p','b-f','b-r','b-d','t-rate'].forEach(function(id){$('#'+id).addEventListener('input',tcoCalc);});
+tcoCalc();
+})();
+</script>
+</body>
+</html>
